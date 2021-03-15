@@ -5,12 +5,13 @@
 #include <fstream>
 using namespace std;
 
-Map::MapElem::MapElem():MapElem(0,0,'x',"xxx"){};
+Map::MapElem::MapElem():MapElem(0,0,'x',"space","xxx"){};
 
-Map::MapElem::MapElem(int x, int y, char sym, string poke){
+Map::MapElem::MapElem(int x, int y, char sym, string type, string poke){
     this->x = x;
     this->y = y;
     this->symbol = sym;
+    this->type = type;
     this->pokemon = poke;
 };        
 
@@ -32,7 +33,13 @@ void Map::MapElem::set_symbol(char sym){
 char Map::MapElem::get_symbol() const{
     return this->symbol;
 };
-void Map::MapElem::set_string(string poke){
+void Map::MapElem::set_type(string type){
+    this->type = type;
+};
+string Map::MapElem::get_type() const{
+    return this->type;
+};
+void Map::MapElem::set_pokemon(string poke){
     this->pokemon = poke;
 };
 string Map::MapElem::get_pokemon() const{
@@ -61,12 +68,21 @@ Map::Map(int m, int n, string txt){
             mapelem[i][j].set_x(i);
             mapelem[i][j].set_y(j);
             mapelem[i][j].set_symbol(ch);
+            if(i<6 && j>9){
+                mapelem[i][j].set_type("sea");
+            } else{
+                mapelem[i][j].set_type("grassland");
+            }
             j++;
         } else{
             i++;
             j = 0;
         }
     }
+    this->player_pos = new int[2];
+    this->player_pos[0] = 0;
+    this->player_pos[1] = 0;
+    this->mapelem[player_pos[0]][player_pos[1]].set_symbol('P');
 };
 
 Map::Map(const Map&){
@@ -78,6 +94,7 @@ Map::~Map(){
         delete[] mapelem[i];
     }
     delete[] mapelem;
+    delete[] player_pos;
 };
         
 void Map::printMap(){
@@ -87,4 +104,40 @@ void Map::printMap(){
        }
        cout<<endl;
     }
+};
+
+void Map::move(char c){
+    try{
+        if(c == 'w'){
+            set_player_pos(this->player_pos[0]-1, this->player_pos[1]);
+        }else if(c == 'a'){
+            set_player_pos(this->player_pos[0], this->player_pos[1]-1);
+        }else if(c == 's'){
+            set_player_pos(this->player_pos[0]+1, this->player_pos[1]);
+        }else if(c == 'd'){
+            set_player_pos(this->player_pos[0], this->player_pos[1]+1);
+        }
+        this->printMap();
+    } catch(int i){
+        cout<<"Anda tidak bisa bergerak keluar map"<<endl;
+    }
+};
+
+void Map::set_player_pos(int x, int y){
+    if(x>=0 && x<10 && y>=0 && y<20){
+        if(this->mapelem[player_pos[0]][player_pos[1]].get_type() == "grassland"){
+            this->mapelem[player_pos[0]][player_pos[1]].set_symbol('-');
+        } else{
+            this->mapelem[player_pos[0]][player_pos[1]].set_symbol('o');
+        }
+        this->player_pos[0] = x;
+        this->player_pos[1] = y;
+        this->mapelem[x][y].set_symbol('P');
+    } else{
+        throw(-1);
+    }
+};
+
+int* Map::get_player_pos() const{
+    return this->player_pos;
 };
