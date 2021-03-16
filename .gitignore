@@ -1,6 +1,7 @@
-**/build
-**/.idea
-**/.vscode
-**/cmake-build-debug
+build/
+.idea/
+.vscode/
+cmake-build-debug/
+src/class/**/*.exe
 CMakeLists.txt
 

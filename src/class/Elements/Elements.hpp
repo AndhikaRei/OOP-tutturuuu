@@ -8,6 +8,9 @@
 #define Ground 3
 #define Ice 4
 
+extern const float ElementAdvantage[5][5];
+
+
 
 // #include <string>
 
