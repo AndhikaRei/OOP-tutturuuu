@@ -8,6 +8,17 @@ Skill::Skill() {
     masteryLevel = 1;
 }
 // User-Defined CTOR
+Skill::Skill(string name, string desc, int basePower, int nElements, Elements* listElements) {
+    this->name = name;
+    this->desc = desc;
+    this->basePower = basePower;
+    this->masteryLevel = 1;
+    this->listElements.clear();
+    for (int i = 0; i < nElements; i++) {
+        this->listElements.push_back(listElements[i]);
+    }
+}
+
 Skill::Skill(string name, string desc, int basePower, vector<Elements> listElements) {
     this->name = name;
     this->desc = desc;
@@ -52,13 +63,29 @@ int Skill::totalDamage() {
 bool Skill::isElementCompatible(Elements ele) {
     return (std::find(listElements.begin(), listElements.end(), ele) != listElements.end());
 }
+
+bool Skill::isElementCompatible(int nElements, Elements* listEle) {
+    bool found = false;
+    int i;
+
+    i = 0;
+    while (!found && i < nElements) {
+        if (std::find(listElements.begin(), listElements.end(), listEle[i]) != listElements.end())
+        {
+            found = true;
+        }
+        i++;
+    }
+    return found;
+}
+
 bool Skill::isElementCompatible(vector<Elements> listEle) {
     bool found = false;
     int i;
 
     i = 0;
 
-    while (!found || i < listEle.size()) {
+    while (!found && i < listEle.size()) {
         if (std::find(listElements.begin(), listElements.end(), listEle[i]) != listElements.end())
         {
             found = true;
@@ -77,7 +104,11 @@ void Skill::printAll() {
     cout << "MasteryLevel : " << masteryLevel << endl;
     cout << "Elements     : ";
     for (int i = 0; i < listElements.size(); i++) {
-        cout << listElements[i] << " ";
+        cout << elementName(listElements[i]);
+        if (i < listElements.size() - 1) {
+            cout << ", ";
+        }
+        
     }
     cout << endl; 
 }
@@ -90,7 +121,10 @@ ostream& operator<<(ostream& os, const Skill& skill) {
     os << "MasteryLevel : " << skill.masteryLevel << endl;
     os << "Elements     : ";
     for (int i = 0; i < skill.listElements.size(); i++) {
-        os << skill.listElements[i] << " ";
+        os << elementName(skill.listElements[i]);
+        if (i < skill.listElements.size() - 1) {
+            cout << ", ";
+        }
     }
     os << endl;
     return os;        

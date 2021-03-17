@@ -4,7 +4,7 @@
 #include <string>
 #include "../Exception/Exception.hpp"
 
-#define Elements unsigned char
+#define Elements int
 #define Fire 0
 #define Water 1
 #define Electric 2

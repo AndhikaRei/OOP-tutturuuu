@@ -30,6 +30,11 @@ public:
     // Default CTOR
     Skill();
     // User-Defined CTOR
+    Skill(string name, string desc, int basePower, int nElements, Elements* listElements);
+    // Skill(string name, string desc, int basePower, Elements el1, Elements el2);
+    // Skill(string name, string desc, int basePower, Elements el1, Elements el2, Elements el3);
+    // Skill(string name, string desc, int basePower, Elements el1, Elements el2, Elements el3, Elements el4);
+    // Skill(string name, string desc, int basePower, Elements el1, Elements el2, Elements el3, Elements el4, Elements el5);
     Skill(string name, string desc, int basePower, vector<Elements> listElements);
     // CCTOR
     Skill(const Skill& other);
@@ -43,6 +48,7 @@ public:
     void levelUp(int up);
     int totalDamage();
     bool isElementCompatible(Elements ele);
+    bool isElementCompatible(int nElements, Elements* listElements);
     bool isElementCompatible(vector<Elements> listEle);
 
     // Printer
