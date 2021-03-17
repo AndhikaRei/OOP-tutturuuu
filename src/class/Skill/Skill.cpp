@@ -106,7 +106,7 @@ void Skill::showSkill() {
     for (int i = 0; i < listElements.size(); i++) {
         cout << elementName(listElements[i]);
         if (i < listElements.size() - 1) {
-            cout << ", ";
+            cout << "/";
         }
         
     }
@@ -123,7 +123,7 @@ ostream& operator<<(ostream& os, const Skill& skill) {
     for (int i = 0; i < skill.listElements.size(); i++) {
         os << elementName(skill.listElements[i]);
         if (i < skill.listElements.size() - 1) {
-            cout << ", ";
+            cout << "/";
         }
     }
     os << endl;

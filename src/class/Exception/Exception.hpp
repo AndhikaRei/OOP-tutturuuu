@@ -31,6 +31,12 @@ public:
         return("Anda tidak bisa melakukan breeding dengan engimon itu");
     }
 };
+class InvalidBreedingInsufficientLevel  : public WriteException{
+public:
+    const char* what(){
+        return("Level Engimon anda tidak memenuhi syarat untuk breeding");
+    }
+};
 class InvalidChangeActiveEngimon : public WriteException{
 public:
     const char* what(){

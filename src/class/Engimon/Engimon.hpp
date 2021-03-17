@@ -63,6 +63,9 @@ public:
     void showEngimon(); // show info engimon
     // I.S. any
     // F.S. menampilkan info engimon ke layar
+
+    /* Service Breeding */
+    friend Engimon& breeding(Engimon& parent_a, Engimon& parent_b); 
 };
 
 /*--- CLASS SPECIES ---*/
