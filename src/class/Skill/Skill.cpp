@@ -110,6 +110,3 @@ int Skill::getBasePower() {
 int Skill::getMasteryLevel() {
     return masteryLevel;
 }
-vector<Elements> Skill::getListElements() {
-    return listElements;
-}
