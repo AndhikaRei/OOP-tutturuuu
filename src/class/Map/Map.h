@@ -2,6 +2,10 @@
 #define _MAP_H
 #include <iostream>
 #include <string>
+#include <iomanip>
+#include <fstream>
+#include "../Exception/Exception.hpp"
+
 using namespace std;
 
 class Map{
@@ -45,6 +49,7 @@ class Map{
         void set_player_pos(int, int);
         int* get_player_pos()const;
 };
+
 
 
 #endif

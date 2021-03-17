@@ -107,7 +107,7 @@ void Map::printMap(){
 };
 
 void Map::move(char c){
-    try{
+    //try{
         if(c == 'w'){
             set_player_pos(this->player_pos[0]-1, this->player_pos[1]);
         }else if(c == 'a'){
@@ -117,10 +117,10 @@ void Map::move(char c){
         }else if(c == 'd'){
             set_player_pos(this->player_pos[0], this->player_pos[1]+1);
         }
-        this->printMap();
-    } catch(int i){
+        // this->printMap();
+    /*} catch(int i){
         cout<<"Anda tidak bisa bergerak keluar map"<<endl;
-    }
+    } */
 };
 
 void Map::set_player_pos(int x, int y){
@@ -134,7 +134,7 @@ void Map::set_player_pos(int x, int y){
         this->player_pos[1] = y;
         this->mapelem[x][y].set_symbol('P');
     } else{
-        throw(-1);
+        throw InvalidMoveException();
     }
 };
 
