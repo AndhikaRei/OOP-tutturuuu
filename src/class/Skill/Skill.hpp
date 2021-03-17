@@ -3,8 +3,16 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
-using namespace std;
+#include "../Elements/Elements.hpp"
+using std::string;
+using std::vector;
+using std::cout;
+using std::endl;
+using std::ostream;
+
 
 class Skill
 {
@@ -14,26 +22,41 @@ private:
     int basePower;      // Base Power
     int masteryLevel;   // Masteri Level
 
-    Elements* elements;      // Elemen yang bisa mempelajari (char/int)
-    int nElements;      // Jumlah elemen skill
-    
+    vector<Elements> listElements;     // Elemen yang bisa mempelajari (jenis elemen skill) (Pake vector aja?)
+    // int nElements;              // Jumlah elemen yang dimiliki
     // Kapan masteryLevel naik?
 public:
     // 4 Sekawan
     // Default CTOR
     Skill();
     // User-Defined CTOR
-    Skill(string name, int basePower, int nElements, int* elements);
-    ~Skill();
+    Skill(string name, string desc, int basePower, vector<Elements> listElements);
+    // CCTOR
+    Skill(const Skill& other);
+    // DTOR
+    // ~Skill();
+    // Operator=
+    Skill& operator=(const Skill& other);
+
+    // Service
+    void levelUp();
+    void levelUp(int up);
+    int totalDamage();
+    bool isElementCompatible(Elements ele);
+    bool isElementCompatible(vector<Elements> listEle);
+
+    // Printer
+    void printAll();
+    friend ostream& operator<<(ostream& os, const Skill& skill);
+
+    // Getter
+    string getName();
+    string getDesc();
+    int getBasePower();
+    int getMasteryLevel();
+    vector<Elements> Skill::getListElements();
+    
 };
-
-Skill::Skill(/* args */)
-{
-}
-
-Skill::~Skill()
-{
-}
 
 
 
