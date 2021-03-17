@@ -2,7 +2,9 @@
 
 int main(int argc, char const *argv[])
 {
+    Parent par("Papa","Laki-laki","Mama","Perempuan");
     Engimon *a1 = new Pyro("Andrew");
+    Engimon *b1 = new Pyro("Andrew",par);
     Engimon *a2 = new Hydro("Andrew");
     Engimon *a3 = new Electro("Andrew");
     Engimon *a4 = new Geo("Andrew");
