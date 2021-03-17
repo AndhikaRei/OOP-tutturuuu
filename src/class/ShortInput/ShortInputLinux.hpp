@@ -22,6 +22,7 @@ using namespace std;
 #define clrscr() printf("\033c")
 
 /* Initialize new terminal i/o settings */
+static struct termios old, current;
 void initTermios(int echo) 
 {
   tcgetattr(0, &old); /* grab old terminal i/o settings */

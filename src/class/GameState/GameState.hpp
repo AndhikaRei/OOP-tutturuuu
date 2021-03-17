@@ -3,7 +3,8 @@
 #include "../Map/Map.h"
 #include "../Engimon/Engimon.hpp"
 #include "../Elements/Elements.hpp"
-#include "../ShortInput/ShortInput.hpp"
+// #include "../ShortInput/ShortInputWindows.hpp"
+#include "../ShortInput/ShortInputLinux.hpp"
 #include "../Exception/Exception.hpp"
 #include "../Skill/Skill.hpp"
 #include <string>
