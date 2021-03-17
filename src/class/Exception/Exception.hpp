@@ -50,5 +50,12 @@ public:
     }
 };
 
+class InvalidElement : public WriteException{
+public:
+    const char* what(){
+        return("Elemen tidak tersedia");
+    }
+};
+
 
 #endif

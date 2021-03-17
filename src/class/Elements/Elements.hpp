@@ -1,6 +1,9 @@
 #ifndef _ELEMENTS_HPP_
 #define _ELEMENTS_HPP_
 
+#include <string>
+#include "../Exception/Exception.hpp"
+
 #define Elements unsigned char
 #define Fire 0
 #define Water 1
@@ -8,7 +11,11 @@
 #define Ground 3
 #define Ice 4
 
+// Database element Advantage
 extern const float ElementAdvantage[5][5];
+
+// element to string name
+std::string elementName(Elements el);
 
 
 

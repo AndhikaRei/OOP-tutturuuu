@@ -54,7 +54,7 @@ public:
     string getDesc();
     int getBasePower();
     int getMasteryLevel();
-    vector<Elements> Skill::getListElements();
+    vector<Elements> getListElements();
     
 };
 
