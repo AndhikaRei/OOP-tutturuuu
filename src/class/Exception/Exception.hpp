@@ -1,5 +1,5 @@
-#ifndef _EXCEPTION_H
-#define _EXCEPTION_H
+#ifndef _EXCEPTION_H_
+#define _EXCEPTION_H_
 
 class WriteException{
     // Exception yang bisa disolve hanya dengan nulis sesuatu ke layar   
@@ -46,14 +46,28 @@ public:
 class InvalidMoveException : public WriteException{
 public:
     const char* what(){
-        return("Andat tidak bisa bergerak ke sana");
+        return("Anda tidak bisa bergerak ke sana");
     }
 };
 
-class InvalidElement : public WriteException{
+class InvalidElementNotCompatible : public WriteException{
 public:
     const char* what(){
-        return("Elemen tidak tersedia");
+        return("Elemen tidak cocok");
+    }
+};
+
+class InvalidElementNotExist : public WriteException{
+public:
+    const char* what(){
+        return("Elemen tidak ada");
+    }
+};
+
+class InvalidNotEnoughItemAmount : public WriteException{
+public:
+    const char* what(){
+        return("Jumlah skill item tidak cukup");
     }
 };
 

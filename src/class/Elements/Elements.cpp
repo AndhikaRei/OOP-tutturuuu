@@ -23,9 +23,27 @@ std::string elementName(Elements el) {
     case 4:
         return "Ice";
     default:
-        throw InvalidElement();
+        throw InvalidElementNotExist();
     } 
-} 
+}
+
+int elementId(std::string el) {
+    // agak khawatir pake switch
+    if (el == "Fire") {
+        return 0;
+    } else if (el == "Water") {
+        return 1;
+    } else if (el == "Electric") {
+        return 2;
+    } else if (el == "Ground") {
+        return 3;
+    } else if (el == "Ice") {
+        return 4;
+    } else {
+        throw InvalidElementNotExist();
+    }
+    
+}
 
 
 // const Elements Fire(0,Water,Electric);

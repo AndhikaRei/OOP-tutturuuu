@@ -26,15 +26,11 @@ private:
     // int nElements;              // Jumlah elemen yang dimiliki
     // Kapan masteryLevel naik?
 public:
-    // 4 Sekawan
+    /** 4 SEKAWAN **/
     // Default CTOR
     Skill();
     // User-Defined CTOR
     Skill(string name, string desc, int basePower, int nElements, Elements* listElements);
-    // Skill(string name, string desc, int basePower, Elements el1, Elements el2);
-    // Skill(string name, string desc, int basePower, Elements el1, Elements el2, Elements el3);
-    // Skill(string name, string desc, int basePower, Elements el1, Elements el2, Elements el3, Elements el4);
-    // Skill(string name, string desc, int basePower, Elements el1, Elements el2, Elements el3, Elements el4, Elements el5);
     Skill(string name, string desc, int basePower, vector<Elements> listElements);
     // CCTOR
     Skill(const Skill& other);
@@ -43,24 +39,27 @@ public:
     // Operator=
     Skill& operator=(const Skill& other);
 
-    // Service
+    /** SERVICE **/
+    /* Menaikan mastery level */
     void levelUp();
     void levelUp(int up);
+    /* Menghitung total damage yang dihasilkan skill */
     int totalDamage();
+    /* Mengcek apakah suatu element sesuai dengan skill */
     bool isElementCompatible(Elements ele);
     bool isElementCompatible(int nElements, Elements* listElements);
     bool isElementCompatible(vector<Elements> listEle);
 
-    // Printer
-    void printAll();
+    /* Printer */
+    void showSkill();
     friend ostream& operator<<(ostream& os, const Skill& skill);
 
-    // Getter
-    string getName();
-    string getDesc();
-    int getBasePower();
-    int getMasteryLevel();
-    vector<Elements> getListElements();
+    /* Getter */
+    string getName() const;
+    string getDesc() const;
+    int getBasePower() const;
+    int getMasteryLevel() const;
+    vector<Elements> getListElements() const;
     
 };
 

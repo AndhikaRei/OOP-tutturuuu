@@ -16,6 +16,7 @@ extern const float ElementAdvantage[5][5];
 
 // element to string name
 std::string elementName(Elements el);
+int elementId(std::string el);
 
 
 

@@ -97,7 +97,7 @@ bool Skill::isElementCompatible(vector<Elements> listEle) {
 
 
 // Printer
-void Skill::printAll() {
+void Skill::showSkill() {
     cout << "-- " << name << " --" << endl;
     cout << desc << endl;
     cout << "BasePower    : " << basePower << endl;
@@ -132,15 +132,15 @@ ostream& operator<<(ostream& os, const Skill& skill) {
 
 
 // Getter (Not necesarry, just in case)
-string Skill::getName() {
+string Skill::getName() const {
     return name;
 }
-string Skill::getDesc() {
+string Skill::getDesc() const {
     return desc;
 }
-int Skill::getBasePower() {
+int Skill::getBasePower() const {
     return basePower;
 }
-int Skill::getMasteryLevel() {
+int Skill::getMasteryLevel() const {
     return masteryLevel;
 }
