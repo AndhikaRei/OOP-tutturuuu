@@ -1,10 +1,9 @@
 #include "Engimon.hpp"
-
+using std::cout;
+using std::endl;
 int main(int argc, char const *argv[])
 {
-    Parent par("Papa","Laki-laki","Mama","Perempuan");
     Engimon *a1 = new Pyro("Andrew");
-    Engimon *b1 = new Pyro("Andrew",par);
     Engimon *a2 = new Hydro("Andrew");
     Engimon *a3 = new Electro("Andrew");
     Engimon *a4 = new Geo("Andrew");
@@ -19,5 +18,26 @@ int main(int argc, char const *argv[])
     Engimon *a13 = new ElectroCrystallize("Andrew");
     Engimon *a14 = new Superconductor("Andrew");
     Engimon *a15 = new CryoCrystallize("Andrew");
+    a1->interact();
+    a2->interact();
+    a3->interact();
+    a4->interact();
+    a5->interact();
+    a6->interact();
+    a7->interact();
+    a8->interact();
+    a9->interact();
+    a10->interact();
+    a11->interact();
+    a12->interact();
+    a13->interact();
+    a14->interact();
+    a15->interact();
+    // a1->addExp(7);
+    // a1->showEngimon();
+    // a1->addExp(99);
+    // a1->showEngimon();
+    // a1->addExp(225);
+    // a1->showEngimon();
     return 0;
 }

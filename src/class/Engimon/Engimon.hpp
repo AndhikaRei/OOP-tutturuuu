@@ -1,71 +1,89 @@
-/* List problematematika
- * - method belum lengkap
- * - skill belum pasti
-*/
-
 #ifndef ENGIMON_HPP
 #define ENGIMON_HPP
 
 #include <iostream>
 #include <string>
-// #include "../Skill/Skill.hpp"
+#include <vector>
+#include <map>
+#include <iterator>
+#include "../Skill/Skill.hpp"
 #include "../Elements/Elements.hpp"
 
-#define NONE -1
-
-using namespace std;
+using std::cout;
+using std::endl;
+using std::map;
+using std::string;
+using std::vector;
 
 /*--- CLASS PARENT ---*/
 class Parent
 {
+private:
+    vector<string> name;    // nama papa[0] mama[1]
+    vector<string> species; // spesies papa [0] mama [1]
+    bool isParent;          // return true jika engimon punya parent
+
 public:
     /* 4 Sekawan, Getter, Setter */
     Parent();
     Parent(string _papaName, string _papaSpecies, string _mamaName, string _mamaSpecies);
-    ~Parent();
+    // dtor tak perlu
 
     /* Methods */
     void showParent();
-
-private:
-    string *name;
-    string *species;
-    bool isParent;
 };
 
 /*--- CLASS ENGIMON ---*/
 class Engimon
 {
 protected:
-    string name;    // nama engimon
-    string species; // spesies engimon
-    Parent parent;  // class ortu (papa dan mama)
-    int *elements;  // int[2] elements
-    string *skill;  // Skill[4] skill (under construction)
-    int level;      // level
-    int exp;        // exp
-    int cumul_exp;  // exp kumulatif
+    string name;               // nama engimon
+    string species;            // spesies engimon
+    Parent parent;             // class ortu (papa dan mama)
+    vector<Elements> elements; // int[2] elements
+    vector<Skill> skill;       // Skill[4] skill (under construction)
+    int level;                 // level
+    int exp;                   // exp
+    int cumul_exp;             // exp kumulatif
+    string slogan;             // slogan engimon, 1 dulu, more slogan belakangan
 
 public:
     /* 4 Sekawan, Getter, Setter */
-    Engimon(string _name, string _species, int _elmt1, int _elmt2 = NONE);                        // ctor tanpa parent
-    Engimon(string _name, string _species, const Parent &_parent, int _elmt1, int _elmt2 = NONE); // ctor dengan parent
-    ~Engimon();
+    Engimon(string _name, string _species, Elements _elmt1, Elements _elmt2 = NONE);                        // ctor tanpa parent
+    Engimon(string _name, string _species, const Parent &_parent, Elements _elmt1, Elements _elmt2 = NONE); // ctor dengan parent
+    // dtor tak perlu
 
-    string getName() const;    // get name
-    string getSpecies() const; // get species
+    string getName() const;               // get name
+    string getSpecies() const;            // get species
+    Parent getParent() const;             // get parent
+    vector<Elements> getElements() const; // get elements
+    vector<Skill> getSkill() const;       // get skill ??
+    int getLevel() const;                 // get level ??
+    int getExp() const;                   // get exp ??
+    int getCumulExp() const;              // get cumul_exp ??
 
     /* Methods */
+    bool isOneElement() const;
+    // return true jika engimon hanya 1 elemen
+
+    bool isElement(Elements _ele);
+    // return true jika element compatible
+
+    void addExp(int _exp); // menambahkan exp
+    // I.S. any
+    // F.S. exp += _exp
+
     void levelUp(); // level up engimon
-    // I.S. exp div 100 >= 1
+    // I.S. exp >= 100
     // F.S. exp %= 100, level += exp div 100
 
-    void showEngimon(); // show info engimon
+    void showEngimon() const; // show info engimon
     // I.S. any
     // F.S. menampilkan info engimon ke layar
 
+    void interact() const;
     /* Service Breeding */
-    friend Engimon& breeding(Engimon& parent_a, Engimon& parent_b); 
+    friend Engimon &breeding(Engimon &parent_a, Engimon &parent_b);
 };
 
 /*--- CLASS SPECIES ---*/
@@ -189,4 +207,10 @@ public:
     CryoCrystallize(string _name, const Parent &_parent);
 };
 
+/*--- MISC ---*/
+extern map<string, Engimon *> Engidex;
+
+void initEngidex();
+vector<Engimon *> EngimonFinder(string _species);
+vector<Engimon *> EngimonFinder(Elements _e1, Elements _e2 = NONE);
 #endif
