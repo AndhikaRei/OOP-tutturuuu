@@ -10,6 +10,7 @@
 #define Electric 2
 #define Ground 3
 #define Ice 4
+#define NONE -1
 
 // Database element Advantage
 extern const float ElementAdvantage[5][5];

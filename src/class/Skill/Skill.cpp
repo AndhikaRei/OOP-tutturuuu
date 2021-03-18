@@ -8,6 +8,19 @@ Skill::Skill() {
     masteryLevel = 1;
 }
 // User-Defined CTOR
+Skill::Skill(string name, string desc, int basePower, int Elements1, int Elements2=NONE,int Elements3=NONE,int Elements4=NONE,int Elements5=NONE) {
+    this->name = name;
+    this->desc = desc;
+    this->basePower = basePower;
+    this->masteryLevel = 1;
+    this->listElements.clear();
+    this->listElements.push_back(Elements1);
+    if (Elements2 != NONE) this->listElements.push_back(Elements2);
+    if (Elements3 != NONE) this->listElements.push_back(Elements3);
+    if (Elements4 != NONE) this->listElements.push_back(Elements4);
+    if (Elements5 != NONE) this->listElements.push_back(Elements5);
+}
+
 Skill::Skill(string name, string desc, int basePower, int nElements, Elements* listElements) {
     this->name = name;
     this->desc = desc;
@@ -189,7 +202,7 @@ void databaseSkillInitialization() {
     vector<Elements> superConductor({Electric,Ice});
     vector<Elements> crystalizeCryo({Ice, Ground});
 
-    // 3 Element Skill 
+    // 3 Element Skill (TO DO)
 
     Skill listSkill[] = {s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11};
     databaseSkill.insert(databaseSkill.begin(),listSkill,listSkill + sizeof(listSkill)/sizeof(listSkill[0]));

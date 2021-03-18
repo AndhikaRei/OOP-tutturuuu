@@ -30,6 +30,7 @@ public:
     // Default CTOR
     Skill();
     // User-Defined CTOR
+    Skill(string name, string desc, int basePower, int Elements1, int Elements2=NONE,int Elements3=NONE,int Elements4=NONE,int Elements5=NONE);
     Skill(string name, string desc, int basePower, int nElements, Elements* listElements);
     Skill(string name, string desc, int basePower, vector<Elements> listElements);
     // CCTOR
