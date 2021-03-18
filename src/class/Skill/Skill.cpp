@@ -8,6 +8,19 @@ Skill::Skill() {
     masteryLevel = 1;
 }
 // User-Defined CTOR
+Skill::Skill(string name, string desc, int basePower, Elements Elements1, Elements Elements2,Elements Elements3,Elements Elements4,Elements Elements5) {
+    this->name = name;
+    this->desc = desc;
+    this->basePower = basePower;
+    this->masteryLevel = 1;
+    this->listElements.clear();
+    this->listElements.push_back(Elements1);
+    if (Elements2 != NONE) this->listElements.push_back(Elements2);
+    if (Elements3 != NONE) this->listElements.push_back(Elements3);
+    if (Elements4 != NONE) this->listElements.push_back(Elements4);
+    if (Elements5 != NONE) this->listElements.push_back(Elements5);
+}
+
 Skill::Skill(string name, string desc, int basePower, int nElements, Elements* listElements) {
     this->name = name;
     this->desc = desc;
@@ -159,39 +172,23 @@ void databaseSkillInitialization() {
 
 
     // 1 Element Skill
-    vector<Elements> pyro({Fire}); 
-    vector<Elements> hydro({Water});
-    vector<Elements> electro({Electric});
-    vector<Elements> geo({Ground});
-    vector<Elements> cyro({Ice});
-
-    Skill s4("Fire Breath", "Hah Naga!", 20, pyro);
-    Skill s5("Doom Eternal", "Gelut sama setan", 30, pyro);
-    Skill s6("Gush", "Ciuhh!", 20, hydro);
-    Skill s7("Ravage", "Tentakel + Anime", 30, hydro);
-    Skill s8("Ball Lighting", "Lookin for me?", 20, electro);
-    Skill s9("Static Storm", "I'm ecstatic!",30 ,electro);
-    Skill s10("Fissure", "Feel the earth shake!", 20, geo);
-    Skill s11("Echo Slam", "1 Million Dollar Slam", 30, geo);
-    Skill s12("Ice Path", "Beku broh", 20, hydro);
-    Skill s13("Ice Ice Baby", "Seriously?", 30, hydro);
+    Skill s4("Fire Breath", "Hah Naga!", 20, Fire);
+    Skill s5("Doom Eternal", "Gelut sama setan", 30, Fire);
+    Skill s6("Gush", "Ciuhh!", 20, Water);
+    Skill s7("Ravage", "Tentakel + Anime", 30, Water);
+    Skill s8("Ball Lighting", "Lookin for me?", 20, Electric);
+    Skill s9("Static Storm", "I'm ecstatic!",30 ,Electric);
+    Skill s10("Fissure", "Feel the earth shake!", 20, Ground);
+    Skill s11("Echo Slam", "1 Million Dollar Slam", 30, Ground);
+    Skill s12("Ice Path", "Beku broh", 20, Ice);
+    Skill s13("Ice Ice Baby", "Seriously?", 30, Ice);
 
     
-    // 2 Element Skill
-    vector<Elements> vaporize({Fire,Water});
-    vector<Elements> overload({Fire,Electric});
-    vector<Elements> crystalizePyro({Fire,Ground});
-    vector<Elements> melt({Fire,Ice});
-    vector<Elements> electroCharged({Water,Electric});
-    vector<Elements> crystalizeHydro({Water, Ground});
-    vector<Elements> frozen({Water,Ice});
-    vector<Elements> crystalizeElectro({Electric, Ground});
-    vector<Elements> superConductor({Electric,Ice});
-    vector<Elements> crystalizeCryo({Ice, Ground});
+    // 2 Element Skill (TO DO)
 
-    // 3 Element Skill 
+    // 3 Element Skill (TO DO)
 
-    Skill listSkill[] = {s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11};
+    Skill listSkill[] = {s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11, s12, s13};
     databaseSkill.insert(databaseSkill.begin(),listSkill,listSkill + sizeof(listSkill)/sizeof(listSkill[0]));
 
 
