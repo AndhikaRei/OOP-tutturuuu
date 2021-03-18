@@ -64,6 +64,10 @@ public:
 };
 
 
+extern vector<Skill> databaseSkill;
+
+void databaseSkillInitialization();
+
 
 
 

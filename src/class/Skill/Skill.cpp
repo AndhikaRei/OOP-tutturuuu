@@ -144,3 +144,57 @@ int Skill::getBasePower() const {
 int Skill::getMasteryLevel() const {
     return masteryLevel;
 }
+
+
+vector<Skill> databaseSkill;
+
+void databaseSkillInitialization() {
+    // General skill
+    databaseSkill.clear();
+    vector<Elements> allElement({Fire, Water, Electric, Ground, Ice});
+    
+    Skill s1("Punch", "Pukulan Maut!",10,allElement);
+    Skill s2("Kick", "Sikat Miring!",10,allElement);
+    Skill s3("ONE-PUNCH", "Hiyaa jurus si botak", 20, allElement);
+
+
+    // 1 Element Skill
+    vector<Elements> pyro({Fire}); 
+    vector<Elements> hydro({Water});
+    vector<Elements> electro({Electric});
+    vector<Elements> geo({Ground});
+    vector<Elements> cyro({Ice});
+
+    Skill s4("Fire Breath", "Hah Naga!", 20, pyro);
+    Skill s5("Doom Eternal", "Gelut sama setan", 30, pyro);
+    Skill s6("Gush", "Ciuhh!", 20, hydro);
+    Skill s7("Ravage", "Tentakel + Anime", 30, hydro);
+    Skill s8("Ball Lighting", "Lookin for me?", 20, electro);
+    Skill s9("Static Storm", "I'm ecstatic!",30 ,electro);
+    Skill s10("Fissure", "Feel the earth shake!", 20, geo);
+    Skill s11("Echo Slam", "1 Million Dollar Slam", 30, geo);
+    Skill s12("Ice Path", "Beku broh", 20, hydro);
+    Skill s13("Ice Ice Baby", "Seriously?", 30, hydro);
+
+    
+    // 2 Element Skill
+    vector<Elements> vaporize({Fire,Water});
+    vector<Elements> overload({Fire,Electric});
+    vector<Elements> crystalizePyro({Fire,Ground});
+    vector<Elements> melt({Fire,Ice});
+    vector<Elements> electroCharged({Water,Electric});
+    vector<Elements> crystalizeHydro({Water, Ground});
+    vector<Elements> frozen({Water,Ice});
+    vector<Elements> crystalizeElectro({Electric, Ground});
+    vector<Elements> superConductor({Electric,Ice});
+    vector<Elements> crystalizeCryo({Ice, Ground});
+
+    // 3 Element Skill 
+
+    Skill listSkill[] = {s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11};
+    databaseSkill.insert(databaseSkill.begin(),listSkill,listSkill + sizeof(listSkill)/sizeof(listSkill[0]));
+
+
+}
+
+
