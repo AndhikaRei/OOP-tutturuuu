@@ -9,7 +9,7 @@ const float ElementAdvantage[5][5] =
 {0,1,0.5,2,1}};
 
 
-std::string elementName(Elements el) {
+string elementName(Elements el) {
     switch (el)
     {
     case 0:
@@ -27,7 +27,7 @@ std::string elementName(Elements el) {
     } 
 }
 
-int elementId(std::string el) {
+int elementId(string el) {
     // agak khawatir pake switch
     if (el == "Fire") {
         return 0;
@@ -46,14 +46,28 @@ int elementId(std::string el) {
 }
 
 
-// const Elements Fire(0,Water,Electric);
-// const Elements Water(1,Electric,Fire);
-// const Elements Electric(2,)
+float elementAdvantage(Elements eleAlly, Elements eleEnemy) {
+    return ElementAdvantage[eleAlly][eleEnemy];
+}
 
-
-// int main(int argc, char const *argv[])
-// {
-//     std::cout << ElementAdvantage[Water][Ground] << std::endl;
-    
-//     return 0;
+// float elementAdvantage(std::string eleAlly, std::string eleEnemy) {
+//     return elementAdvantage(elementId(eleAlly),elementId(eleEnemy));
 // }
+float totalElementAdvantage(vector<Elements> eleAlly, vector<Elements> eleEnemy) {
+    float eleAdv = 0;
+    for (int i = 0; i < eleAlly.size(); i++)
+    {
+        for (int j = 0; j < eleEnemy.size(); j++)
+        {
+            if (eleAdv < elementAdvantage(eleAlly[i],eleEnemy[j])) {
+                eleAdv = elementAdvantage(eleAlly[i],eleEnemy[j]);
+            }
+        }   
+    }
+    return eleAdv;
+}
+
+
+
+
+

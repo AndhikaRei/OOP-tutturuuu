@@ -381,3 +381,20 @@ vector<Engimon *> EngimonFinder(Elements _e1, Elements _e2)
     }
     return temp;
 }
+
+/* Skill Level Up */
+void Engimon::skillLevelUp(Skill sk) {
+    vector<Skill>::iterator it = std::find(skill.begin(),skill.end(),sk);
+    if (it != skill.end()) {
+        it->levelUp();
+        // cout << "t3" << endl;
+    }
+    
+    
+}
+void Engimon::skillLevelUp(Skill sk,int lv) {
+    vector<Skill>::iterator it = std::find(skill.begin(),skill.end(),sk);
+    if (it != skill.end()) {
+        it->levelUp(lv);
+    }
+}

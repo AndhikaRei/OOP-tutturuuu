@@ -40,6 +40,9 @@ public:
     // Operator=
     Skill& operator=(const Skill& other);
 
+    // Operator==
+    bool operator==(const Skill& other);
+
     /** SERVICE **/
     /* Menaikan mastery level */
     void levelUp();

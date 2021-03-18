@@ -2,7 +2,11 @@
 #define _ELEMENTS_HPP_
 
 #include <string>
+#include <vector>
 #include "../Exception/Exception.hpp"
+
+using std::string;
+using std::vector;
 
 #define Elements int
 #define Fire 0
@@ -15,40 +19,16 @@
 // Database element Advantage
 extern const float ElementAdvantage[5][5];
 
-// element to string name
-std::string elementName(Elements el);
-int elementId(std::string el);
+// element id to string name
+string elementName(Elements el);
+// element name to element id
+int elementId(string el);
 
 
+float elementAdvantage(Elements eleAlly, Elements eleEnemy);
+// float elementAdvantage(std::string eleAlly, std::string eleEnemy);
+float totalElementAdvantage(vector<Elements> eleAlly, vector<Elements> eleEnemy);
 
-// #include <string>
-
-
-// class Elements
-// {
-// private:
-//     int ID;
-//     Elements Weakness;
-//     Elements Strength;
-// public:
-//     // Constructor
-//     Elements(int ID, Elements Weakness, Elements Strength);
-    
-//     // Tidak perlu dtor
-
-//     bool operator==(Elements a, Elements b) const;
-
-//     // Getter
-//     Elements getID() const;
-//     Elements getWeakness() const;
-//     Elements getStrength() const;
-// };
-
-// extern const Elements Fire;
-// extern const Elements Water;
-// extern const Elements Electric;
-// extern const Elements Ground;
-// extern const Elements Ice;
 
 
 

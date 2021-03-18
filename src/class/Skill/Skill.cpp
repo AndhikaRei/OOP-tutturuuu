@@ -61,9 +61,15 @@ Skill& Skill::operator=(const Skill& other) {
     return *this;
 }
 
+ // Operator==
+bool Skill::operator==(const Skill& other) {
+        return this->name == other.name;
+}
+
 // Service
 void Skill::levelUp() {
     masteryLevel += 1;
+    // cout << "Skill Level Up " << masteryLevel << endl;
 }
 void Skill::levelUp(int up) {
     masteryLevel += up;
@@ -169,7 +175,6 @@ void databaseSkillInitialization() {
     Skill s1("Punch", "Pukulan Maut!",10,allElement);
     Skill s2("Kick", "Sikat Miring!",10,allElement);
     Skill s3("ONE-PUNCH", "Hiyaa jurus si botak", 20, allElement);
-
 
     // 1 Element Skill
     Skill s4("Fire Breath", "Hah Naga!", 20, Fire);

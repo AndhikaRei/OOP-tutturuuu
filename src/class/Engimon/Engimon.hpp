@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <iterator>
+#include <algorithm>
 #include "../Skill/Skill.hpp"
 #include "../Elements/Elements.hpp"
 
@@ -84,6 +85,10 @@ public:
     void interact() const;
     /* Service Breeding */
     friend Engimon &breeding(Engimon &parent_a, Engimon &parent_b);
+
+    /* Skill Level Up */
+    void skillLevelUp(Skill sk);
+    void skillLevelUp(Skill sk,int lv);
 };
 
 /*--- CLASS SPECIES ---*/
