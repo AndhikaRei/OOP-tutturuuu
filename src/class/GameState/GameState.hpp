@@ -3,8 +3,8 @@
 #include "../Map/Map.h"
 #include "../Engimon/Engimon.hpp"
 #include "../Elements/Elements.hpp"
-// #include "../ShortInput/ShortInputWindows.hpp"
-#include "../ShortInput/ShortInputLinux.hpp"
+#include "../ShortInput/ShortInputWindows.hpp"
+// #include "../ShortInput/ShortInputLinux.hpp"
 #include "../Exception/Exception.hpp"
 #include "../Skill/Skill.hpp"
 #include <string>
@@ -63,6 +63,8 @@ int GameState::value_user_input(){
     return this->parser.getCommand();
 }
 void GameState::visualize(){
+    // Melakukan visualisasi tampilan Utama pada CLI
+    // Visualisasi dilakukan berdasarkan state dari game sekarang
     cout << "====================================================================================" <<endl;
     cout << "                            Turn "<< to_string(this->turn) << endl;
     switch (this->state){
@@ -97,6 +99,8 @@ void GameState::visualize(){
 }
 
 void GameState::print_available_command(){
+    // Melakukan visualisasi tampilan bantuan berisikan tombol/intruksi yang bisa dilakukan
+    // Visualisasi dilakukan berdasarkan state dari game sekarang
     switch (this->state){
     case UI_FreeRoam:
         cout << "                            Tampilan Free Roam "<< endl;
@@ -148,17 +152,35 @@ void GameState::get_user_input(){
 }
 
 void GameState::execute_user_input(){
+    // Mengeksekusi input yang telah dimasukkan user
+    // Eksekusi dilakukan berdasarkan state dari game sekarang
 switch (this->state){
     case UI_FreeRoam:{
         int command = this->parser.getCommand();
         if (command==KEY_w || command==KEY_a|| command==KEY_s|| command==KEY_d){
             this->map.move((char)command);
         } else if (command==KEY_k){
-            // Validasi apakah bisa battle, jika bisa lakukan, validasi boleh didalam class atau disini
+            /* Prototype dan Prediksi Fungsi
+            Engimon& enemy = map.findAdjacentEnemy(); // Throw aja kalo ga ketemu
+            if playerEngimonWin(Engimon& player, Engimon& enemy){
+                Player.addEngimon(Engimon& enemy);
+                Player.addSkillItem(getRandomSkillItem(vector<Skill> listOfSkill, Engimon& enemy))
+                Player.addSelectedEngimonEXP(30)
+            } else {
+                Player.killActiveEngimon()
+                Player.changeActiveEngimon()
+            }
+            */
             throw InvalidBattleException();
         } else if(command == KEY_l){
+            /*
+            Player.ShowItemSkill()
+            */
             this->state = UI_ItemSkillDimiliki;
         } else if(command == KEY_i){
+            /*
+            Player.ShowAllEngimon()
+            */
             this->state = UI_EngimonDimiliki;
         } else if(command == KEY_j ){
             // Nama Engimon yang dicek harus divalidasi pada implementasi aslinya
