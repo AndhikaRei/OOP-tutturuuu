@@ -80,6 +80,7 @@ public:
     // I.S. any
     // F.S. exp += _exp
 
+    void addSkill(Skill);
     void addSkill(Skill_Item &);
     void addSkill(Skill_Item &, int);
     // I.S. any

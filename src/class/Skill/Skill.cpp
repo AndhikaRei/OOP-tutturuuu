@@ -132,6 +132,19 @@ void Skill::showSkill() {
     cout << endl; 
 }
 
+void Skill::showSimpleSkill() {
+    cout << "SkillName/BasePower : " << name << "/" << basePower << endl;
+    cout << "Elements : ";
+    for (int i = 0; i < listElements.size(); i++) {
+        cout << elementName(listElements[i]);
+        if (i < listElements.size() - 1) {
+            cout << "/";
+        }  
+    }
+    cout << endl;
+}
+
+
 ostream& operator<<(ostream& os, const Skill& skill) {
 
     os << "-- " << skill.name << " --" << endl;

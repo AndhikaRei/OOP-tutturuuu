@@ -125,6 +125,11 @@ void Skill_Item::showItem() {
     skill_contained.showSkill();
     cout << "Amounts      : " << amount << endl;
 }
+void Skill_Item::showSimpleItem() {
+    skill_contained.showSimpleSkill();
+    cout << "Amounts  : " << amount << endl;
+}
+
 ostream& operator<<(ostream& os, Skill_Item& skill_item) {
     os << skill_item.skill_contained;
     os << "Amounts      : " << skill_item.amount;

@@ -128,6 +128,20 @@ void Engimon::addExp(int _exp)
         levelUp();
     }
 }
+
+void Engimon::addSkill(Skill sk) {
+    if (!skillLevelUp(sk))
+    {
+        if (this->skill.size() < 4)
+        {
+            this->skill.push_back(sk);
+        }
+        else
+        {
+            throw InvalidFullSkill();
+        }
+    }
+}
 void Engimon::addSkill(Skill_Item &_skit)
 {
     Skill temp = _skit.learn(this->elements);
@@ -484,14 +498,14 @@ vector<Engimon *> EngimonFinder(Elements _e1, Elements _e2)
     {
         if (_e2 == NONE)
         {
-            if (it->second->isOneElement() && it->second->getElements()[0] == _e1)
+            if (it->second->isElement(_e1))
             {
                 temp.push_back(it->second);
             }
         }
         else
         {
-            if (!it->second->isOneElement() && it->second->getElements()[0] == _e1 && it->second->getElements()[1] == _e2)
+            if (it->second->isElement(_e1) || it->second->isElement(_e2))
             {
                 temp.push_back(it->second);
             }
