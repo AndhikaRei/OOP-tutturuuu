@@ -23,14 +23,12 @@ void Parent::showParent()
 {
     if (this->isParent)
     {
-        cout << "Parent 1              : ";
-        cout << this->name[0] << " - " << this->species[0] << '\n';
-        cout << "Parent 2              : ";
-        cout << this->name[1] << " - " << this->species[1] << '\n';
+        cout << this->name[0] << " - " << this->species[0] << ", ";
+        cout << this->name[1] << " - " << this->species[1] ;
     }
     else
     {
-        cout << "Parent                : -\n";
+        cout << "-";
     }
 }
 
@@ -104,6 +102,14 @@ int Engimon::getCumulExp() const
 {
     return this->cumul_exp;
 }
+void Engimon::rename(string _name)
+{
+    this->name = _name;
+}
+void Engimon::setParent(const Parent& _parent)
+{
+    this->parent = _parent;
+}
 bool Engimon::isOneElement() const
 {
     return this->elements.size() == 1;
@@ -160,20 +166,19 @@ void Engimon::levelUp()
 }
 void Engimon::showEngimon() const
 {
-    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl; // pembeda
-    cout << "Name                  : " << name << '\n';
-    cout << "Species               : " << species << '\n';
-    cout << "Element(s)            : [" << elementName(elements[0]) << "]";
+    cout << "| "<< name  << " | ";
+    cout << species << " | ";
+    cout << "[" << elementName(elements[0]) << "]";
     if (!isOneElement())
     {
         cout << "[" << elementName(elements[1]) << "]";
     }
-    cout << endl;
+    cout << " | ";
     this->getParent().showParent();
-    cout << "Level                 : " << level << '\n';
-    cout << "Experience            : " << exp << '\n';
-    cout << "Cumulative Experience : " << cumul_exp << endl;
-    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl; // pembeda
+    cout << " | ";
+    cout << level << " | ";
+    cout << exp << " | ";
+    cout << cumul_exp << " | " << endl;
 }
 void Engimon::interact() const
 {

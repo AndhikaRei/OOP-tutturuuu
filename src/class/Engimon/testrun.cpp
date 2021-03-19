@@ -140,6 +140,7 @@ int main(int argc, char const *argv[])
     test2->showEngimon();
     test2->interact();
     test2->getSkill()[0].showSkill();
+    delete test2;
 
     printTesting(7);
     Skill_Item skit(Skill("Explosion!", "Megumin approved.", 20, Fire));
@@ -151,5 +152,8 @@ int main(int argc, char const *argv[])
     a1->addSkill(skit2, 2);
     a1->getSkill()[1].showSkill();
 
+    Parent a;
+    a = ortu;
+    a.showParent();
     return 0;
 }
