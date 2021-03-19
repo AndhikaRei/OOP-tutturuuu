@@ -69,6 +69,9 @@ Engimon::Engimon(string _name, string _species, const Parent &_parent, Elements 
     this->exp = 0;
     this->cumul_exp = 0;
 }
+// Engimon& Engimon::operator=(const Engimon& _engi)
+// {
+// }
 string Engimon::getName() const
 {
     return this->name;
@@ -119,6 +122,36 @@ void Engimon::addExp(int _exp)
         levelUp();
     }
 }
+void Engimon::addSkill(Skill_Item &_skit)
+{
+    Skill temp = _skit.learn(this->elements);
+    if (!skillLevelUp(temp))
+    {
+        if (this->skill.size() < 4)
+        {
+            this->skill.push_back(temp);
+        }
+        else
+        {
+            throw InvalidFullSkill();
+        }
+    }
+}
+void Engimon::addSkill(Skill_Item &_skit, int _amount)
+{
+    Skill temp = _skit.learn(this->elements);
+    if (!skillLevelUp(temp, _amount))
+    {
+        if (this->skill.size() < 4)
+        {
+            this->skill.push_back(temp);
+        }
+        else
+        {
+            throw InvalidFullSkill();
+        }
+    }
+}
 void Engimon::levelUp()
 {
     cout << "Selamat, engimon kamu naik level!" << endl;
@@ -146,6 +179,26 @@ void Engimon::interact() const
 {
     cout << this->name << ": " << this->slogan << endl;
 }
+bool Engimon::skillLevelUp(Skill sk)
+{
+    vector<Skill>::iterator it = std::find(skill.begin(), skill.end(), sk);
+    if (it != skill.end())
+    {
+        it->levelUp();
+        return true;
+    }
+    return false;
+}
+bool Engimon::skillLevelUp(Skill sk, int lv)
+{
+    vector<Skill>::iterator it = std::find(skill.begin(), skill.end(), sk);
+    if (it != skill.end())
+    {
+        it->levelUp(lv);
+        return true;
+    }
+    return false;
+}
 
 /*--- CLASS SPECIES ---*/
 Pyro::Pyro(string _name) : Engimon(_name, "Pyro", Fire)
@@ -158,6 +211,10 @@ Pyro::Pyro(string _name, const Parent &_parent) : Engimon(_name, "Pyro", _parent
     this->slogan = "Se no!~";
     this->skill.push_back(Skill("Explosion!", "Megumin approved.", 20, Fire));
 }
+Engimon *Pyro::clone()
+{
+    return new Pyro(*this);
+}
 
 Hydro::Hydro(string _name) : Engimon(_name, "Hydro", Water)
 {
@@ -168,6 +225,10 @@ Hydro::Hydro(string _name, const Parent &_parent) : Engimon(_name, "Hydro", _par
 {
     this->slogan = "Demo sonnan ja dame~";
     this->skill.push_back(Skill("Purification!", "Aqua approved.", 20, Water));
+}
+Engimon *Hydro::clone()
+{
+    return new Hydro(*this);
 }
 
 Electro::Electro(string _name) : Engimon(_name, "Electro", Electric)
@@ -180,6 +241,10 @@ Electro::Electro(string _name, const Parent &_parent) : Engimon(_name, "Electro"
     this->slogan = "Mou sonnan ja hora~";
     this->skill.push_back(Skill("Thunderstorm", "Lightning goes brrr.", 20, Electric));
 }
+Engimon *Electro::clone()
+{
+    return new Electro(*this);
+}
 
 Geo::Geo(string _name) : Engimon(_name, "Geo", Ground)
 {
@@ -190,6 +255,10 @@ Geo::Geo(string _name, const Parent &_parent) : Engimon(_name, "Geo", _parent, G
 {
     this->slogan = "Kokoro wa shinka suru yo~";
     this->skill.push_back(Skill("Tanah tinggi!", "Ez cover.", 20, Ground));
+}
+Engimon *Geo::clone()
+{
+    return new Geo(*this);
 }
 
 Cryo::Cryo(string _name) : Engimon(_name, "Cryo", Ice)
@@ -202,6 +271,10 @@ Cryo::Cryo(string _name, const Parent &_parent) : Engimon(_name, "Cryo", _parent
     this->slogan = "Motto motto~";
     this->skill.push_back(Skill("Freeze!", "I'll never use my dad's power.", 20, Ice));
 }
+Engimon *Cryo::clone()
+{
+    return new Cryo(*this);
+}
 
 Vaporize::Vaporize(string _name) : Engimon(_name, "Vaporize", Fire, Water)
 {
@@ -212,6 +285,10 @@ Vaporize::Vaporize(string _name, const Parent &_parent) : Engimon(_name, "Vapori
 {
     this->slogan = "Fuwa fuwari, fuwa fuwaru~";
     this->skill.push_back(Skill("Indomie rebus", "Masak aer.", 20, Fire, Water));
+}
+Engimon *Vaporize::clone()
+{
+    return new Vaporize(*this);
 }
 
 Overload::Overload(string _name) : Engimon(_name, "Overload", Fire, Electric)
@@ -224,6 +301,10 @@ Overload::Overload(string _name, const Parent &_parent) : Engimon(_name, "Overlo
     this->slogan = "Anata ga namae wo yobu~";
     this->skill.push_back(Skill("Korsleting", "Api berpadu dengan Listrik", 20, Fire, Electric));
 }
+Engimon *Overload::clone()
+{
+    return new Overload(*this);
+}
 
 PyroCrystallize::PyroCrystallize(string _name) : Engimon(_name, "PyroCrystallize", Fire, Ground)
 {
@@ -234,6 +315,10 @@ PyroCrystallize::PyroCrystallize(string _name, const Parent &_parent) : Engimon(
 {
     this->slogan = "Sore dake de chuu e ukabu~";
     this->skill.push_back(Skill("Golem Api!", "Ez tank.", 20, Fire, Ground));
+}
+Engimon *PyroCrystallize::clone()
+{
+    return new PyroCrystallize(*this);
 }
 
 Melt::Melt(string _name) : Engimon(_name, "Melt", Fire, Ice)
@@ -246,6 +331,10 @@ Melt::Melt(string _name, const Parent &_parent) : Engimon(_name, "Melt", _parent
     this->slogan = "Fuwafuwaru fuwafuwari~";
     this->skill.push_back(Skill("Half-Cold Half-Hot", "Todoroki not approve.", 20, Fire, Ice));
 }
+Engimon *Melt::clone()
+{
+    return new Melt(*this);
+}
 
 ElectroCharged::ElectroCharged(string _name) : Engimon(_name, "ElectroCharged", Water, Electric)
 {
@@ -256,6 +345,10 @@ ElectroCharged::ElectroCharged(string _name, const Parent &_parent) : Engimon(_n
 {
     this->slogan = "Anata ga waratte iru~";
     this->skill.push_back(Skill("Charged Water!", "Hati-hati kesetrum.", 20, Water, Electric));
+}
+Engimon *ElectroCharged::clone()
+{
+    return new ElectroCharged(*this);
 }
 
 HydroCrystallize::HydroCrystallize(string _name) : Engimon(_name, "HydroCrystallize", Water, Ground)
@@ -268,49 +361,69 @@ HydroCrystallize::HydroCrystallize(string _name, const Parent &_parent) : Engimo
     this->slogan = "Sore dake de egao ni naru~";
     this->skill.push_back(Skill("Golem Air!", "Ez tank 2.", 20, Water, Ground));
 }
+Engimon *HydroCrystallize::clone()
+{
+    return new HydroCrystallize(*this);
+}
 
 Frozen::Frozen(string _name) : Engimon(_name, "Frozen", Water, Ice)
 {
     this->slogan = "Kami-sama arigatou~";
-    this->skill.push_back(Skill("Let it go~","Elsa approved.", 20, Water, Ice));
+    this->skill.push_back(Skill("Let it go~", "Elsa approved.", 20, Water, Ice));
 }
 Frozen::Frozen(string _name, const Parent &_parent) : Engimon(_name, "Grozen", _parent, Water, Ice)
 {
     this->slogan = "Kami-sama arigatou~";
-    this->skill.push_back(Skill("Let it go~","Elsa approved.", 20, Water, Ice));
+    this->skill.push_back(Skill("Let it go~", "Elsa approved.", 20, Water, Ice));
+}
+Engimon *Frozen::clone()
+{
+    return new Frozen(*this);
 }
 
 ElectroCrystallize::ElectroCrystallize(string _name) : Engimon(_name, "ElectroCrystallize", Electric, Ground)
 {
     this->slogan = "Unmei no itazura demo~";
-    this->skill.push_back(Skill("Golem Petir!","Ez tank 3.", 20, Electric, Ground));
+    this->skill.push_back(Skill("Golem Petir!", "Ez tank 3.", 20, Electric, Ground));
 }
 ElectroCrystallize::ElectroCrystallize(string _name, const Parent &_parent) : Engimon(_name, "ElectroCrystallize", _parent, Electric, Ground)
 {
     this->slogan = "Unmei no itazura demo~";
-    this->skill.push_back(Skill("Golem Petir!","Ez tank 3.", 20, Electric, Ground));
+    this->skill.push_back(Skill("Golem Petir!", "Ez tank 3.", 20, Electric, Ground));
+}
+Engimon *ElectroCrystallize::clone()
+{
+    return new ElectroCrystallize(*this);
 }
 
 Superconductor::Superconductor(string _name) : Engimon(_name, "Superconductor", Electric, Ice)
 {
     this->slogan = "Meguriaeta koto ga~";
-    this->skill.push_back(Skill("Species-self-explanatory.","Masa listrik bisa berpadu dengan es?", 20, Electric, Ice));
+    this->skill.push_back(Skill("Species-self-explanatory.", "Masa listrik bisa berpadu dengan es?", 20, Electric, Ice));
 }
 Superconductor::Superconductor(string _name, const Parent &_parent) : Engimon(_name, "Superconductor", _parent, Electric, Ice)
 {
     this->slogan = "Meguriaeta koto ga~";
-    this->skill.push_back(Skill("Species-self-explanatory.","Masa listrik bisa berpadu dengan es?", 20, Electric, Ice));
+    this->skill.push_back(Skill("Species-self-explanatory.", "Masa listrik bisa berpadu dengan es?", 20, Electric, Ice));
+}
+Engimon *Superconductor::clone()
+{
+    return new Superconductor(*this);
 }
 
 CryoCrystallize::CryoCrystallize(string _name) : Engimon(_name, "CryoCrystallize", Ground, Ice)
 {
     this->slogan = "Shiawase na no~";
-    this->skill.push_back(Skill("Golem Es!","Ez tank 4.", 20, Ground, Ice));
+    this->skill.push_back(Skill("Golem Es!", "Ez tank 4.", 20, Ground, Ice));
 }
 CryoCrystallize::CryoCrystallize(string _name, const Parent &_parent) : Engimon(_name, "CryoCrystallize", _parent, Ground, Ice)
 {
     this->slogan = "Shiawase na no~";
-    this->skill.push_back(Skill("Golem Es!","Ez tank 4.", 20, Ground, Ice));
+    this->skill.push_back(Skill("Golem Es!", "Ez tank 4.", 20, Ground, Ice));
+}
+Engimon *CryoCrystallize::clone()
+{
+    return new CryoCrystallize(*this);
 }
 
 /*--- MISC ---*/
@@ -380,21 +493,4 @@ vector<Engimon *> EngimonFinder(Elements _e1, Elements _e2)
         }
     }
     return temp;
-}
-
-/* Skill Level Up */
-void Engimon::skillLevelUp(Skill sk) {
-    vector<Skill>::iterator it = std::find(skill.begin(),skill.end(),sk);
-    if (it != skill.end()) {
-        it->levelUp();
-        // cout << "t3" << endl;
-    }
-    
-    
-}
-void Engimon::skillLevelUp(Skill sk,int lv) {
-    vector<Skill>::iterator it = std::find(skill.begin(),skill.end(),sk);
-    if (it != skill.end()) {
-        it->levelUp(lv);
-    }
 }

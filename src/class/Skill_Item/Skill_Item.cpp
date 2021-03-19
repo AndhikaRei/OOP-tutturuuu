@@ -56,7 +56,7 @@ Skill Skill_Item::learn(Elements ele) {
 
 Skill Skill_Item::learn(Elements ele, int n) {
     if (skill_contained.isElementCompatible(ele)) {
-        if (amount - n > 0) {
+        if (amount - n >= 0) {
             amount -= n;
             return skill_contained;
         } else {
@@ -84,6 +84,19 @@ Skill Skill_Item::learn(vector<Elements> listEle) {
     if (skill_contained.isElementCompatible(listEle)) {
         if (amount > 0) {
             amount--;
+            return skill_contained;
+        } else {
+            throw InvalidElementNotCompatible();
+        }
+    } else {    // Kasus elemen tidak sesuai
+        throw InvalidElementNotCompatible();
+    } 
+}
+
+Skill Skill_Item::learn(vector<Elements> listEle, int n) {
+    if (skill_contained.isElementCompatible(listEle)) {
+        if (amount - n >= 0) {
+            amount -= n;
             return skill_contained;
         } else {
             throw InvalidElementNotCompatible();

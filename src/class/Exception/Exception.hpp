@@ -77,5 +77,11 @@ public:
     }
 };
 
+class InvalidFullSkill : public WriteException{
+public:
+    const char* what(){
+        return("Skill Engimon sudah penuh");
+    }
+};
 
 #endif

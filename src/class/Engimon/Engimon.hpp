@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "../Skill/Skill.hpp"
 #include "../Elements/Elements.hpp"
+#include "../Skill_Item/Skill_Item.hpp"
 
 using std::cout;
 using std::endl;
@@ -52,6 +53,8 @@ public:
     /* 4 Sekawan, Getter, Setter */
     Engimon(string _name, string _species, Elements _elmt1, Elements _elmt2 = NONE);                        // ctor tanpa parent
     Engimon(string _name, string _species, const Parent &_parent, Elements _elmt1, Elements _elmt2 = NONE); // ctor dengan parent
+    // Engimon &operator=(const Engimon &); 
+    virtual Engimon *clone() = 0; // cctor
     // dtor tak perlu
 
     string getName() const;               // get name
@@ -74,6 +77,11 @@ public:
     // I.S. any
     // F.S. exp += _exp
 
+    void addSkill(Skill_Item &);
+    void addSkill(Skill_Item &, int);
+    // I.S. any
+    // F.S. add skill to Engimon
+
     void levelUp(); // level up engimon
     // I.S. exp >= 100
     // F.S. exp %= 100, level += exp div 100
@@ -83,12 +91,15 @@ public:
     // F.S. menampilkan info engimon ke layar
 
     void interact() const;
+    // I.S. any
+    // F.S. menampilkan hasil interact engimon ke layar
+
+    bool skillLevelUp(Skill sk);
+    bool skillLevelUp(Skill sk, int lv);
+    // return true jika berhasil level up skill
+
     /* Service Breeding */
     friend Engimon &breeding(Engimon &parent_a, Engimon &parent_b);
-
-    /* Skill Level Up */
-    void skillLevelUp(Skill sk);
-    void skillLevelUp(Skill sk,int lv);
 };
 
 /*--- CLASS SPECIES ---*/
@@ -98,6 +109,7 @@ class Pyro : public Engimon
 public:
     Pyro(string _name);
     Pyro(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Water ---*/
@@ -106,6 +118,7 @@ class Hydro : public Engimon
 public:
     Hydro(string _name);
     Hydro(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Electric ---*/
@@ -114,6 +127,7 @@ class Electro : public Engimon
 public:
     Electro(string _name);
     Electro(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Ground ---*/
@@ -122,6 +136,7 @@ class Geo : public Engimon
 public:
     Geo(string _name);
     Geo(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Ice ---*/
@@ -130,6 +145,7 @@ class Cryo : public Engimon
 public:
     Cryo(string _name);
     Cryo(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Fire/Water ---*/
@@ -138,6 +154,7 @@ class Vaporize : public Engimon
 public:
     Vaporize(string _name);
     Vaporize(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Fire/Electric ---*/
@@ -146,6 +163,7 @@ class Overload : public Engimon
 public:
     Overload(string _name);
     Overload(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Fire/Ground ---*/
@@ -154,6 +172,7 @@ class PyroCrystallize : public Engimon
 public:
     PyroCrystallize(string _name);
     PyroCrystallize(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Fire/Ice ---*/
@@ -162,6 +181,7 @@ class Melt : public Engimon
 public:
     Melt(string _name);
     Melt(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Water/Electric ---*/
@@ -170,6 +190,7 @@ class ElectroCharged : public Engimon
 public:
     ElectroCharged(string _name);
     ElectroCharged(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Water/Ground ---*/
@@ -178,6 +199,7 @@ class HydroCrystallize : public Engimon
 public:
     HydroCrystallize(string _name);
     HydroCrystallize(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Water/Ice ---*/
@@ -186,6 +208,7 @@ class Frozen : public Engimon
 public:
     Frozen(string _name);
     Frozen(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Electric/Ground ---*/
@@ -194,6 +217,7 @@ class ElectroCrystallize : public Engimon
 public:
     ElectroCrystallize(string _name);
     ElectroCrystallize(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Electric/Ice ---*/
@@ -202,6 +226,7 @@ class Superconductor : public Engimon
 public:
     Superconductor(string _name);
     Superconductor(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- Ground/Ice ---*/
@@ -210,6 +235,7 @@ class CryoCrystallize : public Engimon
 public:
     CryoCrystallize(string _name);
     CryoCrystallize(string _name, const Parent &_parent);
+    Engimon *clone();
 };
 
 /*--- MISC ---*/
@@ -218,4 +244,5 @@ extern map<string, Engimon *> Engidex;
 void initEngidex();
 vector<Engimon *> EngimonFinder(string _species);
 vector<Engimon *> EngimonFinder(Elements _e1, Elements _e2 = NONE);
+
 #endif
