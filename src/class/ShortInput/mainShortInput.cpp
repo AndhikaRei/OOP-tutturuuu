@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstdlib>
-#include "ShortInput.hpp"
+#include "ShortInputWindows.hpp"
 using namespace std;
 int main(){
     ShortInput p;
