@@ -16,7 +16,6 @@ using namespace std;
 #define UI_EngimonDimiliki 3
 #define UI_ItemSkillDimiliki 4
 #define UI_DetailEngimon 5
-#define UI_Battle 6
 #define Menu_Breeding 7
 #define Menu_ChangeActiveEngimon 8
 
@@ -87,10 +86,6 @@ void GameState::visualize(){
         cout <<"Menampilkan item skill, jumlahnya dan Engimon di inventory"<< endl;
         cout <<"Semestinya player/inventory punya method ini, CMIIW kalo gue salah" << endl;
         break;
-    case UI_Battle:
-        cout <<"Menampilkan stat musuh yang dibattle dan ascii artnya WKWK"<< endl;
-        cout <<"Semestinya engimon/turunannya punya method ini, CMIIW kalo gue salah" << endl;
-        break;
     default:
         throw InvalidStateException();
         break;
@@ -107,15 +102,15 @@ void GameState::print_available_command(){
         cout << "w: maju      a: kiri      s: mundur      d: kanan      k: battle" << endl;
         cout << "l : tampilkan skill item yang dipunya       i: tampilkan engimon yang dipunya " << endl;
         cout << "j: cari engimon di ensiklopedia      b : breeding      e : pakai skill item" << endl;
-        cout << "v: ganti active engimon      q: exit program" << endl;
+        cout << "v: ganti active engimon      q: exit program     t: interact " << endl;
         break;
     case UI_EngimonDimiliki:
         if (this->helpstate==Menu_ChangeActiveEngimon){
             cout << "                            Change Active Engimon "<< endl;
-            cout <<"Masukkan nama engimon di argumen satu, kosongkan argumen dua"<< endl;
+            cout <<"Masukkan nomor index engimon di argumen satu, kosongkan argumen dua"<< endl;
         } else if (this->helpstate==Menu_Breeding){
             cout << "                            Tampilan Breeding "<< endl;
-            cout <<"Masukkan nama parent di argumen satu dan dua"<< endl;
+            cout <<"Masukkan nomor index parent di argumen satu dan dua"<< endl;
         } else {
             cout << "                            Daftar Engimon Yang Dimiliki "<< endl;
         }
@@ -131,7 +126,7 @@ void GameState::print_available_command(){
         break;
     case UI_EngimonDanItemSkill:
         cout <<"                            Tampilan Memilih Item Skill "<< endl;
-        cout <<"Masukkan nama item di argumen satu dan nama engimon di argumen dua"<< endl;
+        cout <<"Masukkan nomor item di argumen satu dan nomor engimon di argumen dua"<< endl;
         cout <<"Masukkan x di argumen satu dan dua untuk keluar dari menu ini"<< endl;
         break;
     default:
@@ -156,11 +151,12 @@ void GameState::execute_user_input(){
     // Eksekusi dilakukan berdasarkan state dari game sekarang
 switch (this->state){
     case UI_FreeRoam:{
+        // Dibawah adalah kemungkinan tombol saat UI nya sedang menampilkan peta
         int command = this->parser.getCommand();
         if (command==KEY_w || command==KEY_a|| command==KEY_s|| command==KEY_d){
             this->map.move((char)command);
         } else if (command==KEY_k){
-            /* Prototype dan Prediksi Fungsi
+            /* Prototype dan Prediksi Fungsi detailnya diserahkan ke player
             Engimon& enemy = map.findAdjacentEnemy(); // Throw aja kalo ga ketemu
             if playerEngimonWin(Engimon& player, Engimon& enemy){
                 Player.addEngimon(Engimon& enemy);
@@ -173,43 +169,60 @@ switch (this->state){
             */
             throw InvalidBattleException();
         } else if(command == KEY_l){
-            /*
-            Player.ShowItemSkill()
-            */
+            // Pindah ke layar yang menampilkan list item skill yang dipunyai
             this->state = UI_ItemSkillDimiliki;
         } else if(command == KEY_i){
-            /*
-            Player.ShowAllEngimon()
-            */
+            // Pindah ke layar yang menampilkan list engimon yang dipunya
             this->state = UI_EngimonDimiliki;
         } else if(command == KEY_j ){
-            // Nama Engimon yang dicek harus divalidasi pada implementasi aslinya
+            // Pindah ke layar yang menampilkan detail engimon (kayak engidex)
+            // Nama Engimon yang dicek harus divalidasi pada implementasi aslinya, jika salah throw exception
             cout<<"Masukkan nama species engimon yang ingin dicek "; cin >> this->arg1;
             this->state = UI_DetailEngimon; 
         } else if(command ==KEY_b){
+            // Pindah ke layar list engimon dengan keinginan untuk melakukan breeding
             this->state = UI_EngimonDimiliki;
             this->helpstate = Menu_Breeding;
         } else if (command == KEY_e){
+            // Pindah ke layar yang menampilkan item skill dan engimon yang dipunya dengan niatan mau pake item skill ke engimon
             this->state = UI_EngimonDanItemSkill;
         } else if(command == KEY_v){
+            // Pindah ke layar yang menampilkan list engimon yang dipunya dengan niatan mengganti active engimon
             this->state = UI_EngimonDimiliki;
             this->helpstate = Menu_ChangeActiveEngimon;
         } else if(command == KEY_q){
+            // Exit program
             exit(0);
+        } else if (command == KEY_t){
+            // Interact dengan active engimon
+            /* 
+                Player.interactWithActiveEngimon();
+            */
         } else {
             throw InvalidCommandException();
         }
         }break;
     case UI_EngimonDimiliki:
+        // Dibawah adalah kemungkinan input saat UI nya sedang menampilkan list engimon
+        // Input untuk exit 
         if (this->arg1 == "x" && this->arg2=="x"){
             this->state = UI_FreeRoam;
             this->helpstate = 0;
+        } else if(this->helpstate == Menu_ChangeActiveEngimon){
+            // Jika niatan pindah kesini adalah untuk change active engimon, fungsinya cuma blueprint aja, detil implementasi terserah kamu
+            // Engimon& a = Player.FindEngimonWithVectorIndex(String.toInt(this->arg1))
+        } else if (this->helpstate==Menu_Breeding){
+            // Jika niatan pindah kesini adalah untuk breeding engimon, fungsinya cuma blueprint aja
+            // Validasi slot masi cukup ga
+            // Engimon& a = Player.FindEngimonWithVectorIndex(String.toInt(this->arg1))
+            // Engimon& b = Player.FindEngimonWithVectorIndex(String.toInt(this->arg2))
+            // Engimon& c = breeding(a,b)
+            // Player.addEngimon(c)
         } else {
-            throw InvalidBreeding();
-            //throw InvalidChangeActiveEngimon();
-        } 
+            throw InvalidStateException();
         break;
     case UI_DetailEngimon:{
+        // Ke layar ini cuma buat lihat engimon dari engidex
         int command = this->parser.getCommand();
         if (command==KEY_x ){
             this->state =UI_FreeRoam;
@@ -218,6 +231,7 @@ switch (this->state){
         }
     }break;
     case UI_ItemSkillDimiliki:{
+        // Ke layar ini cuma buat nampilin item skill yang dimiliki
         int command = this->parser.getCommand();
         if (command==KEY_x ){
             this->state =UI_FreeRoam;
@@ -229,6 +243,9 @@ switch (this->state){
          if (this->arg1 == "x" && this->arg2=="x"){
             this->state = UI_FreeRoam;
         } else {
+            // Engimon& a = Player.FindEngimonWithVectorIndex(String.toInt(this->arg1))
+            // Item b = Player.FindItemWithVectorIndex(String.toInt(this->arg2))
+            // Detilnya nunggu dari player aja deh
             throw InvalidUsingItemToEngimon();
         }
         break;

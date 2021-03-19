@@ -20,6 +20,7 @@ using namespace std;
 #define KEY_v 118
 #define KEY_x 120
 #define KEY_q 113
+#define KEY_t 116
 #define clrscr() system("CLS")
 
 class ShortInput
