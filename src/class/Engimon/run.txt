@@ -1,0 +1,2 @@
+Battle
+g++ -o battle testBattle.cpp Battle.cpp Engimon.cpp ../Skill/Skill.cpp ../Skill_Item/Skill_Item.cpp ../Elements/Elements.cpp 

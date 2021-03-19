@@ -40,8 +40,7 @@ Skill_Item getRandomSkillItem(vector<Skill> listOfSkill, Engimon& enemy){
     }
 
     // Dapatkan skill kompatibel secara random
-    std::random_device rands; 
-    std::mt19937 gen(rands()); 
-    std::uniform_int_distribution<> distr(0, filteredSkill.size()); 
-    return (Skill_Item(filteredSkill.at(distr(gen)),1));
+    srand (time(NULL));
+    int number =rand() % filteredSkill.size() ;
+    return (Skill_Item(filteredSkill.at(number)));
 }
