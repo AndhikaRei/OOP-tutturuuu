@@ -1,6 +1,11 @@
+/*  
+  Diambil dari https://stackoverflow.com/questions/7469139/what-is-the-equivalent-to-getch-getche-in-linux
+  Mohon maaf kak saya bukan user linux jadi nggatau cara getch di linux sehingga ambil kodingannya dari
+  stackoverfllow 
+*/
+
 #ifndef _SHORTINPUTLINUX_H
 #define _SHORTINPUTLINUX_H
-
 
 #include <cstdlib>
 #include <string>
@@ -19,6 +24,7 @@ using namespace std;
 #define KEY_v 118
 #define KEY_x 120
 #define KEY_q 113
+#define KEY_t 116
 #define clrscr() printf("\033c")
 
 /* Initialize new terminal i/o settings */
