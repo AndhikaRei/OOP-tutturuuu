@@ -3,65 +3,65 @@
 #include "Breeding.hpp"
 
 
-// Engimon& breeding(Engimon& parent_a, Engimon& parent_b) 
-// {
+Engimon& breeding(Engimon& parent_a, Engimon& parent_b) 
+{
     
-//     if (parent_a.level < 30 || parent_b.level < 30) {
-//         throw InvalidBreedingInsufficientLevel();
-//     }
-//     parent_a.level -= 30;
-//     parent_b.level -= 30;
+    if (parent_a.level < 30 || parent_b.level < 30) {
+        throw InvalidBreedingInsufficientLevel();
+    }
+    parent_a.level -= 30;
+    parent_b.level -= 30;
 
-//     std::default_random_engine generator;
-//     vector<Elements> similiarEle;
-//     if (isElementSimilar(parent_a, parent_b, &similiarEle)) {
-//         // Definisi similiar : ada element yang sama
-//         /* Jika elemen kedua parent sama, anak akan memiliki elemen yang sama dengan kedua parent. 
-//         Spesies anak dipilih dari parent A atau parent B secara bebas (boleh random atau aturan 
-//         spesifik tertentu). */
-//         if (similiarEle.size() == 1) {
-//             /* 1 elemen yang sama */
-//             if (parent_a.getElements().size() == 1) {
-//                 /* Pake spesies parent a */
-//             } else {
-//                 /* Pake spesies parent b */
-//             }
+    std::default_random_engine generator;
+    vector<Elements> similiarEle;
+    if (isElementSimilar(parent_a, parent_b, &similiarEle)) {
+        // Definisi similiar : ada element yang sama
+        /* Jika elemen kedua parent sama, anak akan memiliki elemen yang sama dengan kedua parent. 
+        Spesies anak dipilih dari parent A atau parent B secara bebas (boleh random atau aturan 
+        spesifik tertentu). */
+        if (similiarEle.size() == 1) {
+            /* 1 elemen yang sama */
+            if (parent_a.getElements().size() == 1) {
+                /* Pake spesies parent a */
+            } else {
+                /* Pake spesies parent b */
+            }
             
-//         } else {
-//             /* 2 elemen yang sama */
-//             std::uniform_int_distribution<int> distribution(0,1);
-//             int choice = distribution(generator);
+        } else {
+            /* 2 elemen yang sama */
+            std::uniform_int_distribution<int> distribution(0,1);
+            int choice = distribution(generator);
 
-//             if (choice == 0) {
-//                 /* Pake spesies parent a */
-//             } else {
-//                 /* Pake spesies parent b */
-//             }
+            if (choice == 0) {
+                /* Pake spesies parent a */
+            } else {
+                /* Pake spesies parent b */
+            }
             
-//         }
-//     } else {
+        }
+    } else {
         
-//         /* Jika elemen kedua parent berbeda maka anak akan memiliki elemen dan spesies dari elemen 
-//         yang memiliki element advantage yang lebih tinggi. */
-//         float eleAdv_a = totalElementAdvantage(parent_a.getElements(), parent_b.getElements());
-//         float eleAdv_b = totalElementAdvantage(parent_b.getElements(), parent_a.getElements());
-//         if (eleAdv_a != eleAdv_b) {
-//             if (eleAdv_a > eleAdv_b) {
-//                 /* Pake spesies parent a */
-//             } else {
-//                 /* Pake spesies parent b */
-//             }
-//         } else {
-//             vector<Elements> listElement = sortElementAdvantage(parent_a,parent_b);
-//             /* a = b */
-//             /* Jika elemen kedua parent berbeda dan kedua elemen memiliki element advantage yang sama, 
-//             maka anak akan memiliki spesies berbeda dari kedua parent yang memiliki kedua elemen parent 
-//             (boleh dipilih random atau hardcoded). */
-//             // udah pasti dual element, ambil 2 terbesar dari sortElementAdvantage
+        /* Jika elemen kedua parent berbeda maka anak akan memiliki elemen dan spesies dari elemen 
+        yang memiliki element advantage yang lebih tinggi. */
+        float eleAdv_a = totalElementAdvantage(parent_a.getElements(), parent_b.getElements());
+        float eleAdv_b = totalElementAdvantage(parent_b.getElements(), parent_a.getElements());
+        if (eleAdv_a != eleAdv_b) {
+            if (eleAdv_a > eleAdv_b) {
+                /* Pake spesies parent a */
+            } else {
+                /* Pake spesies parent b */
+            }
+        } else {
+            vector<Elements> listElement = sortElementAdvantage(parent_a,parent_b);
+            /* a = b */
+            /* Jika elemen kedua parent berbeda dan kedua elemen memiliki element advantage yang sama, 
+            maka anak akan memiliki spesies berbeda dari kedua parent yang memiliki kedua elemen parent 
+            (boleh dipilih random atau hardcoded). */
+            // udah pasti dual element, ambil 2 terbesar dari sortElementAdvantage
 
-//         }    
-//     }  
-// }
+        }    
+    }  
+}
 
 bool masteryLevelGreater(Skill a,Skill b) { 
     return (a.getMasteryLevel() > b.getMasteryLevel()); 

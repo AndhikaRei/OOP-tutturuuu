@@ -38,6 +38,7 @@ public:
     /** SERVICE **/
     /* learn sebuah skill kepada engimon */
     Skill learn(Elements ele);
+    Skill learn(Elements ele, int n);
     Skill learn(int nEle, Elements* listEle);
     Skill learn(vector<Elements> listEle);
 
