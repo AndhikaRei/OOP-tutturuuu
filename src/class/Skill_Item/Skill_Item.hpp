@@ -41,7 +41,7 @@ public:
     Skill learn(Elements ele, int n);
     Skill learn(int nEle, Elements* listEle);
     Skill learn(vector<Elements> listEle);
-
+    Skill learn(vector<Elements> listEle, int n);
     /* menambah jumlah amount skill_item */
     void addAmount();
     void addAmount(int n);
