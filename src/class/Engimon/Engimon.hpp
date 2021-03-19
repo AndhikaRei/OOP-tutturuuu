@@ -102,6 +102,9 @@ public:
     bool skillLevelUp(Skill sk, int lv);
     // return true jika berhasil level up skill
 
+    char getEngimonSymbol();
+    // return symbol based on species
+
     /* Service Breeding */
     friend Engimon &breeding(Engimon &parent_a, Engimon &parent_b);
 };

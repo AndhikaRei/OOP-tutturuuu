@@ -1,10 +1,21 @@
 #include <iostream>
-#include "Map.h"
+#include <string>
+#include "Map.hpp"
 using namespace std;
 
-
+// compile
+// g++ -o testMap testMap.cpp ../Engimon/Engimon.cpp Map.cpp ../Skill/Skill.cpp ../Elements/Elements.cpp ../Skill_Item/Skill_Item.cpp
 int main() {
     Map m(20, 10, "map.txt");
+    initEngidex();
+    try{
+        m.addEngimon(9, 16, "Electro");
+        m.addEngimon(4, 10, "Hydro");
+        m.addEngimon(2, 2, "ElectroCharged");
+        m.addEngimon(3, 3, "CryoCrystallize");
+    }catch(WriteException &e){
+        cout <<e.what() << endl;
+    }
     m.printMap();
     string command;
     cin >> command;

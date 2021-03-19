@@ -1,6 +1,6 @@
 #ifndef _GAMESTATE_H
 #define _GAMESTATE_H
-#include "../Map/Map.h"
+#include "../Map/Map.hpp"
 #include "../Engimon/Engimon.hpp"
 #include "../Elements/Elements.hpp"
 #include "../ShortInput/ShortInputWindows.hpp"

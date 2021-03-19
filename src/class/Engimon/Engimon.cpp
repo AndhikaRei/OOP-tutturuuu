@@ -218,6 +218,40 @@ bool Engimon::skillLevelUp(Skill sk, int lv)
     }
     return false;
 }
+char Engimon::getEngimonSymbol(){
+    if(this->species=="Pyro"){
+        return this->level > 10 ? 'A' : 'a';
+    } else if(this->species=="Hydro"){
+        return this->level > 10 ? 'B' : 'b';
+    } else if(this->species=="Electro"){
+        return this->level > 10 ? 'C' : 'c';
+    } else if(this->species=="Geo"){
+        return this->level > 10 ? 'D' : 'd';
+    } else if(this->species=="Cryo"){
+        return this->level > 10 ? 'E' : 'e';
+    } else if(this->species=="Vaporize"){
+        return this->level > 10 ? 'F' : 'f';
+    } else if(this->species=="Overload"){
+        return this->level > 10 ? 'G' : 'g';
+    } else if(this->species=="PyroCrystallize"){
+        return this->level > 10 ? 'H' : 'h';
+    } else if(this->species=="Melt"){
+        return this->level > 10 ? 'I' : 'i';
+    } else if(this->species=="ElectroCharged"){
+        return this->level > 10 ? 'J' : 'j';
+    } else if(this->species=="HydroCrystallize"){
+        return this->level > 10 ? 'K' : 'k';
+    } else if(this->species=="Frozen"){
+        return this->level > 10 ? 'L' : 'l';
+    } else if(this->species=="ElectroCrystallize"){
+        return this->level > 10 ? 'M' : 'm';
+    } else if(this->species=="Superconductor"){
+        return this->level > 10 ? 'N' : 'n';
+    } else{
+        //this->species=="CryoCrystallize"
+        return this->level > 10 ? 'Q' : 'q';
+    }
+};
 
 /*--- CLASS SPECIES ---*/
 Pyro::Pyro(string _name) : Engimon(_name, "Pyro", Fire)
