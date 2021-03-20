@@ -97,10 +97,17 @@ public:
     }
 };
 
-class InvalidEngimonPosition : public WriteException{
+class InvalidEngimonPositionGrassland : public WriteException{
 public:
     const char* what(){
-        return("Engimon tidak bisa berada pada tiles ini");
+        return("Engimonmu tidak bisa berada di darat");
+    }
+};
+
+class InvalidEngimonPositionSea : public WriteException{
+public:
+    const char* what(){
+        return("Engimonmu tidak bisa berada di air");
     }
 };
 
@@ -108,6 +115,13 @@ class InvalidEngimonMove : public WriteException{
 public:
     const char* what(){
         return("Engimon tidak bisa berpindah tempat");
+    }
+};
+
+class InvalidPlayerMove : public WriteException{
+public:
+    const char* what(){
+        return("Ada engimon liar disana");
     }
 };
 

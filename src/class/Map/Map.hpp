@@ -49,13 +49,16 @@ class Map{
         int width;
         MapElem** mapelem;
         int* player_pos;
+        int* active_engimon_pos;
+        string active_engimon_species;
         int total_engimon;
     public :
         Map();
         Map(int, int, string);
         Map(const Map&);
         ~Map();
-        bool isValidPosition(int, int);
+        bool isValidPosition(int, int, bool);
+        bool isAnyActiveEngimon() const;
 
         // Map Manipulation Functions 
         void printMap();
@@ -63,16 +66,21 @@ class Map{
 
         // Engimon Handlers
         void randomMoveAllEngimon();
-        map<string, vector<int>> getPokemonPosition();
+        map<string, vector<int>> getEngimonPosition();
         void addEngimon(int, int, string);
         void removeEngimon(int, int);
         void moveEngimon(int, int, int, int, string);
-        bool isValidEngimonPosition(int, int, string);
+        bool isValidEngimonPosition(int, int, string, bool);
+       
 
         // Player Handlers 
         void move(char);
         void set_player_pos(int, int);
         int* get_player_pos()const;
+        void set_active_engimon_pos(int, int);
+        int* get_active_engimon_pos()const;
+        void set_active_engimon_species(string);
+        string get_active_engimon_species()const;
         void spawnRandomPokemon();
 
         Engimon* getNearbyEnemyEngimon();
