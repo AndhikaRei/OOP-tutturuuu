@@ -196,66 +196,66 @@ bool Engimon::skillLevelUp(Skill sk, int lv)
 }
 char Engimon::getEngimonSymbol()
 {
-    if (this->species == "Pyro")
-    {
-        return this->level > 10 ? 'A' : 'a';
-    }
-    else if (this->species == "Hydro")
-    {
-        return this->level > 10 ? 'B' : 'b';
-    }
-    else if (this->species == "Electro")
-    {
-        return this->level > 10 ? 'C' : 'c';
-    }
-    else if (this->species == "Geo")
-    {
-        return this->level > 10 ? 'D' : 'd';
-    }
-    else if (this->species == "Cryo")
-    {
-        return this->level > 10 ? 'E' : 'e';
-    }
-    else if (this->species == "Vaporize")
+    if (this->species == "Pyro") /*--- Fire ---*/
     {
         return this->level > 10 ? 'F' : 'f';
     }
-    else if (this->species == "Overload")
+    else if (this->species == "Hydro") /*--- Water ---*/
+    {
+        return this->level > 10 ? 'W' : 'w';
+    }
+    else if (this->species == "Electro") /*--- Electric ---*/
+    {
+        return this->level > 10 ? 'E' : 'e';
+    }
+    else if (this->species == "Geo") /*--- Ground ---*/
     {
         return this->level > 10 ? 'G' : 'g';
     }
-    else if (this->species == "PyroCrystallize")
+    else if (this->species == "Cryo") /*--- Ice ---*/
     {
-        return this->level > 10 ? 'H' : 'h';
+        return this->level > 10 ? 'I' : 'i'; 
     }
-    else if (this->species == "Melt")
+    else if (this->species == "Vaporize") /*--- Fire/Water ---*/
     {
-        return this->level > 10 ? 'I' : 'i';
+        return this->level > 10 ? 'A' : 'a';
     }
-    else if (this->species == "ElectroCharged")
-    {
-        return this->level > 10 ? 'J' : 'j';
-    }
-    else if (this->species == "HydroCrystallize")
-    {
-        return this->level > 10 ? 'K' : 'k';
-    }
-    else if (this->species == "Frozen")
+    else if (this->species == "Overload") /*--- Fire/Electric ---*/
     {
         return this->level > 10 ? 'L' : 'l';
     }
-    else if (this->species == "ElectroCrystallize")
+    else if (this->species == "PyroCrystallize") /*--- Fire/Ground ---*/
     {
-        return this->level > 10 ? 'M' : 'm';
+        return this->level > 10 ? 'B' : 'b';
     }
-    else if (this->species == "Superconductor")
+    else if (this->species == "Melt") /*--- Fire/Ice ---*/
+    {
+        return this->level > 10 ? 'C' : 'c';
+    }
+    else if (this->species == "ElectroCharged") /*--- Water/Electric ---*/
+    {
+        return this->level > 10 ? 'D' : 'd';
+    }
+    else if (this->species == "HydroCrystallize") /*--- Water/Ground ---*/
     {
         return this->level > 10 ? 'N' : 'n';
     }
+    else if (this->species == "Frozen") /*--- Water/Ice ---*/
+    {
+        return this->level > 10 ? 'S' : 's';
+    }
+    else if (this->species == "ElectroCrystallize") /*--- Electric/Ground ---*/
+    {
+        return this->level > 10 ? 'H' : 'h';
+    }
+    else if (this->species == "Superconductor") /*--- Electric/Ice ---*/
+    {
+        return this->level > 10 ? 'J' : 'j';
+    }
     else
     {
-        //this->species=="CryoCrystallize"
-        return this->level > 10 ? 'Q' : 'q';
+        //this->species=="CryoCrystallize" /*--- Ground/Ice ---*/
+        return this->level > 10 ? 'K' : 'k';
     }
 };
 
