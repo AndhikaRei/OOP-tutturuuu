@@ -3,6 +3,8 @@
 #include <string>
 #include <iomanip>
 #include <fstream>
+#include <iterator> 
+#include <map>
 using namespace std;
 
 Map::MapElem::MapElem():MapElem(0,0,'x', false, new Pyro("Pyro sp."),"xxx"){}; //default
@@ -132,30 +134,46 @@ void Map::updateMap(){
 };
 
 void Map::randomMoveAllEngimon(){
+    map<string, vector<int>> pokemonPos = this->getPokemonPosition();
     srand (time(NULL));
-    for(int i = 0; i<width; i++){
-        for(int j= 0; j<length ; j++){
-            if(this->mapelem[i][j].isEngimonExist()){
-                int number =rand() % 5;
-                try{
-                    if(number==1){
-                        this->moveEngimon(i, j, i-1, j, this->mapelem[i][j].get_engimon()->getSpecies());
-                    }else if(number==2){
-                        this->moveEngimon(i, j, i, j-1, this->mapelem[i][j].get_engimon()->getSpecies());
-                    }else if(number==3){
-                        this->moveEngimon(i, j, i+1, j, this->mapelem[i][j].get_engimon()->getSpecies());
-                    } else if(number==4){
-                        this->moveEngimon(i, j, i, j+1, this->mapelem[i][j].get_engimon()->getSpecies());
-                    } else{
-                        //do nothing
-                    }
-                }catch(WriteException &e){
-                    cout <<e.what() << endl;
-                }
+    for (map<string, vector<int>>::iterator it=pokemonPos.begin(); it!=pokemonPos.end(); ++it){
+        int number =rand() % 5;
+        cout<<number<<endl;
+        int i = it->second[0];
+        int j = it->second[1];
+        if(number==1){
+            if(isValidPosition(i-1, j)){
+                this->moveEngimon(i, j, i-1, j, this->mapelem[i][j].get_engimon()->getSpecies());
             }
+        }else if(number==2){
+            if(isValidPosition(i, j-1)){
+                this->moveEngimon(i, j, i, j-1, this->mapelem[i][j].get_engimon()->getSpecies());
+            }
+        }else if(number==3){
+            if(isValidPosition(i+1, j)){
+                this->moveEngimon(i, j, i+1, j, this->mapelem[i][j].get_engimon()->getSpecies());
+            }
+        } else if(number==4){
+            if(isValidPosition(i, j+1)){
+                this->moveEngimon(i, j, i, j+1, this->mapelem[i][j].get_engimon()->getSpecies());
+            }
+        } else{
+                    //do nothing
         }
+    }      
+
+};
+
+map<string, vector<int>> Map::getPokemonPosition(){
+    map<string, vector<int>> result;
+    for(int i = 0; i<width; i++){
+        for(int j= 0; j<length ; j++){    
+            if(this->mapelem[i][j].isEngimonExist()){
+                result.insert(pair<string, vector<int>>(this->mapelem[i][j].get_engimon()->getSpecies(), {i, j}));
+            }
+       }
     }
-    
+    return result;
 };
 
 void Map::addEngimon(int x, int y, string species){
@@ -189,12 +207,8 @@ void Map::removeEngimon(int x, int y){
 
 void Map::moveEngimon(int x1, int y1, int x2, int y2, string species){
     if(this->isValidEngimonPosition(x2, y2, species)){
-        try{
             removeEngimon(x1, y1);
             addEngimon(x2, y2, species);
-        } catch(WriteException &e){
-            cout <<e.what() << endl;
-        }
     }else{
         throw(InvalidEngimonMove());
     }

@@ -20,16 +20,21 @@ int main() {
     string command;
     cin >> command;
     while(command != "exit"){
-        if(command == "w"){
-            m.move('w');
-        }else if(command == "a"){
-            m.move('a');
-        }else if(command == "s"){
-            m.move('s');
-        }else if(command == "d"){
-            m.move('d');
-        }else{
-            cout << "Command tidak tersedia" <<endl;
+        try{
+            if(command == "w"){
+                m.move('w');
+            }else if(command == "a"){
+                m.move('a');
+            }else if(command == "s"){
+                m.move('s');
+            }else if(command == "d"){
+                m.move('d');
+            }else{
+                cout << "Command tidak tersedia" <<endl;
+            }
+        } catch(WriteException &e){
+            cout <<e.what() << endl;
+            m.printMap();
         }
         cin>>command;
     }

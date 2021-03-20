@@ -2,6 +2,7 @@
 #define MAP_HPP
 #include <iostream>
 #include <string>
+#include <map>
 #include <iomanip>
 #include <fstream>
 #include "../Exception/Exception.hpp"
@@ -54,6 +55,7 @@ class Map{
         void printMap();
         void updateMap();
         void randomMoveAllEngimon();
+        map<string, vector<int>> getPokemonPosition();
         void addEngimon(int, int, string);
         void removeEngimon(int, int);
         void moveEngimon(int, int, int, int, string);
