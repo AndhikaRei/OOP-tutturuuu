@@ -1,22 +1,29 @@
 #include "player.hpp"
 #include "../Engimon/Engimon.hpp"
 #include "../Skill_Item/Skill_Item.hpp"
+#include "../Engimon/Engimon.hpp"
 #include <iostream> 
 #include <vector> 
 #include <string>
 
-player::player(){
+using std::cout;
+using std::endl;
+using std::map;
+using std::string;
+using std::vector;
+
+Player::Player(){
     this->name = "";
     //vector<Engimon *> engimons;
     //vector<Skill_Item *> items;
 }
 
-player::player(string name_){
+Player::Player(string name_){
     this->name = name_; // masi salah
     //strcpy(this->name,name_);
 }
 
-player::player(const player& other){
+Player::Player(const Player& other){
     this->name = other.name;
     for(int i = 0;i < other.items.size(); ++i){
         this->items[i] = other.items[i]; //gtw dah dibikin atau belum di items
@@ -25,8 +32,11 @@ player::player(const player& other){
         this->engimons[i] = other.engimons[i]; //gtw dah dibikin atau belum di items
     }
 }
+Player::~Player(){
 
-player& player::operator=(const player& other){
+}
+
+Player& Player::operator=(const Player& other){
     //strcpy(this->name,other.name);
     this->name = other.name; // masi salah
     for(int i = 0;i < other.items.size(); ++i){
@@ -40,42 +50,105 @@ player& player::operator=(const player& other){
 }
 
 //selector
-vector<Skill_Item *> player::getItems(){
+vector<Skill_Item *> Player::getItems(){
     return this->items;
 }
-Skill_Item* player::getItem(int i){
+Skill_Item* Player::getItem(int i){
     return this->items[i];
 }
-void player::printItems(){ // nunggu implementasi yg lain
-    
+void Player::printItems(){ // nunggu implementasi yg lain
+    for(int i = 0;i<this->items.size();i++){
+        this->items[i]->showItem();
+    }
 }
 
-vector<Engimon *> player::getEngimons(){
+vector<Engimon *> Player::getEngimons(){
     return this->engimons;
 }
-Engimon* player::getEngimon(int i){
+Engimon* Player::getEngimon(int i){
     return this->engimons[i];
 }
-void player::printEngimon(){// nunggu implementasi yg lain
-
+void Player::printEngimon(){// nunggu implementasi yg lain
+    cout << "this is all your engimons : \n";
+    
+    for(int i = 0; i< this->engimons.size();i++){
+        this->engimons[i]->showEngimon();
+    }
 }
 
-int player::getCount(){
+Engimon* Player::getActiveEngimon(){
+    if(ActiveEngimon == NULL){
+        throw noActiveEngimon();
+    }
+    return this->ActiveEngimon; 
+}
+void Player::changeActiveEngimon(int i){
+    this->ActiveEngimon = this->engimons[i];
+}
+void Player::changeActiveEngimon(){
+    printEngimon();
+    cout << "index engimon yang mana yang ingin jadi active?? *nanti diubah lagi ini buat testing aja\n";
+    int i;
+    std::cin >> i;
+    this->ActiveEngimon = this->engimons[i];
+}
+
+void Player::printProfile(){
+    cout << "Name : " << this->name << endl;
+    printEngimon();
+    printInventory();
+}
+int Player::getCount(){
     return this->engimons.size() + this->items.size();
 }
 
 
-void player::printInventory(){
-
+void Player::printInventory(){
+	cout << "this is all your Inventory : \n";
+    for(int i = 0; i< this->items.size();i++){
+        this->items[i]->showItem();
+    }
+}
+void Player::interactWithActiveEngimon(){
+    this->ActiveEngimon->interact();
 }
 //modify data
-void player::addEngimon(Engimon engimon){//belum diimplementasiin
-    if(this->getCount() >= 100){
-        throw "Inventory Penuh";
-    }
+//
+void Player::addEngimon(Engimon* engimon){//belum diimplementasiin
+   if(this->getCount() >= 100){
+       throw InventoryFull();
+   }
+   Engimon *temp = engimon->clone();
+   this->engimons.push_back(engimon);
 }
-void player::addItem(Skill_Item item){ //belum diimplementasiin
+void Player::addItem(Skill_Item *item){ //belum diimplementasiin
     if(this->getCount() >= 100){
-        throw "Inventory Penuh";
+        throw InventoryFull();
     }
+    int found = 0;
+    int i = 0;
+    while(!found && i < this->items.size()){
+        if(this->items[i]->getSkill().getName() == item->getSkill().getName()){
+            this->items[i]->addAmount();
+            found = true;
+            break;
+        }
+        i++;
+    }
+    if(!found){
+        this->items.push_back(item);
+    }
+    
+}
+void Player::killActiveEngimon(){
+    int i = 0;
+    vector<Engimon *>::iterator it;
+    it = this->engimons.begin();
+    while(this->ActiveEngimon->getName() != this->engimons[i]->getName()){
+        it++;
+        i++;
+    }
+    //it = i;
+    this->engimons.erase(it);
+    changeActiveEngimon();
 }

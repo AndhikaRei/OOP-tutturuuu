@@ -12,20 +12,25 @@
 #include "../Skill_Item/Skill_Item.hpp"
 
 
-using namespace std; 
+using std::cout;
+using std::endl;
+using std::map;
+using std::string;
+using std::vector;
 
-class player {
+class Player {
     public:
         string name;
         vector<Engimon *> engimons;
         vector<Skill_Item *> items;
+        Engimon * ActiveEngimon;
 
         //ctor, dtor dkk
-        player();
-        player(string name_);
-        player(const player& other);
-        ~player();
-        player& operator=(const player& other);
+        Player();
+        Player(string name_);
+        Player(const Player& other);
+        ~Player();
+        Player& operator=(const Player& other);
         
         //selector
         vector<Skill_Item *> getItems();
@@ -36,11 +41,18 @@ class player {
         Engimon* getEngimon(int i);
         void printEngimon();
 
+        //Engimon* getActiveEngimon();
+        Engimon* getActiveEngimon();
+        void changeActiveEngimon(int i);
+        void changeActiveEngimon();
+        void printProfile();
         int getCount();
         void printInventory();
+        void interactWithActiveEngimon();
         //modify data
-        void addEngimon(Engimon engimon);
-        void addItem(Skill_Item item);
+        void addEngimon(Engimon* engimon);
+        void addItem(Skill_Item* item);
+        void killActiveEngimon();
 };
 
 #endif
