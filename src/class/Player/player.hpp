@@ -12,13 +12,18 @@
 #include "../Skill_Item/Skill_Item.hpp"
 
 
-using namespace std; 
+using std::cout;
+using std::endl;
+using std::map;
+using std::string;
+using std::vector;
 
 class player {
     public:
         string name;
         vector<Engimon *> engimons;
         vector<Skill_Item *> items;
+        Engimon * ActiveEngimon;
 
         //ctor, dtor dkk
         player();
@@ -36,11 +41,16 @@ class player {
         Engimon* getEngimon(int i);
         void printEngimon();
 
+        //Engimon* getActiveEngimon();
+        Engimon* getActiveEngimon();
+        void changeActiveEngimon(int i);
+
+        void printProfile();
         int getCount();
         void printInventory();
         //modify data
-        void addEngimon(Engimon engimon);
-        void addItem(Skill_Item item);
+        void addEngimon(Engimon* engimon);
+        void addItem(Skill_Item* item);
 };
 
 #endif

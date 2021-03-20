@@ -41,6 +41,9 @@ Skill_Item& Skill_Item::operator=(const Skill_Item& other)
 
 /** SERVICE **/
 /* learn sebuah skill kepada engimon */
+Skill Skill_Item::getSkill(){
+    return this->skill_contained;
+}
 Skill Skill_Item::learn(Elements ele) {
     if (skill_contained.isElementCompatible(ele)) {
         if (amount > 0) {
