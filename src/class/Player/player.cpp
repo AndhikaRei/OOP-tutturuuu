@@ -25,12 +25,14 @@ Player::Player(){
     this->ActiveEngimon = engimons.at(0);
 
     this->items = vector<Skill_Item*>();
-    Skill_Item* a4 = new Skill_Item(Skill("SpiritSoother", "Elemental Burst", 9003, Fire));
-    Skill_Item* a5 = new Skill_Item(Skill("AquaDive", "Elemental Burst", 9003, Fire));
 
-    items.push_back(a4);
-    items.push_back(a5);
+    // Debug Reihan
+    // Skill_Item* a4 = new Skill_Item(Skill("SpiritSoother", "Elemental Burst", 9003, Fire));
+    // Skill_Item* a5 = new Skill_Item(Skill("AquaDive", "Elemental Burst", 9003, Fire));
+    // items.push_back(a4);
+    // items.push_back(a5);
 
+    // Debug Ronggur
     //vector<Engimon *> engimons;
     //vector<Skill_Item *> items;
 }
@@ -84,7 +86,12 @@ vector<Engimon *> Player::getEngimons(){
     return this->engimons;
 }
 Engimon* Player::getEngimon(int i){
-    return this->engimons[i];
+    if (i < 0 || i >= this->engimons.size()){
+        throw InvalidIndex();
+    } else {
+        return this->engimons[i];
+    }
+    
 }
 void Player::printEngimon(){// nunggu implementasi yg lain
     cout << "this is all your engimons : \n";
@@ -102,7 +109,12 @@ Engimon* Player::getActiveEngimon(){
     return this->ActiveEngimon; 
 }
 void Player::changeActiveEngimon(int i){
-    this->ActiveEngimon = this->engimons[i];
+     if (i < 0 || i >= this->engimons.size()){
+        throw InvalidIndex();
+    } else {
+        this->ActiveEngimon = this->engimons[i];
+    }
+    
 }
 void Player::changeActiveEngimon(){
     printEngimon();
@@ -141,6 +153,7 @@ void Player::addEngimon(Engimon* engimon){//belum diimplementasiin
    Engimon *temp = engimon->clone();
    this->engimons.push_back(engimon);
 }
+
 void Player::addItem(Skill_Item *item){ //belum diimplementasiin
     if(this->getCount() >= 100){
         throw InventoryFull();

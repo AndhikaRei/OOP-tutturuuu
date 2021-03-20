@@ -6,7 +6,7 @@
 #include <iostream> 
 #include <vector> 
 #include <string>
-//#include "../Exception/Exception.hpp"
+#include "../Exception/Exception.hpp"
 //#include "../Item/Item.hpp"
 #include "../Engimon/Engimon.hpp"
 #include "../Skill_Item/Skill_Item.hpp"
@@ -40,6 +40,7 @@ class Player {
         vector<Engimon *> getEngimons();
         Engimon* getEngimon(int i);
         void printEngimon();
+        // Engimon& getEngimonFromIndex(int i);
 
         //Engimon* getActiveEngimon();
         Engimon* getActiveEngimon();

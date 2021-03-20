@@ -4,6 +4,7 @@
 #include "../Engimon/Engimon.hpp"
 #include "../Elements/Elements.hpp"
 #include "../ShortInput/ShortInputWindows.hpp"
+#include "../Breed/Breeding.hpp"
 // #include "../ShortInput/ShortInputLinux.hpp"
 #include "../Exception/Exception.hpp"
 #include "../Skill/Skill.hpp"
@@ -23,7 +24,7 @@ using namespace std;
 
 
 // compile
-// g++ -o main mainState.cpp ../Engimon/Engimon.cpp ../Engimon/Battle.cpp ../Map/Map.cpp ../Skill/Skill.cpp ../Elements/Elements.cpp ../Skill_Item/Skill_Item.cpp ../Player/player.cpp
+// g++ -o main mainState.cpp ../Engimon/Engimon.cpp ../Engimon/Battle.cpp ../Map/Map.cpp ../Skill/Skill.cpp ../Elements/Elements.cpp ../Skill_Item/Skill_Item.cpp ../Player/player.cpp ../Breed/Breeding.cpp
 class GameState
 {
 private:
@@ -116,7 +117,7 @@ void GameState::print_available_command(){
         cout << "w: maju      a: kiri      s: mundur      d: kanan      k: battle" << endl;
         cout << "l: tampilkan skill item yang dipunya       i: tampilkan engimon yang dipunya " << endl;
         cout << "j: cari engimon di ensiklopedia      b: breeding      e: pakai skill item" << endl;
-        cout << "v: ganti active engimon      q: exit program     t: interact " << endl;
+        cout << "v: ganti active engimon      q: exit program     t: interact and examine active engimon " << endl;
         cout << "====================================================================================" <<endl;
         cout << "                            Engimon Legend "<< endl;
         cout << "f/F: pyro      w/W: hydro      e/E: electro      g/G: geo       i/I: cryo" << endl;
@@ -184,12 +185,15 @@ switch (this->state){
             if (playerEngimonWin(*(player.getActiveEngimon()) , *enemy)){
                 cout << "Your engimon wins the battle" << endl;
                 player.addEngimon(enemy);
-                //player.addItem(getRandomSkillItem(vector<Skill> listOfSkill, Engimon& enemy)); //eventually pake ini sementara aku bikin skil baru aja dulu 
-                Skill* SpiritSoother;
-                SpiritSoother = new Skill("SpiritSoother", "Elemental Burst", 9003, Fire);
-                Skill_Item* BookOfFreedom;
-                BookOfFreedom = new Skill_Item(*SpiritSoother);
-                player.addItem(BookOfFreedom);
+                Skill_Item* newSkill = new Skill_Item(getRandomSkillItem(databaseSkill,*enemy));
+                player.addItem(newSkill);
+                
+                // Debugnya ronggur
+                // Skill* SpiritSoother;
+                // SpiritSoother = new Skill("SpiritSoother", "Elemental Burst", 9003, Fire);
+                // Skill_Item* BookOfFreedom;
+                // BookOfFreedom = new Skill_Item(*SpiritSoother);
+                // player.addItem(BookOfFreedom);
                 
                 player.getActiveEngimon()->addExp(30);
                 cout << "Debugging battle"<<endl; getch();
@@ -225,6 +229,7 @@ switch (this->state){
             // Interact dengan active engimon
              
             player.interactWithActiveEngimon();
+            cout << "Tekan apapun untuk melanjutkan" << getch();
             
         } else {
             throw InvalidCommandException();
@@ -238,26 +243,25 @@ switch (this->state){
             this->helpstate = 0;
         } else if(this->helpstate == Menu_ChangeActiveEngimon){
             // Jika niatan pindah kesini adalah untuk change active engimon, fungsinya cuma blueprint aja, detil implementasi terserah kamu
-            // Engimon& a = Player.FindEngimonWithVectorIndex(String.toInt(this->arg1))
-            player.changeActiveEngimon();
+            this->player.changeActiveEngimon(stoi(this->arg1));    
         } else if (this->helpstate==Menu_Breeding){
             // Jika niatan pindah kesini adalah untuk breeding engimon, fungsinya cuma blueprint aja
-            // Validasi slot masi cukup ga
-            // Engimon& a = Player.FindEngimonWithVectorIndex(String.toInt(this->arg1))
-            // Engimon& b = Player.FindEngimonWithVectorIndex(String.toInt(this->arg2))
-            // Engimon& c = breeding(a,b)
-            // Player.addEngimon(c)
+            cout << stoi(this->arg1) << " " << stoi(this->arg2);
+            Engimon& a = *(player.getEngimon(stoi(this->arg1)));
+            Engimon& b = *(player.getEngimon(stoi(this->arg2)));
+            Engimon* c = &(breeding(a,b));
+            player.addEngimon(c);
         } else {
             throw InvalidStateException();
         break;
     case UI_DetailEngimon:{
-        // Ke layar ini cuma buat lihat engimon dari engidex
+        // Melihat detail engimon di engidex
         if (this->arg1 == "x"){
             this->state = UI_FreeRoam;
         }else{
             Engimon* searchedEngimon = EngimonFinderWithException(this->arg1);
             searchedEngimon->showEngimonEngidex();
-            cout <<'\n'<<"Tekan Enter untuk melanjutkan" << '\n'; getch();
+            cout <<'\n'<<"Tekan apapun untuk melanjutkan" << '\n'; getch();
         } 
         
     }break;

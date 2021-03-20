@@ -58,7 +58,7 @@ Engimon::Engimon(string _name, string _species, Elements _elmt1, Elements _elmt2
         this->elements.push_back(_elmt2);
     }
 
-    this->level = 1;
+    this->level = 60;
     this->exp = 0;
     this->cumul_exp = 0;
 }
@@ -184,6 +184,12 @@ void Engimon::showEngimonComplete()const{
     cout << "Level                 : " << level << '\n';
     cout << "Experience            : " << exp << '\n';
     cout << "Cumulative Experience : " << cumul_exp << endl;
+    cout << "List of Skill         : " << endl;
+    for (int i = 0; i < this->getSkill().size(); i++)
+    {
+        this->getSkill().at(i).showSimpleSkill();
+    }
+    
     cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl; // pembeda
 }
 void Engimon::showEngimonEngidex() const{
@@ -205,7 +211,10 @@ void Engimon::showEngimonEngidex() const{
 }
 void Engimon::interact() const
 {
-    cout << this->name << ": " << this->slogan << endl;
+    cout << '\n'<<"Info Singkat Active Engimon"<<'\n';
+    this->showEngimonComplete();
+    cout << "catchphrase" << '\n';
+    cout << this->name << ": " << this->slogan << '\n';
 }
 bool Engimon::skillLevelUp(Skill sk)
 {

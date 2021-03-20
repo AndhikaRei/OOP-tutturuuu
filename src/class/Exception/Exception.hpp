@@ -143,6 +143,11 @@ public:
         return("Tidak ada pokemon dengan spesies tersebut");
     }
 };
-
+class InvalidIndex: public WriteException{
+public:
+    const char* what(){
+        return("Index salah");
+    }
+};
 
 #endif
