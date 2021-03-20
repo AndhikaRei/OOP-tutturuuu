@@ -138,7 +138,6 @@ void Map::randomMoveAllEngimon(){
     srand (time(NULL));
     for (map<string, vector<int>>::iterator it=pokemonPos.begin(); it!=pokemonPos.end(); ++it){
         int number =rand() % 5;
-        cout<<number<<endl;
         int i = it->second[0];
         int j = it->second[1];
         if(number==1){
@@ -287,3 +286,56 @@ Engimon* Map::getNearbyEnemyEngimon(){
     }
     throw InvalidBattleException();
 }
+
+
+void Map::spawnRandomPokemon(){
+    vector<string> Pokemons{
+        "Pyro", 
+        "Pyro", 
+        "Pyro", 
+        "Hydro",
+        "Hydro",
+        "Hydro", 
+        "Vaporize", 
+        "Overload", 
+        "PyroCrystallize", 
+        "Melt", 
+        "Electro",
+        "Electro", 
+        "Electro", 
+        "ElectroCharged", 
+        "HydroCrystallize",
+        "Frozen", 
+        "Geo",
+        "Geo",
+        "Geo",
+        "ElectroCrystallize", 
+        "Superconductor",
+        "Cyro",
+        "Cyro",
+        "Cyro", 
+        "CyroCrystallize"
+    };
+    
+    srand(time(NULL));
+    int randomNumber = rand() % Pokemons.size();
+    Engimon* newEngimon = EngimonFinder(Pokemons[randomNumber])[0];
+    cout << newEngimon->getSpecies() << endl;
+    int x = rand() % this->width;
+    int y = rand() % this->length;
+    while (!isValidEngimonPosition(x, y, newEngimon->getSpecies()) && this->mapelem[x][y].isEngimonExist()) {
+        int x = rand() % this->width;
+        int y = rand() % this->length;
+        cout << x << " " << y << endl;
+    }
+    cout << x << " " << y << endl;
+    this->addEngimon(x, y, Pokemons[randomNumber]);
+}
+
+// int SpawnPoints[4][2] = {
+//     {this->length-int(this->length*3/4), this->width - int(this->width*3/4)},
+//     {this->length-int(this->length*1/4), this->width - int(this->width*3/4)},
+//     {this->length-int(this->length*1/4), this->width - int(this->width*1/4)},
+//     {this->length-int(this->length*3/4), this->width - int(this->width*1/4)}
+// };
+

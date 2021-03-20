@@ -5,10 +5,13 @@
 #include <map>
 #include <iomanip>
 #include <fstream>
-#include "../Exception/Exception.hpp"
-#include "../Engimon/Engimon.hpp"
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+ 
+#include "../Exception/Exception.hpp"
+#include "../Engimon/Engimon.hpp"
+#include "../Elements/Elements.hpp"
+
 using namespace std;
 
 class Map{
@@ -35,6 +38,8 @@ class Map{
                 char get_symbol() const;
                 void set_type(string);
                 string get_type() const;
+
+                // Engimon Managers 
                 void set_engimon(Engimon*);
                 Engimon* get_engimon() const;
                 void set_engimon_exist(bool);
@@ -52,18 +57,27 @@ class Map{
         ~Map();
         bool isValidPosition(int, int);
 
+        // Map Manipulation Functions 
         void printMap();
         void updateMap();
+
+        // Engimon Handlers
         void randomMoveAllEngimon();
         map<string, vector<int>> getPokemonPosition();
         void addEngimon(int, int, string);
         void removeEngimon(int, int);
         void moveEngimon(int, int, int, int, string);
         bool isValidEngimonPosition(int, int, string);
+
+        // Player Handlers 
         void move(char);
         void set_player_pos(int, int);
         int* get_player_pos()const;
+        void spawnRandomPokemon();
+
         Engimon* getNearbyEnemyEngimon();
+
+        
 };
 
 
