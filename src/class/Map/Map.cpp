@@ -91,7 +91,11 @@ Map::Map(int m, int n, string txt){
     }
     this->player_pos = new int[2];
     this->player_pos[0] = 0;
-    this->player_pos[1] = 0;
+    this->player_pos[1] = 1;
+    this->active_engimon_pos = new int[2];
+    this->active_engimon_pos[0] = 0;
+    this->active_engimon_pos[1] = 0;
+    this->active_engimon_species = "Pyro";
     this->mapelem[player_pos[0]][player_pos[1]].set_symbol('P');
     this->total_engimon = 0;
 };
@@ -108,10 +112,18 @@ Map::~Map(){
     delete[] player_pos;
 };
 
-bool Map::isValidPosition(int x, int y){
-    return (x<this->width && x>=0 && y >=0 && y<this->length);
+bool Map::isValidPosition(int x, int y, bool isActive){
+    if(isActive){
+        return ((x<this->width && x>=0 && y >=0 && y<this->length));
+    } else{
+        return ((x<this->width && x>=0 && y >=0 && y<this->length) && (this->mapelem[x][y].get_symbol()=='-' || this->mapelem[x][y].get_symbol()=='o'));
+    }
+    
 };
 
+bool Map::isAnyActiveEngimon() const{
+    return this->active_engimon_species != "undefined";
+};
 
 void Map::printMap(){
     this->updateMap();
@@ -131,29 +143,33 @@ void Map::updateMap(){
             }
         }
     }
+    if(this->isAnyActiveEngimon()){
+        this->mapelem[active_engimon_pos[0]][active_engimon_pos[1]].set_symbol('X');
+    }
+    this->mapelem[player_pos[0]][player_pos[1]].set_symbol('P');
 };
 
 void Map::randomMoveAllEngimon(){
-    map<string, vector<int>> pokemonPos = this->getPokemonPosition();
+    map<string, vector<int>> EngimonPos = this->getEngimonPosition();
     srand (time(NULL));
-    for (map<string, vector<int>>::iterator it=pokemonPos.begin(); it!=pokemonPos.end(); ++it){
+    for (map<string, vector<int>>::iterator it=EngimonPos.begin(); it!=EngimonPos.end(); ++it){
         int number =rand() % 5;
         int i = it->second[0];
         int j = it->second[1];
         if(number==1){
-            if(isValidPosition(i-1, j)){
+            if(isValidPosition(i-1, j, false)){
                 this->moveEngimon(i, j, i-1, j, this->mapelem[i][j].get_engimon()->getSpecies());
             }
         }else if(number==2){
-            if(isValidPosition(i, j-1)){
+            if(isValidPosition(i, j-1, false)){
                 this->moveEngimon(i, j, i, j-1, this->mapelem[i][j].get_engimon()->getSpecies());
             }
         }else if(number==3){
-            if(isValidPosition(i+1, j)){
+            if(isValidPosition(i+1, j, false)){
                 this->moveEngimon(i, j, i+1, j, this->mapelem[i][j].get_engimon()->getSpecies());
             }
         } else if(number==4){
-            if(isValidPosition(i, j+1)){
+            if(isValidPosition(i, j+1, false)){
                 this->moveEngimon(i, j, i, j+1, this->mapelem[i][j].get_engimon()->getSpecies());
             }
         } else{
@@ -163,7 +179,7 @@ void Map::randomMoveAllEngimon(){
 
 };
 
-map<string, vector<int>> Map::getPokemonPosition(){
+map<string, vector<int>> Map::getEngimonPosition(){
     map<string, vector<int>> result;
     for(int i = 0; i<width; i++){
         for(int j= 0; j<length ; j++){    
@@ -177,7 +193,7 @@ map<string, vector<int>> Map::getPokemonPosition(){
 
 void Map::addEngimon(int x, int y, string species){
     if(total_engimon < 11){
-        if(!(this->mapelem[x][y].isEngimonExist()) && isValidEngimonPosition(x, y, species)){
+        if(!(this->mapelem[x][y].isEngimonExist()) && isValidEngimonPosition(x, y, species, false)){
             this->mapelem[x][y].set_engimon_exist(true);
             this->mapelem[x][y].set_engimon(EngimonFinder(species).front()->clone());
             this->total_engimon++; 
@@ -185,7 +201,11 @@ void Map::addEngimon(int x, int y, string species){
             if(this->mapelem[x][y].isEngimonExist()){
                 throw(EngimonExist());
             } else{
-                throw(InvalidEngimonPosition());
+                if(species=="Pyro" || species=="Geo" || species=="Electro" || species=="Overload" || species=="PyroCrystallize" || species=="ElectroCrystallize" ){
+                    throw(InvalidEngimonPositionSea());
+                } else if(species=="Hydro" || species=="Cryo" || species=="Frozen"){
+                    throw(InvalidEngimonPositionGrassland());
+                }
             }
         }
     } else{
@@ -205,16 +225,16 @@ void Map::removeEngimon(int x, int y){
 };
 
 void Map::moveEngimon(int x1, int y1, int x2, int y2, string species){
-    if(this->isValidEngimonPosition(x2, y2, species)){
+    if(this->isValidEngimonPosition(x2, y2, species, false)){
             removeEngimon(x1, y1);
             addEngimon(x2, y2, species);
     }else{
-        throw(InvalidEngimonMove());
+        // throw(InvalidEngimonMove());
     }
 };
 
-bool Map::isValidEngimonPosition(int x, int y, string species){
-    if(!this->mapelem[x][y].isEngimonExist() && isValidPosition(x, y)){
+bool Map::isValidEngimonPosition(int x, int y, string species, bool isActive){
+    if(!this->mapelem[x][y].isEngimonExist() && isValidPosition(x, y, isActive)){
         if(species=="Pyro" || species=="Geo" || species=="Electro" || species=="Overload" || species=="PyroCrystallize" || species=="ElectroCrystallize" ){
             return(this->mapelem[x][y].get_type() == "grassland");
         } else if(species=="Hydro" || species=="Cryo" || species=="Frozen"){
@@ -227,7 +247,52 @@ bool Map::isValidEngimonPosition(int x, int y, string species){
     }
 };
 void Map::move(char c){
-    //try{
+    if(isAnyActiveEngimon() && isValidEngimonPosition(player_pos[0], player_pos[1], get_active_engimon_species(), true) ){
+        if(c == 'w'){
+            if(isValidPosition(player_pos[0]-1, player_pos[1], true) && mapelem[player_pos[0]-1][player_pos[1]].isEngimonExist()){
+                throw(InvalidPlayerMove());
+            }else if(!isValidPosition(player_pos[0]-1, player_pos[1], true)){
+                throw(InvalidMoveException());
+            }else{
+                set_player_pos(this->player_pos[0]-1, this->player_pos[1]);
+                set_active_engimon_pos(this->player_pos[0]+1, this->player_pos[1]);
+            }
+        }else if(c == 'a'){
+            if(isValidPosition(player_pos[0], player_pos[1]-1, true) && mapelem[player_pos[0]][player_pos[1]-1].isEngimonExist()){
+                throw(InvalidPlayerMove());
+            }else if(!isValidPosition(player_pos[0], player_pos[1]-1, true)){
+                throw(InvalidMoveException());
+            }else{
+                set_player_pos(this->player_pos[0], this->player_pos[1]-1);
+                set_active_engimon_pos(this->player_pos[0], this->player_pos[1]+1);
+            }
+        }else if(c == 's'){
+            if(isValidPosition(player_pos[0]+1, player_pos[1], true) && mapelem[player_pos[0]+1][player_pos[1]].isEngimonExist()){
+                throw(InvalidPlayerMove());
+            }else if(!isValidPosition(player_pos[0]+1, player_pos[1], true)){
+                throw(InvalidMoveException());
+            }else{
+                set_player_pos(this->player_pos[0]+1, this->player_pos[1]);
+                set_active_engimon_pos(this->player_pos[0]-1, this->player_pos[1]);
+            }
+        }else if(c == 'd'){
+             if(isValidPosition(player_pos[0], player_pos[1]+1, true) && mapelem[player_pos[0]][player_pos[1]+1].isEngimonExist()){
+                throw(InvalidPlayerMove());
+            }else if(!isValidPosition(player_pos[0], player_pos[1]+1, true)){
+                throw(InvalidMoveException());
+            }else{
+                set_player_pos(this->player_pos[0], this->player_pos[1]+1);
+                set_active_engimon_pos(this->player_pos[0], this->player_pos[1]-1);
+            }
+        }
+    } else if(isAnyActiveEngimon()){
+        string species = this->get_active_engimon_species();
+        if(species=="Pyro" || species=="Geo" || species=="Electro" || species=="Overload" || species=="PyroCrystallize" || species=="ElectroCrystallize" ){
+            throw(InvalidEngimonPositionSea());
+        } else if(species=="Hydro" || species=="Cryo" || species=="Frozen"){
+            throw(InvalidEngimonPositionGrassland());
+        }
+    }else{
         if(c == 'w'){
             set_player_pos(this->player_pos[0]-1, this->player_pos[1]);
         }else if(c == 'a'){
@@ -237,15 +302,12 @@ void Map::move(char c){
         }else if(c == 'd'){
             set_player_pos(this->player_pos[0], this->player_pos[1]+1);
         }
-        if(this->mapelem[this->player_pos[0]][this->player_pos[1]].isEngimonExist()){
-            this->mapelem[this->player_pos[0]][this->player_pos[1]].get_engimon()->interact();
-        }
-        this->randomMoveAllEngimon();
-        this->printMap();
-
-    /*} catch(int i){
-        cout<<"Anda tidak bisa bergerak keluar map"<<endl;
-    }*/
+    }
+    if(this->mapelem[this->player_pos[0]][this->player_pos[1]].isEngimonExist()){
+        this->mapelem[this->player_pos[0]][this->player_pos[1]].get_engimon()->interact();
+    }
+    this->randomMoveAllEngimon();
+    this->printMap();
 };
 
 void Map::set_player_pos(int x, int y){
@@ -267,20 +329,52 @@ int* Map::get_player_pos() const{
     return this->player_pos;
 };
 
+void Map::set_active_engimon_pos(int x, int y){
+    string species = this->active_engimon_species;
+    if(isValidEngimonPosition(x, y, species, true)){
+        if(this->mapelem[active_engimon_pos[0]][active_engimon_pos[1]].get_type() == "grassland"){
+            this->mapelem[active_engimon_pos[0]][active_engimon_pos[1]].set_symbol('-');
+        } else{
+            this->mapelem[active_engimon_pos[0]][active_engimon_pos[1]].set_symbol('o');
+        }
+        this->active_engimon_pos[0] = x;
+        this->active_engimon_pos[1] = y;
+        this->mapelem[x][y].set_symbol('X');
+    }else{
+        if(species=="Pyro" || species=="Geo" || species=="Electro" || species=="Overload" || species=="PyroCrystallize" || species=="ElectroCrystallize" ){
+            throw(InvalidEngimonPositionSea());
+        } else if(species=="Hydro" || species=="Cryo" || species=="Frozen"){
+            throw(InvalidEngimonPositionGrassland());
+        }
+    }
+};
+
+int* Map::get_active_engimon_pos()const{
+    return this->active_engimon_pos;
+};
+
+void Map::set_active_engimon_species(string species){
+    this->active_engimon_species = species;
+};
+
+string Map::get_active_engimon_species()const{
+    return this->active_engimon_species;
+};
+
 Engimon* Map::getNearbyEnemyEngimon(){
-    if(isValidPosition(this->player_pos[0]-1, this->player_pos[1])){
+    if(isValidPosition(this->player_pos[0]-1, this->player_pos[1], true)){
         if (this->mapelem[this->player_pos[0]-1][this->player_pos[1]].isEngimonExist())
             return this->mapelem[this->player_pos[0]-1][this->player_pos[1]].get_engimon();
     } 
-    if(isValidPosition(this->player_pos[0], this->player_pos[1]-1)){
+    if(isValidPosition(this->player_pos[0], this->player_pos[1]-1, true)){
         if (this->mapelem[this->player_pos[0]][this->player_pos[1]-1].isEngimonExist())
             return this->mapelem[this->player_pos[0]][this->player_pos[1]-1].get_engimon();
     } 
-    if(isValidPosition(this->player_pos[0]+1, this->player_pos[1])){
+    if(isValidPosition(this->player_pos[0]+1, this->player_pos[1], true)){
         if (this->mapelem[this->player_pos[0]+1][this->player_pos[1]].isEngimonExist())
             return this->mapelem[this->player_pos[0]+1][this->player_pos[1]].get_engimon();
     } 
-    if(isValidPosition(this->player_pos[0], this->player_pos[1]+1)){
+    if(isValidPosition(this->player_pos[0], this->player_pos[1]+1, true)){
         if (this->mapelem[this->player_pos[0]][this->player_pos[1]+1].isEngimonExist())
             return this->mapelem[this->player_pos[0]][this->player_pos[1]+1].get_engimon();
     }
@@ -323,7 +417,7 @@ void Map::spawnRandomPokemon(){
     cout << newEngimon->getSpecies() << endl;
     int x = rand() % this->width;
     int y = rand() % this->length;
-    while (!isValidEngimonPosition(x, y, newEngimon->getSpecies()) && this->mapelem[x][y].isEngimonExist()) {
+    while (!isValidEngimonPosition(x, y, newEngimon->getSpecies(), false) && this->mapelem[x][y].isEngimonExist()) {
         int x = rand() % this->width;
         int y = rand() % this->length;
         cout << x << " " << y << endl;
