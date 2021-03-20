@@ -37,6 +37,12 @@ public:
         return("Level Engimon anda tidak memenuhi syarat untuk breeding");
     }
 };
+class UnexpectedErrorWhileBreeding : public WriteException{
+public:
+    const char* what(){
+        return("Terjadi error saat breeding");
+    }
+};
 class InvalidChangeActiveEngimon : public WriteException{
 public:
     const char* what(){
@@ -84,4 +90,38 @@ public:
     }
 };
 
+class EngimonExist : public WriteException{
+public:
+    const char* what(){
+        return("Sudah ada engimon di tiles ini");
+    }
+};
+
+class InvalidEngimonPosition : public WriteException{
+public:
+    const char* what(){
+        return("Engimon tidak bisa berada pada tiles ini");
+    }
+};
+
+class InvalidEngimonMove : public WriteException{
+public:
+    const char* what(){
+        return("Engimon tidak bisa berpindah tempat");
+    }
+};
+
+class MaximumEngimonReached : public WriteException{
+public:
+    const char* what(){
+        return("Jumlah Engimon pada Peta terlalu banyak");
+    }
+};
+
+class NoEngimonFound : public WriteException{
+public:
+    const char* what(){
+        return("Tidak ada engimon disini");
+    }
+};
 #endif

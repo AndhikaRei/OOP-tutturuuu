@@ -52,6 +52,7 @@ public:
 
     // Printer
     void showItem();
+    void showSimpleItem();
     friend ostream& operator<<(ostream& os, Skill_Item& skill_item);
 
 };

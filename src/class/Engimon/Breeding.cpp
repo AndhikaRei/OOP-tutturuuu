@@ -9,8 +9,24 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
     if (parent_a.level < 30 || parent_b.level < 30) {
         throw InvalidBreedingInsufficientLevel();
     }
+    
+
+    vector<Engimon *> calonAnak_a = EngimonFinder(parent_a.getSpecies());
+    vector<Engimon *> calonAnak_b = EngimonFinder(parent_b.getSpecies());
+
+    if (calonAnak_a.size() < 1 || calonAnak_b.size() < 1) {
+        throw UnexpectedErrorWhileBreeding();
+    }
+
     parent_a.level -= 30;
     parent_b.level -= 30;
+
+    // Bikin object parent dulu
+    Parent ortu = Parent(parent_a.getName(), parent_a.getSpecies(), parent_b.getName(), parent_b.getSpecies());
+    Engimon* anak; 
+
+    // Cari skill yang mungkin bisa diambil
+    vector<Skill> calonSkill = sortingSkill(parent_a,parent_b);
 
     std::default_random_engine generator;
     vector<Elements> similiarEle;
@@ -19,28 +35,24 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
         /* Jika elemen kedua parent sama, anak akan memiliki elemen yang sama dengan kedua parent. 
         Spesies anak dipilih dari parent A atau parent B secara bebas (boleh random atau aturan 
         spesifik tertentu). */
-        if (similiarEle.size() == 1) {
-            /* 1 elemen yang sama */
-            if (parent_a.getElements().size() == 1) {
-                /* Pake spesies parent a */
-            } else {
-                /* Pake spesies parent b */
-            }
-            
-        } else {
-            /* 2 elemen yang sama */
-            std::uniform_int_distribution<int> distribution(0,1);
-            int choice = distribution(generator);
+        std::uniform_int_distribution<int> distribution(0,1);
+        int choice = distribution(generator);
 
-            if (choice == 0) {
-                /* Pake spesies parent a */
-            } else {
-                /* Pake spesies parent b */
-            }
-            
+        if (choice == 0) {
+            /* Pake spesies parent a */
+            *anak = *calonAnak_a.at(0);
+            anak->setParent(ortu);
+            addSkillAnak(*anak, calonSkill);
+            return *anak;
+        } else {
+            /* Pake spesies parent b */
+            *anak = *calonAnak_b.at(0);
+            anak->setParent(ortu);
+            addSkillAnak(*anak, calonSkill);
+            return *anak;
         }
+
     } else {
-        
         /* Jika elemen kedua parent berbeda maka anak akan memiliki elemen dan spesies dari elemen 
         yang memiliki element advantage yang lebih tinggi. */
         float eleAdv_a = totalElementAdvantage(parent_a.getElements(), parent_b.getElements());
@@ -48,19 +60,52 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
         if (eleAdv_a != eleAdv_b) {
             if (eleAdv_a > eleAdv_b) {
                 /* Pake spesies parent a */
+                *anak = *calonAnak_a.at(0);
+                anak->setParent(ortu);
+                addSkillAnak(*anak, calonSkill);
+                return *anak;
             } else {
                 /* Pake spesies parent b */
+                *anak = *calonAnak_b.at(0);
+                anak->setParent(ortu);
+                addSkillAnak(*anak, calonSkill);
+                return *anak;
             }
         } else {
-            vector<Elements> listElement = sortElementAdvantage(parent_a,parent_b);
-            /* a = b */
+            /* eleAdv_a == eleAdv_b */
             /* Jika elemen kedua parent berbeda dan kedua elemen memiliki element advantage yang sama, 
             maka anak akan memiliki spesies berbeda dari kedua parent yang memiliki kedua elemen parent 
             (boleh dipilih random atau hardcoded). */
-            // udah pasti dual element, ambil 2 terbesar dari sortElementAdvantage
+            vector<Elements> listElement = sortElementAdvantage(parent_a,parent_b);
+             // udah pasti dual element, ambil 2 terbesar dari sortElementAdvantage
+            vector<Engimon *> calonAnak = EngimonFinder(listElement.at(0),listElement.at(1));
 
+            std::uniform_int_distribution<int> distribution(0,calonAnak.size()-1);
+            int choice = distribution(generator);
+            
+            // Spesies baru, tidak boleh sama dengan parentnya
+            while (calonAnak.at(choice)->getSpecies() == parent_a.getSpecies() || calonAnak.at(choice)->getSpecies() == parent_b.getSpecies())
+            {
+                choice = distribution(generator);
+            }
+
+            *anak = *calonAnak.at(choice);
+            anak->setParent(ortu);
+            addSkillAnak(*anak, calonSkill);
+            return *anak;
+        
         }    
     }  
+}
+
+void addSkillAnak(Engimon& child, vector<Skill> calonSkill) {
+    int i = 0;
+    while (child.getSkill().size() <= 4 && i < calonSkill.size()) {
+        if (calonSkill.at(i).isElementCompatible(child.getElements())) {
+            child.addSkill(calonSkill.at(i));
+        }
+        i++;
+    }
 }
 
 bool masteryLevelGreater(Skill a,Skill b) { 
@@ -104,7 +149,6 @@ vector<Skill> sortingSkill(Engimon& parent_a, Engimon& parent_b) {
 
     return sortedSkill;
 }
-
 
 /* Element Child */
 bool isElementSimilar(Engimon& parent_a, Engimon& parent_b, vector<Elements>* similiarEle) {

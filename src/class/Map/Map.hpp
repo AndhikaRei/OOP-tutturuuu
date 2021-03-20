@@ -1,11 +1,14 @@
-#ifndef _MAP_H
-#define _MAP_H
+#ifndef MAP_HPP
+#define MAP_HPP
 #include <iostream>
 #include <string>
+#include <map>
 #include <iomanip>
 #include <fstream>
 #include "../Exception/Exception.hpp"
-
+#include "../Engimon/Engimon.hpp"
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 using namespace std;
 
 class Map{
@@ -15,11 +18,12 @@ class Map{
                 int x;
                 int y;
                 char symbol;
-                string pokemon;
+                bool engimonExist;
+                Engimon* engimon;
                 string type; //grassland or sea
             public :
                 MapElem();
-                MapElem(int, int, char, string, string);
+                MapElem(int, int, char, bool, Engimon*, string);
                 //cctor tidak perlu
                 //assignment operator tidak perlu;
                 //dtor tidak perlu;
@@ -31,23 +35,35 @@ class Map{
                 char get_symbol() const;
                 void set_type(string);
                 string get_type() const;
-                void set_pokemon(string);
-                string get_pokemon() const;
+                void set_engimon(Engimon*);
+                Engimon* get_engimon() const;
+                void set_engimon_exist(bool);
+                bool isEngimonExist() const;
         };
         int length;
         int width;
         MapElem** mapelem;
         int* player_pos;
+        int total_engimon;
     public :
         Map();
         Map(int, int, string);
         Map(const Map&);
         ~Map();
-        
+        bool isValidPosition(int, int);
+
         void printMap();
+        void updateMap();
+        void randomMoveAllEngimon();
+        map<string, vector<int>> getPokemonPosition();
+        void addEngimon(int, int, string);
+        void removeEngimon(int, int);
+        void moveEngimon(int, int, int, int, string);
+        bool isValidEngimonPosition(int, int, string);
         void move(char);
         void set_player_pos(int, int);
         int* get_player_pos()const;
+        Engimon* getNearbyEnemyEngimon();
 };
 
 

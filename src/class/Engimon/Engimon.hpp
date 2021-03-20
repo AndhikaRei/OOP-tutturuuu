@@ -29,7 +29,8 @@ public:
     /* 4 Sekawan, Getter, Setter */
     Parent();
     Parent(string _papaName, string _papaSpecies, string _mamaName, string _mamaSpecies);
-    // dtor tak perlu
+    Parent(const Parent&);
+    // dtor tak perlu   
 
     /* Methods */
     void showParent();
@@ -43,7 +44,7 @@ protected:
     string species;            // spesies engimon
     Parent parent;             // class ortu (papa dan mama)
     vector<Elements> elements; // int[2] elements
-    vector<Skill> skill;       // Skill[4] skill (under construction)
+    vector<Skill> skill;       // Skill[4] skill
     int level;                 // level
     int exp;                   // exp
     int cumul_exp;             // exp kumulatif
@@ -53,18 +54,20 @@ public:
     /* 4 Sekawan, Getter, Setter */
     Engimon(string _name, string _species, Elements _elmt1, Elements _elmt2 = NONE);                        // ctor tanpa parent
     Engimon(string _name, string _species, const Parent &_parent, Elements _elmt1, Elements _elmt2 = NONE); // ctor dengan parent
-    // Engimon &operator=(const Engimon &); 
-    virtual Engimon *clone() = 0; // cctor
+    virtual Engimon *clone() = 0;                                                                           // cctor
     // dtor tak perlu
 
     string getName() const;               // get name
     string getSpecies() const;            // get species
     Parent getParent() const;             // get parent
     vector<Elements> getElements() const; // get elements
-    vector<Skill> getSkill() const;       // get skill ??
-    int getLevel() const;                 // get level ??
-    int getExp() const;                   // get exp ??
-    int getCumulExp() const;              // get cumul_exp ??
+    vector<Skill> getSkill() const;       // get skill
+    int getLevel() const;                 // get level
+    int getExp() const;                   // get exp
+    int getCumulExp() const;              // get cumul_exp
+
+    void rename(string _name);             // set name
+    void setParent(const Parent &_parent); // set parent
 
     /* Methods */
     bool isOneElement() const;
@@ -77,6 +80,7 @@ public:
     // I.S. any
     // F.S. exp += _exp
 
+    void addSkill(Skill);
     void addSkill(Skill_Item &);
     void addSkill(Skill_Item &, int);
     // I.S. any
@@ -97,6 +101,9 @@ public:
     bool skillLevelUp(Skill sk);
     bool skillLevelUp(Skill sk, int lv);
     // return true jika berhasil level up skill
+
+    char getEngimonSymbol();
+    // return symbol based on species
 
     /* Service Breeding */
     friend Engimon &breeding(Engimon &parent_a, Engimon &parent_b);

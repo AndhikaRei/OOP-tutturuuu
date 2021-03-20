@@ -56,6 +56,7 @@ public:
 
     /* Printer */
     void showSkill();
+    void showSimpleSkill();
     friend ostream& operator<<(ostream& os, const Skill& skill);
 
     /* Getter */

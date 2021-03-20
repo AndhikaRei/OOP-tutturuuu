@@ -7,10 +7,7 @@ using std::string;
 using std::vector;
 
 /*--- CLASS PARENT ---*/
-Parent::Parent()
-{
-    this->isParent = false;
-}
+Parent::Parent() { this->isParent = false; }
 Parent::Parent(string _papaName, string _papaSpecies, string _mamaName, string _mamaSpecies)
 {
     this->isParent = true;
@@ -19,18 +16,31 @@ Parent::Parent(string _papaName, string _papaSpecies, string _mamaName, string _
     this->species.push_back(_papaSpecies);
     this->species.push_back(_mamaSpecies);
 }
+Parent::Parent(const Parent &_parent)
+{
+    if (_parent.isParent)
+    {
+        this->isParent = true;
+        this->name.push_back(_parent.name.at(0));
+        this->name.push_back(_parent.name.at(1));
+        this->species.push_back(_parent.species.at(0));
+        this->species.push_back(_parent.species.at(1));
+    }
+    else
+    {
+        this->isParent = false;
+    }
+}
 void Parent::showParent()
 {
     if (this->isParent)
     {
-        cout << "Parent 1              : ";
-        cout << this->name[0] << " - " << this->species[0] << '\n';
-        cout << "Parent 2              : ";
-        cout << this->name[1] << " - " << this->species[1] << '\n';
+        cout << this->name[0] << " - " << this->species[0] << ", ";
+        cout << this->name[1] << " - " << this->species[1];
     }
     else
     {
-        cout << "Parent                : -\n";
+        cout << "-";
     }
 }
 
@@ -72,47 +82,19 @@ Engimon::Engimon(string _name, string _species, const Parent &_parent, Elements 
 // Engimon& Engimon::operator=(const Engimon& _engi)
 // {
 // }
-string Engimon::getName() const
-{
-    return this->name;
-}
-string Engimon::getSpecies() const
-{
-    return this->species;
-}
-Parent Engimon::getParent() const
-{
-    return this->parent;
-}
-vector<Elements> Engimon::getElements() const
-{
-    return this->elements;
-}
-vector<Skill> Engimon::getSkill() const
-{
-    return this->skill;
-}
-int Engimon::getLevel() const
-{
-    return this->level;
-}
-int Engimon::getExp() const
-{
-    return this->exp;
-}
-int Engimon::getCumulExp() const
-{
-    return this->cumul_exp;
-}
-bool Engimon::isOneElement() const
-{
-    return this->elements.size() == 1;
-}
-bool Engimon::isElement(Elements _ele)
-{
-    return this->elements[0] == _ele ? true : isOneElement() ? false
-                                                             : this->elements[1] == _ele;
-}
+string Engimon::getName() const { return this->name; }
+string Engimon::getSpecies() const { return this->species; }
+Parent Engimon::getParent() const { return this->parent; }
+vector<Elements> Engimon::getElements() const { return this->elements; }
+vector<Skill> Engimon::getSkill() const { return this->skill; }
+int Engimon::getLevel() const { return this->level; }
+int Engimon::getExp() const { return this->exp; }
+int Engimon::getCumulExp() const { return this->cumul_exp; }
+void Engimon::rename(string _name) { this->name = _name; }
+void Engimon::setParent(const Parent &_parent) { this->parent = _parent; }
+bool Engimon::isOneElement() const { return this->elements.size() == 1; }
+bool Engimon::isElement(Elements _ele) { return this->elements[0] == _ele ? true : isOneElement() ? false
+                                                                                                  : this->elements[1] == _ele; }
 void Engimon::addExp(int _exp)
 {
     this->exp += _exp;
@@ -120,6 +102,20 @@ void Engimon::addExp(int _exp)
     if (exp >= 100)
     {
         levelUp();
+    }
+}
+void Engimon::addSkill(Skill sk)
+{
+    if (!skillLevelUp(sk))
+    {
+        if (this->skill.size() < 4)
+        {
+            this->skill.push_back(sk);
+        }
+        else
+        {
+            throw InvalidFullSkill();
+        }
     }
 }
 void Engimon::addSkill(Skill_Item &_skit)
@@ -160,20 +156,19 @@ void Engimon::levelUp()
 }
 void Engimon::showEngimon() const
 {
-    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl; // pembeda
-    cout << "Name                  : " << name << '\n';
-    cout << "Species               : " << species << '\n';
-    cout << "Element(s)            : [" << elementName(elements[0]) << "]";
+    cout << "| " << name << " | ";
+    cout << species << " | ";
+    cout << "[" << elementName(elements[0]) << "]";
     if (!isOneElement())
     {
         cout << "[" << elementName(elements[1]) << "]";
     }
-    cout << endl;
+    cout << " | ";
     this->getParent().showParent();
-    cout << "Level                 : " << level << '\n';
-    cout << "Experience            : " << exp << '\n';
-    cout << "Cumulative Experience : " << cumul_exp << endl;
-    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl; // pembeda
+    cout << " | ";
+    cout << level << " | ";
+    cout << exp << " | ";
+    cout << cumul_exp << " | " << endl;
 }
 void Engimon::interact() const
 {
@@ -199,6 +194,70 @@ bool Engimon::skillLevelUp(Skill sk, int lv)
     }
     return false;
 }
+char Engimon::getEngimonSymbol()
+{
+    if (this->species == "Pyro") /*--- Fire ---*/
+    {
+        return this->level > 10 ? 'F' : 'f';
+    }
+    else if (this->species == "Hydro") /*--- Water ---*/
+    {
+        return this->level > 10 ? 'W' : 'w';
+    }
+    else if (this->species == "Electro") /*--- Electric ---*/
+    {
+        return this->level > 10 ? 'E' : 'e';
+    }
+    else if (this->species == "Geo") /*--- Ground ---*/
+    {
+        return this->level > 10 ? 'G' : 'g';
+    }
+    else if (this->species == "Cryo") /*--- Ice ---*/
+    {
+        return this->level > 10 ? 'I' : 'i'; 
+    }
+    else if (this->species == "Vaporize") /*--- Fire/Water ---*/
+    {
+        return this->level > 10 ? 'A' : 'a';
+    }
+    else if (this->species == "Overload") /*--- Fire/Electric ---*/
+    {
+        return this->level > 10 ? 'L' : 'l';
+    }
+    else if (this->species == "PyroCrystallize") /*--- Fire/Ground ---*/
+    {
+        return this->level > 10 ? 'B' : 'b';
+    }
+    else if (this->species == "Melt") /*--- Fire/Ice ---*/
+    {
+        return this->level > 10 ? 'C' : 'c';
+    }
+    else if (this->species == "ElectroCharged") /*--- Water/Electric ---*/
+    {
+        return this->level > 10 ? 'D' : 'd';
+    }
+    else if (this->species == "HydroCrystallize") /*--- Water/Ground ---*/
+    {
+        return this->level > 10 ? 'N' : 'n';
+    }
+    else if (this->species == "Frozen") /*--- Water/Ice ---*/
+    {
+        return this->level > 10 ? 'S' : 's';
+    }
+    else if (this->species == "ElectroCrystallize") /*--- Electric/Ground ---*/
+    {
+        return this->level > 10 ? 'H' : 'h';
+    }
+    else if (this->species == "Superconductor") /*--- Electric/Ice ---*/
+    {
+        return this->level > 10 ? 'J' : 'j';
+    }
+    else
+    {
+        //this->species=="CryoCrystallize" /*--- Ground/Ice ---*/
+        return this->level > 10 ? 'K' : 'k';
+    }
+};
 
 /*--- CLASS SPECIES ---*/
 Pyro::Pyro(string _name) : Engimon(_name, "Pyro", Fire)
@@ -479,14 +538,14 @@ vector<Engimon *> EngimonFinder(Elements _e1, Elements _e2)
     {
         if (_e2 == NONE)
         {
-            if (it->second->isOneElement() && it->second->getElements()[0] == _e1)
+            if (it->second->isElement(_e1))
             {
                 temp.push_back(it->second);
             }
         }
         else
         {
-            if (!it->second->isOneElement() && it->second->getElements()[0] == _e1 && it->second->getElements()[1] == _e2)
+            if (it->second->isElement(_e1) || it->second->isElement(_e2))
             {
                 temp.push_back(it->second);
             }
