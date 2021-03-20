@@ -1,11 +1,14 @@
 /* Implementasi Method Breeding */
 
 #include "Breeding.hpp"
-
+#include <cstdlib>
+#include <ctime>
 
 Engimon& breeding(Engimon& parent_a, Engimon& parent_b) 
 {
-    
+    // Random generator
+    srand((unsigned) time(0));
+
     if (parent_a.level < 30 || parent_b.level < 30) {
         throw InvalidBreedingInsufficientLevel();
     }
@@ -13,6 +16,8 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
 
     vector<Engimon *> calonAnak_a = EngimonFinder(parent_a.getSpecies());
     vector<Engimon *> calonAnak_b = EngimonFinder(parent_b.getSpecies());
+
+
 
     if (calonAnak_a.size() < 1 || calonAnak_b.size() < 1) {
         throw UnexpectedErrorWhileBreeding();
@@ -28,25 +33,33 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
     // Cari skill yang mungkin bisa diambil
     vector<Skill> calonSkill = sortingSkill(parent_a,parent_b);
 
-    std::default_random_engine generator;
+    // std::default_random_engine generator;
     vector<Elements> similiarEle;
     if (isElementSimilar(parent_a, parent_b, &similiarEle)) {
         // Definisi similiar : ada element yang sama
         /* Jika elemen kedua parent sama, anak akan memiliki elemen yang sama dengan kedua parent. 
         Spesies anak dipilih dari parent A atau parent B secara bebas (boleh random atau aturan 
         spesifik tertentu). */
-        std::uniform_int_distribution<int> distribution(0,1);
-        int choice = distribution(generator);
+        // std::uniform_int_distribution<int> distribution(0,100);
+        // int choice = distribution(generator);
+        int choice = rand() % similiarEle.size();
+        vector<Engimon *> calonAnak = EngimonFinder(similiarEle.at(choice));
+        choice = rand() % 3;
 
         if (choice == 0) {
             /* Pake spesies parent a */
-            *anak = *calonAnak_a.at(0);
+            anak = calonAnak_a.at(0)->clone();
+            anak->setParent(ortu);
+            addSkillAnak(*anak, calonSkill);
+            return *anak;
+        } else if (choice == 1) {
+            /* Pake spesies parent b */
+            anak = calonAnak_b.at(0)->clone();
             anak->setParent(ortu);
             addSkillAnak(*anak, calonSkill);
             return *anak;
         } else {
-            /* Pake spesies parent b */
-            *anak = *calonAnak_b.at(0);
+            anak = calonAnak.at(0)->clone();
             anak->setParent(ortu);
             addSkillAnak(*anak, calonSkill);
             return *anak;
@@ -60,13 +73,13 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
         if (eleAdv_a != eleAdv_b) {
             if (eleAdv_a > eleAdv_b) {
                 /* Pake spesies parent a */
-                *anak = *calonAnak_a.at(0);
+                anak = calonAnak_a.at(0)->clone();
                 anak->setParent(ortu);
                 addSkillAnak(*anak, calonSkill);
                 return *anak;
             } else {
                 /* Pake spesies parent b */
-                *anak = *calonAnak_b.at(0);
+                anak = calonAnak_b.at(0)->clone();
                 anak->setParent(ortu);
                 addSkillAnak(*anak, calonSkill);
                 return *anak;
@@ -78,18 +91,19 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
             (boleh dipilih random atau hardcoded). */
             vector<Elements> listElement = sortElementAdvantage(parent_a,parent_b);
              // udah pasti dual element, ambil 2 terbesar dari sortElementAdvantage
-            vector<Engimon *> calonAnak = EngimonFinder(listElement.at(0),listElement.at(1));
-
-            std::uniform_int_distribution<int> distribution(0,calonAnak.size()-1);
-            int choice = distribution(generator);
             
-            // Spesies baru, tidak boleh sama dengan parentnya
-            while (calonAnak.at(choice)->getSpecies() == parent_a.getSpecies() || calonAnak.at(choice)->getSpecies() == parent_b.getSpecies())
+            vector<Engimon *> calonAnak = EngimonFinder(listElement.at(0),listElement.at(1));
+            
+            // std::uniform_int_distribution<int> distribution(0,calonAnak.size()-1);
+            int choice = rand() % calonAnak.size();
+            
+            // Spesies baru, tidak boleh sama dengan parentnya (kalau ada spesies lain)
+            while ((calonAnak.at(choice)->getSpecies() == parent_a.getSpecies() || calonAnak.at(choice)->getSpecies() == parent_b.getSpecies()) && (calonAnak.size() > 1))
             {
-                choice = distribution(generator);
+                choice = rand() % calonAnak.size();
             }
 
-            *anak = *calonAnak.at(choice);
+            anak = calonAnak.at(choice)->clone();
             anak->setParent(ortu);
             addSkillAnak(*anak, calonSkill);
             return *anak;
@@ -176,76 +190,46 @@ vector<Elements> sortElementAdvantage(Engimon& parent_a, Engimon& parent_b) {
     /* Mengembalikan vector of element yang berisi urutan element Advantage dari kedua buah parent */
     vector<Elements> eleParent_a = parent_a.getElements();
     vector<Elements> eleParent_b = parent_b.getElements();
-
     vector<Elements> elementVector;
-    vector<float> elementAdvantageVector;
+
     vector<Elements>::iterator it1;
-    vector<float>::iterator it2;
+    vector<Elements>::iterator it2;
+
+    multimap<float, Elements, std::greater <float>> el; 
+    multimap<float, Elements, std::greater <float>>::iterator it;
+
     float elAdv;
-    bool found;
-    
 
-    for (int i = 0; i < eleParent_a.size(); i++)
-    {
-        
+    for (it1 = eleParent_a.begin(); it1 < eleParent_a.end(); it1++) {
         elAdv = 0;
-        for (int j = 0; j < eleParent_b.size(); j++)
-        {
-            if (elAdv < elementAdvantage(eleParent_a[i],eleParent_b[j])) {
-                elAdv = elementAdvantage(eleParent_a[i],eleParent_b[j]);
-            }
-        }
-
-        it1 = elementVector.begin();
-        it2 = elementAdvantageVector.begin();
-        found = false;
-        while (it2 != elementAdvantageVector.end() && !found)
-        {
-            if ((*it2) <= elAdv) {
-                found = true;
-            } else {
-                it1++;
-                it2++;
-            }
-        }
-
         
-        elementAdvantageVector.insert(it2,elAdv);
-        elementVector.insert(it1,eleParent_a.at(i));     
+        for (it2 = eleParent_b.begin(); it2 < eleParent_b.end(); it2++) {
+            if (elAdv < elementAdvantage(*it1,*it2)) {
+                elAdv = elementAdvantage(*it1,*it2);
+            }
+        }
+
+        el.insert(pair<float,Elements>(elAdv,*it1)); 
     }
 
-
-
-    for (int i = 0; i < eleParent_b.size(); i++)
-    {
+    for (it2 = eleParent_b.begin(); it2 < eleParent_b.end(); it2++) {
         elAdv = 0;
-        for (int j = 0; j < eleParent_a.size(); j++)
-        {
-            if (elAdv < elementAdvantage(eleParent_b[i],eleParent_a[j])) {
-                elAdv = elementAdvantage(eleParent_b[i],eleParent_a[j]);
+        for (it1 = eleParent_a.begin(); it1 < eleParent_a.end(); it1++) {
+            if (elAdv < elementAdvantage(*it2,*it1)) {
+                elAdv = elementAdvantage(*it2,*it1);
             }
         }
-        it1 = elementVector.begin();
-        it2 = elementAdvantageVector.begin();
-        found = false;
-        while (it2 != elementAdvantageVector.end() && !found)
-        {
-            if ((*it2) <= elAdv) {
-                found = true;
-            } else {
-                it1++;
-                it2++; 
-            }
-        }
-
-        elementAdvantageVector.insert(it2,elAdv);
-        elementVector.insert(it1,eleParent_b.at(i)); 
-        
+        el.insert(pair<float,Elements>(elAdv,*it2));
     }
 
-    // Remove Duplicate
-    set<Elements> s(elementVector.begin(), elementVector.end());
-    elementVector.assign(s.begin(), s.end());
+    for (it = el.begin(); it != el.end(); it++) {
+        elementVector.push_back(it->second);
+    }
+
+    // vector<Elements>::iterator it3;
+    // for (it3 =  elementVector.begin(); it3 <  elementVector.end(); it3++) 
+    // cout << elementName(*it3) << " ";
+
 
     return elementVector; 
 }
