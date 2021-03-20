@@ -7,6 +7,7 @@
 // #include "../ShortInput/ShortInputLinux.hpp"
 #include "../Exception/Exception.hpp"
 #include "../Skill/Skill.hpp"
+#include "../Player/player.hpp"
 #include <string>
 #include <iostream>
 using namespace std;
@@ -30,7 +31,7 @@ private:
     string arg1, arg2; // Input panjang yang ditangani dengan cin
     int state, helpstate; // State dari game, akan menentukan apa yang harus diinput dan apa yang harus di print
     int turn; // Giliran sekarang
-    // Player
+    Player player;
     // List of Monster mungkin
     // Dan seterusnya
 

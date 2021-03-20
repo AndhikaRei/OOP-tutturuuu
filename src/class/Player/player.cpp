@@ -11,18 +11,18 @@ using std::map;
 using std::string;
 using std::vector;
 
-player::player(){
+Player::Player(){
     this->name = "";
     //vector<Engimon *> engimons;
     //vector<Skill_Item *> items;
 }
 
-player::player(string name_){
+Player::Player(string name_){
     this->name = name_; // masi salah
     //strcpy(this->name,name_);
 }
 
-player::player(const player& other){
+Player::Player(const Player& other){
     this->name = other.name;
     for(int i = 0;i < other.items.size(); ++i){
         this->items[i] = other.items[i]; //gtw dah dibikin atau belum di items
@@ -31,8 +31,11 @@ player::player(const player& other){
         this->engimons[i] = other.engimons[i]; //gtw dah dibikin atau belum di items
     }
 }
+Player::~Player(){
+    
+}
 
-player& player::operator=(const player& other){
+Player& Player::operator=(const Player& other){
     //strcpy(this->name,other.name);
     this->name = other.name; // masi salah
     for(int i = 0;i < other.items.size(); ++i){
@@ -46,25 +49,25 @@ player& player::operator=(const player& other){
 }
 
 //selector
-vector<Skill_Item *> player::getItems(){
+vector<Skill_Item *> Player::getItems(){
     return this->items;
 }
-Skill_Item* player::getItem(int i){
+Skill_Item* Player::getItem(int i){
     return this->items[i];
 }
-void player::printItems(){ // nunggu implementasi yg lain
+void Player::printItems(){ // nunggu implementasi yg lain
     for(int i = 0;i<this->items.size();i++){
         this->items[i]->showItem();
     }
 }
 
-vector<Engimon *> player::getEngimons(){
+vector<Engimon *> Player::getEngimons(){
     return this->engimons;
 }
-Engimon* player::getEngimon(int i){
+Engimon* Player::getEngimon(int i){
     return this->engimons[i];
 }
-void player::printEngimon(){// nunggu implementasi yg lain
+void Player::printEngimon(){// nunggu implementasi yg lain
     cout << "this is all your engimons : \n";
     
     for(int i = 0; i< this->engimons.size();i++){
@@ -72,27 +75,27 @@ void player::printEngimon(){// nunggu implementasi yg lain
     }
 }
 
-Engimon* player::getActiveEngimon(){
+Engimon* Player::getActiveEngimon(){
     if(ActiveEngimon == NULL){
         throw "Belum ada Active Engimon";
     }
     return this->ActiveEngimon; 
 }
-void player::changeActiveEngimon(int i){
+void Player::changeActiveEngimon(int i){
     this->ActiveEngimon = this->engimons[i];
 }
 
-void player::printProfile(){
+void Player::printProfile(){
     cout << "Name : " << this->name << endl;
     printEngimon();
     printInventory();
 }
-int player::getCount(){
+int Player::getCount(){
     return this->engimons.size() + this->items.size();
 }
 
 
-void player::printInventory(){
+void Player::printInventory(){
 	cout << "this is all your Inventory : \n";
     for(int i = 0; i< this->items.size();i++){
         this->items[i]->showItem();
@@ -100,14 +103,14 @@ void player::printInventory(){
 }
 //modify data
 //
-void player::addEngimon(Engimon* engimon){//belum diimplementasiin
+void Player::addEngimon(Engimon* engimon){//belum diimplementasiin
    if(this->getCount() >= 100){
        throw "Inventory Penuh";
    }
    Engimon *temp = engimon->clone();
    this->engimons.push_back(engimon);
 }
-void player::addItem(Skill_Item *item){ //belum diimplementasiin
+void Player::addItem(Skill_Item *item){ //belum diimplementasiin
     if(this->getCount() >= 100){
         throw "Inventory Penuh";
     }

@@ -18,7 +18,7 @@ using std::map;
 using std::string;
 using std::vector;
 
-class player {
+class Player {
     public:
         string name;
         vector<Engimon *> engimons;
@@ -26,11 +26,11 @@ class player {
         Engimon * ActiveEngimon;
 
         //ctor, dtor dkk
-        player();
-        player(string name_);
-        player(const player& other);
-        ~player();
-        player& operator=(const player& other);
+        Player();
+        Player(string name_);
+        Player(const Player& other);
+        ~Player();
+        Player& operator=(const Player& other);
         
         //selector
         vector<Skill_Item *> getItems();
