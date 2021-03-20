@@ -157,7 +157,7 @@ void Player::useItem(string ItemName){
     int i = 0;
     int found = 0;
     while(!found && i < getItems().size() ){
-        if(this->items[i].getName() == ItemName){
+        if(this->items[i]->getSkill().getName() == ItemName){
             //use Item disini
             
             this->items[i]->addAmount(-1);
