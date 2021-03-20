@@ -29,8 +29,8 @@ public:
     /* 4 Sekawan, Getter, Setter */
     Parent();
     Parent(string _papaName, string _papaSpecies, string _mamaName, string _mamaSpecies);
-    // Parent& operator=(const Parent&);
-    // dtor tak perlu
+    Parent(const Parent&);
+    // dtor tak perlu   
 
     /* Methods */
     void showParent();

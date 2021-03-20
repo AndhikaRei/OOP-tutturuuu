@@ -7,10 +7,7 @@ using std::string;
 using std::vector;
 
 /*--- CLASS PARENT ---*/
-Parent::Parent()
-{
-    this->isParent = false;
-}
+Parent::Parent() { this->isParent = false; }
 Parent::Parent(string _papaName, string _papaSpecies, string _mamaName, string _mamaSpecies)
 {
     this->isParent = true;
@@ -19,12 +16,27 @@ Parent::Parent(string _papaName, string _papaSpecies, string _mamaName, string _
     this->species.push_back(_papaSpecies);
     this->species.push_back(_mamaSpecies);
 }
+Parent::Parent(const Parent &_parent)
+{
+    if (_parent.isParent)
+    {
+        this->isParent = true;
+        this->name.push_back(_parent.name.at(0));
+        this->name.push_back(_parent.name.at(1));
+        this->species.push_back(_parent.species.at(0));
+        this->species.push_back(_parent.species.at(1));
+    }
+    else
+    {
+        this->isParent = false;
+    }
+}
 void Parent::showParent()
 {
     if (this->isParent)
     {
         cout << this->name[0] << " - " << this->species[0] << ", ";
-        cout << this->name[1] << " - " << this->species[1] ;
+        cout << this->name[1] << " - " << this->species[1];
     }
     else
     {
@@ -70,55 +82,19 @@ Engimon::Engimon(string _name, string _species, const Parent &_parent, Elements 
 // Engimon& Engimon::operator=(const Engimon& _engi)
 // {
 // }
-string Engimon::getName() const
-{
-    return this->name;
-}
-string Engimon::getSpecies() const
-{
-    return this->species;
-}
-Parent Engimon::getParent() const
-{
-    return this->parent;
-}
-vector<Elements> Engimon::getElements() const
-{
-    return this->elements;
-}
-vector<Skill> Engimon::getSkill() const
-{
-    return this->skill;
-}
-int Engimon::getLevel() const
-{
-    return this->level;
-}
-int Engimon::getExp() const
-{
-    return this->exp;
-}
-int Engimon::getCumulExp() const
-{
-    return this->cumul_exp;
-}
-void Engimon::rename(string _name)
-{
-    this->name = _name;
-}
-void Engimon::setParent(const Parent& _parent)
-{
-    this->parent = _parent;
-}
-bool Engimon::isOneElement() const
-{
-    return this->elements.size() == 1;
-}
-bool Engimon::isElement(Elements _ele)
-{
-    return this->elements[0] == _ele ? true : isOneElement() ? false
-                                                             : this->elements[1] == _ele;
-}
+string Engimon::getName() const { return this->name; }
+string Engimon::getSpecies() const { return this->species; }
+Parent Engimon::getParent() const { return this->parent; }
+vector<Elements> Engimon::getElements() const { return this->elements; }
+vector<Skill> Engimon::getSkill() const { return this->skill; }
+int Engimon::getLevel() const { return this->level; }
+int Engimon::getExp() const { return this->exp; }
+int Engimon::getCumulExp() const { return this->cumul_exp; }
+void Engimon::rename(string _name) { this->name = _name; }
+void Engimon::setParent(const Parent &_parent) { this->parent = _parent; }
+bool Engimon::isOneElement() const { return this->elements.size() == 1; }
+bool Engimon::isElement(Elements _ele) { return this->elements[0] == _ele ? true : isOneElement() ? false
+                                                                                                  : this->elements[1] == _ele; }
 void Engimon::addExp(int _exp)
 {
     this->exp += _exp;
@@ -128,8 +104,8 @@ void Engimon::addExp(int _exp)
         levelUp();
     }
 }
-
-void Engimon::addSkill(Skill sk) {
+void Engimon::addSkill(Skill sk)
+{
     if (!skillLevelUp(sk))
     {
         if (this->skill.size() < 4)
@@ -180,7 +156,7 @@ void Engimon::levelUp()
 }
 void Engimon::showEngimon() const
 {
-    cout << "| "<< name  << " | ";
+    cout << "| " << name << " | ";
     cout << species << " | ";
     cout << "[" << elementName(elements[0]) << "]";
     if (!isOneElement())
@@ -218,36 +194,66 @@ bool Engimon::skillLevelUp(Skill sk, int lv)
     }
     return false;
 }
-char Engimon::getEngimonSymbol(){
-    if(this->species=="Pyro"){
+char Engimon::getEngimonSymbol()
+{
+    if (this->species == "Pyro")
+    {
         return this->level > 10 ? 'A' : 'a';
-    } else if(this->species=="Hydro"){
+    }
+    else if (this->species == "Hydro")
+    {
         return this->level > 10 ? 'B' : 'b';
-    } else if(this->species=="Electro"){
+    }
+    else if (this->species == "Electro")
+    {
         return this->level > 10 ? 'C' : 'c';
-    } else if(this->species=="Geo"){
+    }
+    else if (this->species == "Geo")
+    {
         return this->level > 10 ? 'D' : 'd';
-    } else if(this->species=="Cryo"){
+    }
+    else if (this->species == "Cryo")
+    {
         return this->level > 10 ? 'E' : 'e';
-    } else if(this->species=="Vaporize"){
+    }
+    else if (this->species == "Vaporize")
+    {
         return this->level > 10 ? 'F' : 'f';
-    } else if(this->species=="Overload"){
+    }
+    else if (this->species == "Overload")
+    {
         return this->level > 10 ? 'G' : 'g';
-    } else if(this->species=="PyroCrystallize"){
+    }
+    else if (this->species == "PyroCrystallize")
+    {
         return this->level > 10 ? 'H' : 'h';
-    } else if(this->species=="Melt"){
+    }
+    else if (this->species == "Melt")
+    {
         return this->level > 10 ? 'I' : 'i';
-    } else if(this->species=="ElectroCharged"){
+    }
+    else if (this->species == "ElectroCharged")
+    {
         return this->level > 10 ? 'J' : 'j';
-    } else if(this->species=="HydroCrystallize"){
+    }
+    else if (this->species == "HydroCrystallize")
+    {
         return this->level > 10 ? 'K' : 'k';
-    } else if(this->species=="Frozen"){
+    }
+    else if (this->species == "Frozen")
+    {
         return this->level > 10 ? 'L' : 'l';
-    } else if(this->species=="ElectroCrystallize"){
+    }
+    else if (this->species == "ElectroCrystallize")
+    {
         return this->level > 10 ? 'M' : 'm';
-    } else if(this->species=="Superconductor"){
+    }
+    else if (this->species == "Superconductor")
+    {
         return this->level > 10 ? 'N' : 'n';
-    } else{
+    }
+    else
+    {
         //this->species=="CryoCrystallize"
         return this->level > 10 ? 'Q' : 'q';
     }
