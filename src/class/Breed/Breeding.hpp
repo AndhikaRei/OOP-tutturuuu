@@ -1,14 +1,13 @@
 #ifndef _BREEDING_HPP_
 #define _BREEDING_HPP_
 
-#include "Engimon.hpp"
+#include "../Engimon/Engimon.hpp"
 #include <vector>
-#include <random>
-#include <set>
-#include <algorithm>
+#include <map>
 
 using std::vector;
-using std::set;
+using std::map;
+using std::pair;
 
 vector<Skill> sortingSkill(Engimon& parent_a, Engimon& parent_b);
 
