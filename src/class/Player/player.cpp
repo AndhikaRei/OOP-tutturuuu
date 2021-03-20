@@ -13,7 +13,24 @@ using std::string;
 using std::vector;
 
 Player::Player(){
-    this->name = "";
+    // Reihan coba coba buat tes battle
+    this->name = "Willy Wangky";
+    this->engimons = vector<Engimon*>();
+    Engimon *a1 = new Hydro("Hydro1");
+    Engimon *a2 = new Pyro("Pyro1");
+    Engimon *a3 = new Electro("Electro1");
+    engimons.push_back(a1);
+    engimons.push_back(a2);
+    engimons.push_back(a3);
+    this->ActiveEngimon = engimons.at(0);
+
+    this->items = vector<Skill_Item*>();
+    Skill_Item* a4 = new Skill_Item(Skill("SpiritSoother", "Elemental Burst", 9003, Fire));
+    Skill_Item* a5 = new Skill_Item(Skill("AquaDive", "Elemental Burst", 9003, Fire));
+
+    items.push_back(a4);
+    items.push_back(a5);
+
     //vector<Engimon *> engimons;
     //vector<Skill_Item *> items;
 }
@@ -21,6 +38,7 @@ Player::Player(){
 Player::Player(string name_){
     this->name = name_; // masi salah
     //strcpy(this->name,name_);
+
 }
 
 Player::Player(const Player& other){
@@ -72,6 +90,7 @@ void Player::printEngimon(){// nunggu implementasi yg lain
     cout << "this is all your engimons : \n";
     
     for(int i = 0; i< this->engimons.size();i++){
+        cout << i << ") ";
         this->engimons[i]->showEngimon();
     }
 }
@@ -106,7 +125,8 @@ int Player::getCount(){
 void Player::printInventory(){
 	cout << "this is all your Inventory : \n";
     for(int i = 0; i< this->items.size();i++){
-        this->items[i]->showItem();
+        cout << i <<") ";
+        this->items[i]->showSimpleItem();
     }
 }
 void Player::interactWithActiveEngimon(){

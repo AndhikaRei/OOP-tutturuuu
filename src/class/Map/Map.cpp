@@ -249,29 +249,37 @@ bool Map::isValidEngimonPosition(int x, int y, string species, bool isActive){
 void Map::move(char c){
     if(isAnyActiveEngimon() && isValidEngimonPosition(player_pos[0], player_pos[1], get_active_engimon_species(), true) ){
         if(c == 'w'){
-            if(mapelem[player_pos[0]-1][player_pos[1]].isEngimonExist()){
+            if(isValidPosition(player_pos[0]-1, player_pos[1], true) && mapelem[player_pos[0]-1][player_pos[1]].isEngimonExist()){
                 throw(InvalidPlayerMove());
+            }else if(!isValidPosition(player_pos[0]-1, player_pos[1], true)){
+                throw(InvalidMoveException());
             }else{
                 set_player_pos(this->player_pos[0]-1, this->player_pos[1]);
                 set_active_engimon_pos(this->player_pos[0]+1, this->player_pos[1]);
             }
-        }else if(c == 'a' ){
-            if(mapelem[player_pos[0]][player_pos[1]-1].isEngimonExist()){
+        }else if(c == 'a'){
+            if(isValidPosition(player_pos[0], player_pos[1]-1, true) && mapelem[player_pos[0]][player_pos[1]-1].isEngimonExist()){
                 throw(InvalidPlayerMove());
+            }else if(!isValidPosition(player_pos[0], player_pos[1]-1, true)){
+                throw(InvalidMoveException());
             }else{
                 set_player_pos(this->player_pos[0], this->player_pos[1]-1);
                 set_active_engimon_pos(this->player_pos[0], this->player_pos[1]+1);
             }
         }else if(c == 's'){
-            if(mapelem[player_pos[0]+1][player_pos[1]].isEngimonExist()){
+            if(isValidPosition(player_pos[0]+1, player_pos[1], true) && mapelem[player_pos[0]+1][player_pos[1]].isEngimonExist()){
                 throw(InvalidPlayerMove());
+            }else if(!isValidPosition(player_pos[0]+1, player_pos[1], true)){
+                throw(InvalidMoveException());
             }else{
                 set_player_pos(this->player_pos[0]+1, this->player_pos[1]);
                 set_active_engimon_pos(this->player_pos[0]-1, this->player_pos[1]);
             }
         }else if(c == 'd'){
-             if(mapelem[player_pos[0]][player_pos[1]+1].isEngimonExist()){
+             if(isValidPosition(player_pos[0], player_pos[1]+1, true) && mapelem[player_pos[0]][player_pos[1]+1].isEngimonExist()){
                 throw(InvalidPlayerMove());
+            }else if(!isValidPosition(player_pos[0], player_pos[1]+1, true)){
+                throw(InvalidMoveException());
             }else{
                 set_player_pos(this->player_pos[0], this->player_pos[1]+1);
                 set_active_engimon_pos(this->player_pos[0], this->player_pos[1]-1);
@@ -372,3 +380,56 @@ Engimon* Map::getNearbyEnemyEngimon(){
     }
     throw InvalidBattleException();
 }
+
+
+void Map::spawnRandomPokemon(){
+    vector<string> Pokemons{
+        "Pyro", 
+        "Pyro", 
+        "Pyro", 
+        "Hydro",
+        "Hydro",
+        "Hydro", 
+        "Vaporize", 
+        "Overload", 
+        "PyroCrystallize", 
+        "Melt", 
+        "Electro",
+        "Electro", 
+        "Electro", 
+        "ElectroCharged", 
+        "HydroCrystallize",
+        "Frozen", 
+        "Geo",
+        "Geo",
+        "Geo",
+        "ElectroCrystallize", 
+        "Superconductor",
+        "Cyro",
+        "Cyro",
+        "Cyro", 
+        "CyroCrystallize"
+    };
+    
+    srand(time(NULL));
+    int randomNumber = rand() % Pokemons.size();
+    Engimon* newEngimon = EngimonFinder(Pokemons[randomNumber])[0];
+    cout << newEngimon->getSpecies() << endl;
+    int x = rand() % this->width;
+    int y = rand() % this->length;
+    while (!isValidEngimonPosition(x, y, newEngimon->getSpecies(), false) && this->mapelem[x][y].isEngimonExist()) {
+        int x = rand() % this->width;
+        int y = rand() % this->length;
+        cout << x << " " << y << endl;
+    }
+    cout << x << " " << y << endl;
+    this->addEngimon(x, y, Pokemons[randomNumber]);
+}
+
+// int SpawnPoints[4][2] = {
+//     {this->length-int(this->length*3/4), this->width - int(this->width*3/4)},
+//     {this->length-int(this->length*1/4), this->width - int(this->width*3/4)},
+//     {this->length-int(this->length*1/4), this->width - int(this->width*1/4)},
+//     {this->length-int(this->length*3/4), this->width - int(this->width*1/4)}
+// };
+

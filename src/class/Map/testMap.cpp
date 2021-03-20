@@ -8,6 +8,14 @@ using namespace std;
 int main() {
     Map m(20, 10, "map.txt");
     initEngidex();
+    // int i = 0;
+    // cout << "Test" << endl;
+    // while(i < 20){
+    //     map.spawnRandomPokemon();
+    //     map.printMap();
+    //     i++;
+    // }
+    initEngidex();
     try{
         m.addEngimon(9, 16, "Electro");
         m.addEngimon(4, 10, "Hydro");

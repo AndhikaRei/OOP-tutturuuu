@@ -17,6 +17,8 @@ int sumOfSkillPower(Engimon& player){
 
 // Mencari tahun apakah engimon "player" bisa menang melawan engimon "enemy"
 bool playerEngimonWin(Engimon& player, Engimon& enemy){
+    
+
     // Menghitung elemenAdvantage setiap engimon
     float playerElAdvantage = totalElementAdvantage(player.getElements(), enemy.getElements());
     float enemyElAdvantage = totalElementAdvantage(enemy.getElements(), player.getElements());
@@ -25,8 +27,15 @@ bool playerEngimonWin(Engimon& player, Engimon& enemy){
     int playerSkillDamage= sumOfSkillPower(player);
     int enemySkillDamage= sumOfSkillPower(enemy);
 
+    float playerPower = player.getLevel()*playerElAdvantage +playerSkillDamage;
+    float enemyPower = enemy.getLevel()*enemyElAdvantage +enemySkillDamage;
+
+    // GUI ENGIMON BATTLE
+    std::cout << "Player "<<"Element Advantage: "<< playerElAdvantage<< " Skill Damage: " << playerSkillDamage << " Total Power: " << playerPower<<std::endl;
+    std::cout << "Enemy "<<"Element Advantage: "<< enemyElAdvantage<< " Skill Damage: " << enemySkillDamage << " Total Power: " << enemyPower<<std::endl;
+    
     // Menghitung sekaligus membandingkan total power menggunakan rumus yang telah disediakan
-    return ((player.getLevel()*playerElAdvantage +playerSkillDamage) >= (enemy.getLevel()*enemyElAdvantage +enemySkillDamage));
+    return (playerPower >= enemyPower);
 }
 
 // Mendapatkan random Skill Item yang kompatibel dengan elemen engimon musuh.

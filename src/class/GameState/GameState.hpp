@@ -53,17 +53,18 @@ public:
     // Dan seterusnya
 };
 
-GameState::GameState():map(20, 10, "map.txt"),parser(),player("namaPlayer"){
+GameState::GameState():map(20, 10, "map.txt"),parser(),player(){
     this->state = UI_FreeRoam;
     this->helpstate = 0;
     this->turn = 0;
     this->arg1 = ""; this->arg2 = "";
     initEngidex();
+    databaseSkillInitialization();
 
     // Coba coba tambahin engimon
-    this->map.addEngimon(9, 16, "Electro");
+    this->map.addEngimon(9, 16, "Pyro");
     this->map.addEngimon(4, 10, "Hydro");
-    this->map.addEngimon(2, 2, "ElectroCharged");
+    this->map.addEngimon(2, 2, "Pyro");
     this->map.addEngimon(3, 3, "CryoCrystallize");
 }
 GameState::~GameState()
@@ -76,26 +77,29 @@ void GameState::visualize(){
     // Melakukan visualisasi tampilan Utama pada CLI
     // Visualisasi dilakukan berdasarkan state dari game sekarang
     cout << "====================================================================================" <<endl;
+    cout << "Halo "<< this->player.name <<endl;
     cout << "                            Turn "<< to_string(this->turn) << endl;
     switch (this->state){
     case UI_FreeRoam:
         this->map.printMap();
         break;
     case UI_EngimonDimiliki:
-        cout <<"Nantinya akan berisi tampilan list engimon yang dimiliki"<< endl;
-        cout <<"Semestinya player/inventory punya method ini, CMIIW kalo gue salah" << endl;
+        cout << "index | nama | spesies | elemen | parent | level | exp | cumulative exp" << endl;
+        this->player.printEngimon();
         break;
     case UI_DetailEngimon:
         cout <<"Menampilkan detail dari suatu engimon, kaya ensiklopedia, nampilin skill ama parent"<< endl;
         cout <<"Semestinya engimon/turunannya punya method ini, CMIIW kalo gue salah" << endl;
         break;
     case UI_ItemSkillDimiliki:
-        cout <<"Menampilkan item skill dan jumlahnya di inventory"<< endl;
-        cout <<"Semestinya player/iventory punya method ini, CMIIW kalo gue salah" << endl;
+        this->player.printInventory();
         break;
     case UI_EngimonDanItemSkill:
-        cout <<"Menampilkan item skill, jumlahnya dan Engimon di inventory"<< endl;
-        cout <<"Semestinya player/inventory punya method ini, CMIIW kalo gue salah" << endl;
+        cout << "Engimon" << endl;
+        cout << "index | nama | spesies | elemen | parent | level | exp | cumulative exp" << endl;
+        this->player.printEngimon();
+        cout << "Inventory" << endl;
+        this->player.printInventory();
         break;
     default:
         throw InvalidStateException();
@@ -174,11 +178,10 @@ switch (this->state){
         } else if (command==KEY_k){
             // Prototype dan Prediksi Fungsi detailnya diserahkan ke player
             Engimon* enemy = map.getNearbyEnemyEngimon(); // Throw aja kalo ga ketemu
-            enemy->showEngimon();
-            cout <<"Tekan sembarang, lagi coba coba bisa ga dapet engimon sekitar"; getch();
-            
+        
             if (playerEngimonWin(*(player.getActiveEngimon()) , *enemy)){
-                player.addEngimon( enemy);
+                cout << "Your engimon wins the battle" << endl;
+                player.addEngimon(enemy);
                 //player.addItem(getRandomSkillItem(vector<Skill> listOfSkill, Engimon& enemy)); //eventually pake ini sementara aku bikin skil baru aja dulu 
                 Skill* SpiritSoother;
                 SpiritSoother = new Skill("SpiritSoother", "Elemental Burst", 9003, Fire);
@@ -187,8 +190,10 @@ switch (this->state){
                 player.addItem(BookOfFreedom);
                 
                 player.getActiveEngimon()->addExp(30);
+                cout << "Debugging battle"<<endl; getch();
             } else {
                 player.killActiveEngimon();
+                cout << "Debugging battle"<<endl; getch();
                 //player.changeActiveEngimon();
             }
             
