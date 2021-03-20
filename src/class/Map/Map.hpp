@@ -63,6 +63,7 @@ class Map{
         void move(char);
         void set_player_pos(int, int);
         int* get_player_pos()const;
+        Engimon* getNearbyEnemyEngimon();
 };
 
 

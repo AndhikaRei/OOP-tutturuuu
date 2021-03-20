@@ -20,6 +20,8 @@ using namespace std;
 #define Menu_ChangeActiveEngimon 8
 
 
+// compile
+// g++ -o main mainState.cpp ../Engimon/Engimon.cpp ../Map/Map.cpp ../Skill/Skill.cpp ../Elements/Elements.cpp ../Skill_Item/Skill_Item.cpp
 class GameState
 {
 private:
@@ -54,6 +56,13 @@ GameState::GameState():map(20, 10, "map.txt"),parser(){
     this->helpstate = 0;
     this->turn = 0;
     this->arg1 = ""; this->arg2 = "";
+    initEngidex();
+
+    // Coba coba tambahin engimon
+    this->map.addEngimon(9, 16, "Electro");
+    this->map.addEngimon(4, 10, "Hydro");
+    this->map.addEngimon(2, 2, "ElectroCharged");
+    this->map.addEngimon(3, 3, "CryoCrystallize");
 }
 GameState::~GameState()
 {
@@ -100,9 +109,14 @@ void GameState::print_available_command(){
     case UI_FreeRoam:
         cout << "                            Tampilan Free Roam "<< endl;
         cout << "w: maju      a: kiri      s: mundur      d: kanan      k: battle" << endl;
-        cout << "l : tampilkan skill item yang dipunya       i: tampilkan engimon yang dipunya " << endl;
-        cout << "j: cari engimon di ensiklopedia      b : breeding      e : pakai skill item" << endl;
+        cout << "l: tampilkan skill item yang dipunya       i: tampilkan engimon yang dipunya " << endl;
+        cout << "j: cari engimon di ensiklopedia      b: breeding      e: pakai skill item" << endl;
         cout << "v: ganti active engimon      q: exit program     t: interact " << endl;
+        cout << "====================================================================================" <<endl;
+        cout << "                            Engimon Legend "<< endl;
+        cout << "f/F: pyro      w/W: hydro      e/E: electro      g/G: geo       i/I: cryo" << endl;
+        cout << "a/A: vaporyze      l/L: overload      b/B: pyrocrystallize      d/D: electrocharged      c/C: melt" << endl;
+        cout << "n/N: hydroCrystallize      s/S: frozen      h/H: electrocrystallize      j/J: superconductor     k/K: cryoCrystallize" << endl;
         break;
     case UI_EngimonDimiliki:
         if (this->helpstate==Menu_ChangeActiveEngimon){
@@ -156,8 +170,11 @@ switch (this->state){
         if (command==KEY_w || command==KEY_a|| command==KEY_s|| command==KEY_d){
             this->map.move((char)command);
         } else if (command==KEY_k){
-            /* Prototype dan Prediksi Fungsi detailnya diserahkan ke player
-            Engimon& enemy = map.findAdjacentEnemy(); // Throw aja kalo ga ketemu
+            // Prototype dan Prediksi Fungsi detailnya diserahkan ke player
+            Engimon* enemy = map.getNearbyEnemyEngimon(); // Throw aja kalo ga ketemu
+            enemy->showEngimon();
+            cout <<"Tekan sembarang, lagi coba coba bisa ga dapet engimon sekitar"; getch();
+            /*
             if playerEngimonWin(Engimon& player, Engimon& enemy){
                 Player.addEngimon(Engimon& enemy);
                 Player.addSkillItem(getRandomSkillItem(vector<Skill> listOfSkill, Engimon& enemy))
@@ -167,7 +184,7 @@ switch (this->state){
                 Player.changeActiveEngimon()
             }
             */
-            throw InvalidBattleException();
+            
         } else if(command == KEY_l){
             // Pindah ke layar yang menampilkan list item skill yang dipunyai
             this->state = UI_ItemSkillDimiliki;
@@ -252,6 +269,7 @@ switch (this->state){
     default:
         throw InvalidStateException();
         break;
+    }
     }
 }
 void GameState::evaluate_this_turn(){

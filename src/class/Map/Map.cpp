@@ -268,4 +268,22 @@ int* Map::get_player_pos() const{
     return this->player_pos;
 };
 
-// bool isPositionValid()
+Engimon* Map::getNearbyEnemyEngimon(){
+    if(isValidPosition(this->player_pos[0]-1, this->player_pos[1])){
+        if (this->mapelem[this->player_pos[0]-1][this->player_pos[1]].isEngimonExist())
+            return this->mapelem[this->player_pos[0]-1][this->player_pos[1]].get_engimon();
+    } 
+    if(isValidPosition(this->player_pos[0], this->player_pos[1]-1)){
+        if (this->mapelem[this->player_pos[0]][this->player_pos[1]-1].isEngimonExist())
+            return this->mapelem[this->player_pos[0]][this->player_pos[1]-1].get_engimon();
+    } 
+    if(isValidPosition(this->player_pos[0]+1, this->player_pos[1])){
+        if (this->mapelem[this->player_pos[0]+1][this->player_pos[1]].isEngimonExist())
+            return this->mapelem[this->player_pos[0]+1][this->player_pos[1]].get_engimon();
+    } 
+    if(isValidPosition(this->player_pos[0], this->player_pos[1]+1)){
+        if (this->mapelem[this->player_pos[0]][this->player_pos[1]+1].isEngimonExist())
+            return this->mapelem[this->player_pos[0]][this->player_pos[1]+1].get_engimon();
+    }
+    throw InvalidBattleException();
+}
