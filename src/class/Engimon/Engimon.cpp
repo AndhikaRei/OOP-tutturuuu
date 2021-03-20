@@ -104,6 +104,9 @@ void Engimon::addExp(int _exp)
         levelUp();
     }
 }
+void Engimon::setName(string _name){
+    this->name = _name;
+}
 void Engimon::addSkill(Skill sk)
 {
     if (!skillLevelUp(sk))

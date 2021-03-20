@@ -83,7 +83,7 @@ class Map{
         string get_active_engimon_species()const;
         void spawnRandomPokemon();
 
-        Engimon* getNearbyEnemyEngimon();
+        Engimon* getNearbyEnemyEngimon(int* X, int* Y);
 
         
 };

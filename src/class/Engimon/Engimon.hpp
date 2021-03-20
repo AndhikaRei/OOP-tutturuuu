@@ -67,6 +67,7 @@ public:
     int getLevel() const;                 // get level
     int getExp() const;                   // get exp
     int getCumulExp() const;              // get cumul_exp
+    void setName(string name);
 
     void rename(string _name);             // set name
     void setParent(const Parent &_parent); // set parent

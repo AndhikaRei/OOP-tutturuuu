@@ -361,22 +361,30 @@ string Map::get_active_engimon_species()const{
     return this->active_engimon_species;
 };
 
-Engimon* Map::getNearbyEnemyEngimon(){
+Engimon* Map::getNearbyEnemyEngimon(int* X, int* Y){
     if(isValidPosition(this->player_pos[0]-1, this->player_pos[1], true)){
-        if (this->mapelem[this->player_pos[0]-1][this->player_pos[1]].isEngimonExist())
+        if (this->mapelem[this->player_pos[0]-1][this->player_pos[1]].isEngimonExist()){
+            *X = this->player_pos[0]-1; *Y =this->player_pos[1];
             return this->mapelem[this->player_pos[0]-1][this->player_pos[1]].get_engimon();
+        }
     } 
     if(isValidPosition(this->player_pos[0], this->player_pos[1]-1, true)){
-        if (this->mapelem[this->player_pos[0]][this->player_pos[1]-1].isEngimonExist())
+        if (this->mapelem[this->player_pos[0]][this->player_pos[1]-1].isEngimonExist()){
+            *X = this->player_pos[0]; *Y =this->player_pos[1]-1;
             return this->mapelem[this->player_pos[0]][this->player_pos[1]-1].get_engimon();
+        }
     } 
     if(isValidPosition(this->player_pos[0]+1, this->player_pos[1], true)){
-        if (this->mapelem[this->player_pos[0]+1][this->player_pos[1]].isEngimonExist())
+        if (this->mapelem[this->player_pos[0]+1][this->player_pos[1]].isEngimonExist()){
+            *X = this->player_pos[0]+1; *Y =this->player_pos[1];
             return this->mapelem[this->player_pos[0]+1][this->player_pos[1]].get_engimon();
+        }
     } 
     if(isValidPosition(this->player_pos[0], this->player_pos[1]+1, true)){
-        if (this->mapelem[this->player_pos[0]][this->player_pos[1]+1].isEngimonExist())
+        if (this->mapelem[this->player_pos[0]][this->player_pos[1]+1].isEngimonExist()){
+            *X = this->player_pos[0]; *Y =this->player_pos[1]+1;
             return this->mapelem[this->player_pos[0]][this->player_pos[1]+1].get_engimon();
+        }
     }
     throw InvalidBattleException();
 }

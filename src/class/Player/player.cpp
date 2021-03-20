@@ -22,7 +22,7 @@ Player::Player(){
     engimons.push_back(a1);
     engimons.push_back(a2);
     engimons.push_back(a3);
-    this->ActiveEngimon = engimons.at(0);
+    this->ActiveEngimon = engimons.at(1);
 
     this->items = vector<Skill_Item*>();
 
@@ -117,6 +117,7 @@ void Player::changeActiveEngimon(int i){
     
 }
 void Player::changeActiveEngimon(){
+    // Kalau seandainya engimon active mati dibikin wajib milih active engimon juga gpp sih
     printEngimon();
     cout << "index engimon yang mana yang ingin jadi active?? *nanti diubah lagi ini buat testing aja\n";
     int i;
