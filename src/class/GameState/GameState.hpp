@@ -88,8 +88,7 @@ void GameState::visualize(){
         this->player.printEngimon();
         break;
     case UI_DetailEngimon:
-        cout <<"Menampilkan detail dari suatu engimon, kaya ensiklopedia, nampilin skill ama parent"<< endl;
-        cout <<"Semestinya engimon/turunannya punya method ini, CMIIW kalo gue salah" << endl;
+        printEngidex();
         break;
     case UI_ItemSkillDimiliki:
         this->player.printInventory();
@@ -138,7 +137,8 @@ void GameState::print_available_command(){
         break;
     case UI_DetailEngimon:
         cout << "                            Detail Engimon "<< endl;
-        cout <<"Tekan x untuk keluar dari menu ini" << endl;
+        cout <<"Masukkan spesies engimon di argumen satu untuk mencari tahu" << endl;
+        cout <<"Masukkan x di argumen satu untuk keluar dari menu ini" << endl;
         break;
     case UI_ItemSkillDimiliki:
         cout << "                            Tampilan Item Skill "<< endl;
@@ -158,8 +158,10 @@ void GameState::print_available_command(){
 
 void GameState::get_user_input(){
     // Mengambil user input secara cepat, input panjang akan ditangani dengan cin
-    if(this->state == UI_FreeRoam || this->state == UI_DetailEngimon ||this->state == UI_ItemSkillDimiliki ){
+    if(this->state == UI_FreeRoam ||this->state == UI_ItemSkillDimiliki ){
         cout << "Masukkan Input: "; this->parser.getInputFromUser();
+    } else if(this->state == UI_DetailEngimon){
+        cout << "Masukkan argumen pertama: "; cin >> this->arg1;
     } else{
         cout << "Masukkan argumen pertama: "; cin >> this->arg1;
         cout << "Masukkan argumen kedua: "; cin >> this->arg2;
@@ -196,8 +198,6 @@ switch (this->state){
                 cout << "Debugging battle"<<endl; getch();
                 //player.changeActiveEngimon();
             }
-            
-            
         } else if(command == KEY_l){
             // Pindah ke layar yang menampilkan list item skill yang dipunyai
             this->state = UI_ItemSkillDimiliki;
@@ -206,8 +206,6 @@ switch (this->state){
             this->state = UI_EngimonDimiliki;
         } else if(command == KEY_j ){
             // Pindah ke layar yang menampilkan detail engimon (kayak engidex)
-            // Nama Engimon yang dicek harus divalidasi pada implementasi aslinya, jika salah throw exception
-            cout<<"Masukkan nama species engimon yang ingin dicek "; cin >> this->arg1;
             this->state = UI_DetailEngimon; 
         } else if(command ==KEY_b){
             // Pindah ke layar list engimon dengan keinginan untuk melakukan breeding
@@ -254,12 +252,14 @@ switch (this->state){
         break;
     case UI_DetailEngimon:{
         // Ke layar ini cuma buat lihat engimon dari engidex
-        int command = this->parser.getCommand();
-        if (command==KEY_x ){
-            this->state =UI_FreeRoam;
-        } else {
-            throw InvalidCommandException();
-        }
+        if (this->arg1 == "x"){
+            this->state = UI_FreeRoam;
+        }else{
+            Engimon* searchedEngimon = EngimonFinderWithException(this->arg1);
+            searchedEngimon->showEngimonEngidex();
+            cout <<'\n'<<"Tekan Enter untuk melanjutkan" << '\n'; getch();
+        } 
+        
     }break;
     case UI_ItemSkillDimiliki:{
         // Ke layar ini cuma buat nampilin item skill yang dimiliki

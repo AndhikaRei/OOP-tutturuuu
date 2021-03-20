@@ -170,6 +170,39 @@ void Engimon::showEngimon() const
     cout << exp << " | ";
     cout << cumul_exp << " | " << endl;
 }
+void Engimon::showEngimonComplete()const{
+    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl; // pembeda
+    cout << "Name                  : " << name << '\n';
+    cout << "Species               : " << species << '\n';
+    cout << "Element(s)            : [" << elementName(elements[0]) << "]";
+    if (!isOneElement())
+    {
+        cout << "[" << elementName(elements[1]) << "]";
+    }
+    cout << endl;
+    this->getParent().showParent();
+    cout << "Level                 : " << level << '\n';
+    cout << "Experience            : " << exp << '\n';
+    cout << "Cumulative Experience : " << cumul_exp << endl;
+    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl; // pembeda
+}
+void Engimon::showEngimonEngidex() const{
+    cout << "Name                  : " << name << '\n';
+    cout << "Species               : " << species << '\n';
+    cout << "Element(s)            : [" << elementName(elements[0]) << "]";
+    if (!isOneElement())
+    {
+        cout << "[" << elementName(elements[1]) << "]";
+    }
+    cout << '\n';
+    cout << "Starter Skill          :" << '\n';
+    this->getSkill().at(0).showSkill();
+    cout << "Parent 1               :" << generalParentSpecies(elementName(elements[0])) << endl;
+    if (!isOneElement())
+    {
+        cout << "Parent 2               :" << generalParentSpecies(elementName(elements[1]));
+    }
+}
 void Engimon::interact() const
 {
     cout << this->name << ": " << this->slogan << endl;
@@ -524,6 +557,35 @@ void initEngidex()
     Engidex.insert(pair<string, Engimon *>("CryoCrystallize", e15));
 }
 
+void printEngidex(){
+    map<string, Engimon *>::iterator it;
+    int i = 1;
+    for (it = Engidex.begin(); it != Engidex.end(); it++){
+        cout << i << ") " << it->second->getSpecies() << '\n';
+        i++;
+    }
+}
+string generalParentSpecies(string element){
+    if (element == "Fire")
+        return "Pyro";
+    if (element == "Water")
+        return "Hydro";
+    if (element == "Electric")
+        return "Electro";
+    if (element == "Ground")
+        return "Geo";
+    else 
+        return "Cryo";
+}
+
+Engimon* EngimonFinderWithException(string _species)
+{
+    if (Engidex.count(_species)!=0){
+        return Engidex[_species];
+    } else {
+        throw InvalidSpeciesEngidex();
+    }
+}
 vector<Engimon *> EngimonFinder(string _species)
 {
     vector<Engimon *> temp;

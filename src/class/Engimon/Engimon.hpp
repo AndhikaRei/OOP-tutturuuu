@@ -10,6 +10,7 @@
 #include "../Skill/Skill.hpp"
 #include "../Elements/Elements.hpp"
 #include "../Skill_Item/Skill_Item.hpp"
+#include "../Exception/Exception.hpp"
 
 using std::cout;
 using std::endl;
@@ -91,7 +92,15 @@ public:
     // I.S. exp >= 100
     // F.S. exp %= 100, level += exp div 100
 
-    void showEngimon() const; // show info engimon
+    void showEngimon() const; // show info engimon secara pendek
+    // I.S. any
+    // F.S. menampilkan info engimon ke layar
+
+    void showEngimonComplete() const; // show info engimon secara lengkap
+    // I.S. any
+    // F.S. menampilkan info engimon ke layar
+
+    void showEngimonEngidex() const; // show info engimon secara umum (tanpa exp)
     // I.S. any
     // F.S. menampilkan info engimon ke layar
 
@@ -250,6 +259,9 @@ public:
 extern map<string, Engimon *> Engidex;
 
 void initEngidex();
+void printEngidex();
+string generalParentSpecies(string element);
+Engimon* EngimonFinderWithException(string _species);
 vector<Engimon *> EngimonFinder(string _species);
 vector<Engimon *> EngimonFinder(Elements _e1, Elements _e2 = NONE);
 

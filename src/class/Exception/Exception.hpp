@@ -137,5 +137,12 @@ public:
         return("Inventory penuh");
     }
 };
+class InvalidSpeciesEngidex : public WriteException{
+public:
+    const char* what(){
+        return("Tidak ada pokemon dengan spesies tersebut");
+    }
+};
+
 
 #endif

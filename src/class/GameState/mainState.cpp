@@ -18,6 +18,7 @@ int main(){
             cout <<"Press enter to continue"; getch();
             gameState.evaluate_this_turn();
         }
+        
     }
     return 0;
 }
