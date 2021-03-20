@@ -152,3 +152,19 @@ void Player::killActiveEngimon(){
     this->engimons.erase(it);
     changeActiveEngimon();
 }
+
+void Player::useItem(string ItemName){
+    int i = 0;
+    int found = 0;
+    while(!found && i < getItems().size() ){
+        if(this->items[i].getName() == ItemName){
+            //use Item disini
+            
+            this->items[i]->addAmount(-1);
+            found = true;
+            break;
+        }
+        
+        i++;
+    }
+}

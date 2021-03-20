@@ -52,7 +52,9 @@ class Player {
         //modify data
         void addEngimon(Engimon* engimon);
         void addItem(Skill_Item* item);
+        
         void killActiveEngimon();
+        void useItem(string ItemName);
 };
 
 #endif
