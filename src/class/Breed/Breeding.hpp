@@ -4,6 +4,7 @@
 #include "../Engimon/Engimon.hpp"
 #include <vector>
 #include <map>
+#include <algorithm>
 
 using std::vector;
 using std::map;

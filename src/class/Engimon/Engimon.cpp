@@ -515,7 +515,7 @@ void initEngidex()
     Engidex.insert(pair<string, Engimon *>("Vaporize", e6));
     Engidex.insert(pair<string, Engimon *>("Overload", e7));
     Engidex.insert(pair<string, Engimon *>("PyroCrystallize", e8));
-    Engidex.insert(pair<string, Engimon *>("Melt", e1));
+    Engidex.insert(pair<string, Engimon *>("Melt", e9));
     Engidex.insert(pair<string, Engimon *>("ElectroCharged", e10));
     Engidex.insert(pair<string, Engimon *>("HydroCrystallize", e11));
     Engidex.insert(pair<string, Engimon *>("Frozen", e12));

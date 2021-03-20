@@ -8,15 +8,13 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
 {
     // Random generator
     srand((unsigned) time(0));
-
+    
     if (parent_a.level < 30 || parent_b.level < 30) {
         throw InvalidBreedingInsufficientLevel();
     }
     
-
     vector<Engimon *> calonAnak_a = EngimonFinder(parent_a.getSpecies());
     vector<Engimon *> calonAnak_b = EngimonFinder(parent_b.getSpecies());
-
 
 
     if (calonAnak_a.size() < 1 || calonAnak_b.size() < 1) {
@@ -114,9 +112,19 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
 
 void addSkillAnak(Engimon& child, vector<Skill> calonSkill) {
     int i = 0;
+    vector<Skill> childSkill = child.getSkill();
+    vector<Skill>::iterator it;
     while (child.getSkill().size() <= 4 && i < calonSkill.size()) {
-        if (calonSkill.at(i).isElementCompatible(child.getElements())) {
-            child.addSkill(calonSkill.at(i));
+        it = std::find(childSkill.begin(), childSkill.end(), calonSkill.at(i));
+        if (it == childSkill.end())
+        {
+            if (calonSkill.at(i).isElementCompatible(child.getElements())) {
+                child.addSkill(calonSkill.at(i));
+            }
+        } else {
+            if (it->getMasteryLevel() < calonSkill.at(i).getMasteryLevel()) {
+                child.skillLevelUp(*it, calonSkill.at(i).getMasteryLevel() - it->getMasteryLevel());
+            }
         }
         i++;
     }
@@ -223,7 +231,10 @@ vector<Elements> sortElementAdvantage(Engimon& parent_a, Engimon& parent_b) {
     }
 
     for (it = el.begin(); it != el.end(); it++) {
-        elementVector.push_back(it->second);
+        if (std::find(elementVector.begin(),elementVector.end(),it->second) == elementVector.end()) {
+            elementVector.push_back(it->second);
+        }
+        
     }
 
     // vector<Elements>::iterator it3;
