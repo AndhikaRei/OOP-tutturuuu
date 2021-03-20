@@ -287,6 +287,12 @@ void GameState::evaluate_this_turn(){
     this->turn++;
     this->arg1 = ""; this->arg2 ="";
     // Lakukan randomisasi gerakan monster yang ada di map
+    map.randomMoveAllEngimon();
+    
+    // Spawn Random Pokemon
+    if(this->turn % 2 == 0){
+        map.spawnRandomPokemon();
+    }
     // Lakukan level up jika monster sudah mencapai kelipatan exp
     // Bunuh semua engimon yang levelnya sudah max
     // clearscreen
