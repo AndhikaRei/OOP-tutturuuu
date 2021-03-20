@@ -1,6 +1,7 @@
 #include "player.hpp"
 #include "../Engimon/Engimon.hpp"
 #include "../Skill_Item/Skill_Item.hpp"
+#include "../Engimon/Engimon.hpp"
 #include <iostream> 
 #include <vector> 
 #include <string>
@@ -32,7 +33,7 @@ Player::Player(const Player& other){
     }
 }
 Player::~Player(){
-    
+
 }
 
 Player& Player::operator=(const Player& other){
@@ -77,7 +78,7 @@ void Player::printEngimon(){// nunggu implementasi yg lain
 
 Engimon* Player::getActiveEngimon(){
     if(ActiveEngimon == NULL){
-        throw "Belum ada Active Engimon";
+        throw noActiveEngimon();
     }
     return this->ActiveEngimon; 
 }
@@ -105,14 +106,14 @@ void Player::printInventory(){
 //
 void Player::addEngimon(Engimon* engimon){//belum diimplementasiin
    if(this->getCount() >= 100){
-       throw "Inventory Penuh";
+       throw InventoryFull();
    }
    Engimon *temp = engimon->clone();
    this->engimons.push_back(engimon);
 }
 void Player::addItem(Skill_Item *item){ //belum diimplementasiin
     if(this->getCount() >= 100){
-        throw "Inventory Penuh";
+        throw InventoryFull();
     }
     int found = 0;
     int i = 0;

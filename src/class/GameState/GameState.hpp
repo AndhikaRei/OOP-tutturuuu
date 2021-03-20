@@ -22,7 +22,7 @@ using namespace std;
 
 
 // compile
-// g++ -o main mainState.cpp ../Engimon/Engimon.cpp ../Map/Map.cpp ../Skill/Skill.cpp ../Elements/Elements.cpp ../Skill_Item/Skill_Item.cpp
+// g++ -o main mainState.cpp ../Engimon/Engimon.cpp ../Map/Map.cpp ../Skill/Skill.cpp ../Elements/Elements.cpp ../Skill_Item/Skill_Item.cpp ../Player/player.cpp
 class GameState
 {
 private:
@@ -52,7 +52,7 @@ public:
     // Dan seterusnya
 };
 
-GameState::GameState():map(20, 10, "map.txt"),parser(){
+GameState::GameState():map(20, 10, "map.txt"),parser(),player("namaPlayer"){
     this->state = UI_FreeRoam;
     this->helpstate = 0;
     this->turn = 0;

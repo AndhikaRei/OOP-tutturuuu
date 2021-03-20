@@ -124,4 +124,18 @@ public:
         return("Tidak ada engimon disini");
     }
 };
+class noActiveEngimon : public WriteException{
+public:
+    const char* what(){
+        return("Belum ada Active Engimon");
+    }
+};
+
+class InventoryFull : public WriteException{
+public:
+    const char* what(){
+        return("Inventory penuh");
+    }
+};
+
 #endif
