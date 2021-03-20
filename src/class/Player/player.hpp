@@ -44,13 +44,15 @@ class Player {
         //Engimon* getActiveEngimon();
         Engimon* getActiveEngimon();
         void changeActiveEngimon(int i);
-
+        void changeActiveEngimon();
         void printProfile();
         int getCount();
         void printInventory();
+        void interactWithActiveEngimon();
         //modify data
         void addEngimon(Engimon* engimon);
         void addItem(Skill_Item* item);
+        void killActiveEngimon();
 };
 
 #endif

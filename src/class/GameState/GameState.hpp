@@ -8,6 +8,7 @@
 #include "../Exception/Exception.hpp"
 #include "../Skill/Skill.hpp"
 #include "../Player/player.hpp"
+#include "../Engimon/Battle.hpp"
 #include <string>
 #include <iostream>
 using namespace std;
@@ -22,7 +23,7 @@ using namespace std;
 
 
 // compile
-// g++ -o main mainState.cpp ../Engimon/Engimon.cpp ../Map/Map.cpp ../Skill/Skill.cpp ../Elements/Elements.cpp ../Skill_Item/Skill_Item.cpp ../Player/player.cpp
+// g++ -o main mainState.cpp ../Engimon/Engimon.cpp ../Engimon/Battle.cpp ../Map/Map.cpp ../Skill/Skill.cpp ../Elements/Elements.cpp ../Skill_Item/Skill_Item.cpp ../Player/player.cpp
 class GameState
 {
 private:
@@ -175,16 +176,22 @@ switch (this->state){
             Engimon* enemy = map.getNearbyEnemyEngimon(); // Throw aja kalo ga ketemu
             enemy->showEngimon();
             cout <<"Tekan sembarang, lagi coba coba bisa ga dapet engimon sekitar"; getch();
-            /*
-            if playerEngimonWin(Engimon& player, Engimon& enemy){
-                Player.addEngimon(Engimon& enemy);
-                Player.addSkillItem(getRandomSkillItem(vector<Skill> listOfSkill, Engimon& enemy))
-                Player.addSelectedEngimonEXP(30)
+            
+            if (playerEngimonWin(*(player.getActiveEngimon()) , *enemy)){
+                player.addEngimon( enemy);
+                //player.addItem(getRandomSkillItem(vector<Skill> listOfSkill, Engimon& enemy)); //eventually pake ini sementara aku bikin skil baru aja dulu 
+                Skill* SpiritSoother;
+                SpiritSoother = new Skill("SpiritSoother", "Elemental Burst", 9003, Fire);
+                Skill_Item* BookOfFreedom;
+                BookOfFreedom = new Skill_Item(*SpiritSoother);
+                player.addItem(BookOfFreedom);
+                
+                player.getActiveEngimon()->addExp(30);
             } else {
-                Player.killActiveEngimon()
-                Player.changeActiveEngimon()
+                player.killActiveEngimon();
+                //player.changeActiveEngimon();
             }
-            */
+            
             
         } else if(command == KEY_l){
             // Pindah ke layar yang menampilkan list item skill yang dipunyai
@@ -213,9 +220,9 @@ switch (this->state){
             exit(0);
         } else if (command == KEY_t){
             // Interact dengan active engimon
-            /* 
-                Player.interactWithActiveEngimon();
-            */
+             
+            player.interactWithActiveEngimon();
+            
         } else {
             throw InvalidCommandException();
         }
@@ -229,6 +236,7 @@ switch (this->state){
         } else if(this->helpstate == Menu_ChangeActiveEngimon){
             // Jika niatan pindah kesini adalah untuk change active engimon, fungsinya cuma blueprint aja, detil implementasi terserah kamu
             // Engimon& a = Player.FindEngimonWithVectorIndex(String.toInt(this->arg1))
+            player.changeActiveEngimon();
         } else if (this->helpstate==Menu_Breeding){
             // Jika niatan pindah kesini adalah untuk breeding engimon, fungsinya cuma blueprint aja
             // Validasi slot masi cukup ga
@@ -264,6 +272,7 @@ switch (this->state){
             // Engimon& a = Player.FindEngimonWithVectorIndex(String.toInt(this->arg1))
             // Item b = Player.FindItemWithVectorIndex(String.toInt(this->arg2))
             // Detilnya nunggu dari player aja deh
+            player.printInventory();
             throw InvalidUsingItemToEngimon();
         }
         break;

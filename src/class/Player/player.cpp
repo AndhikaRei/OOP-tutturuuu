@@ -85,6 +85,13 @@ Engimon* Player::getActiveEngimon(){
 void Player::changeActiveEngimon(int i){
     this->ActiveEngimon = this->engimons[i];
 }
+void Player::changeActiveEngimon(){
+    printEngimon();
+    cout << "index engimon yang mana yang ingin jadi active?? *nanti diubah lagi ini buat testing aja\n";
+    int i;
+    std::cin >> i;
+    this->ActiveEngimon = this->engimons[i];
+}
 
 void Player::printProfile(){
     cout << "Name : " << this->name << endl;
@@ -101,6 +108,9 @@ void Player::printInventory(){
     for(int i = 0; i< this->items.size();i++){
         this->items[i]->showItem();
     }
+}
+void Player::interactWithActiveEngimon(){
+    this->ActiveEngimon->interact();
 }
 //modify data
 //
@@ -129,4 +139,16 @@ void Player::addItem(Skill_Item *item){ //belum diimplementasiin
         this->items.push_back(item);
     }
     
+}
+void Player::killActiveEngimon(){
+    int i = 0;
+    vector<Engimon *>::iterator it;
+    it = this->engimons.begin();
+    while(this->ActiveEngimon->getName() != this->engimons[i]->getName()){
+        it++;
+        i++;
+    }
+    //it = i;
+    this->engimons.erase(it);
+    changeActiveEngimon();
 }

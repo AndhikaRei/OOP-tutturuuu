@@ -11,13 +11,13 @@
 using namespace std;
 
 int main(){
-    player* X;
+    Player* X;
     string Name;
     cout << "Type your Name: ";
     cin >> Name;
     int temp = Name == "asd"; 
     cout << temp <<endl<<endl<<endl ;
-    X = new player(Name);
+    X = new Player(Name);
 
     Hydro* childe;
     Pyro* WhoTao;
