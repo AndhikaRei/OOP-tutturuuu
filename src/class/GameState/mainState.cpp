@@ -6,6 +6,7 @@ int main(){
     string pauser;
     while(true){
         try{
+            gameState.print_logo();
             gameState.visualize();
             gameState.print_available_command();
             gameState.get_user_input();

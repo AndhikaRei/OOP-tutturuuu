@@ -142,6 +142,7 @@ bool Map::isAnyActiveEngimon() const{
 void Map::printMap(){
     this->updateMap();
     for(int i = 0; i<width; i++){
+        cout <<"                                ";
        for(int j= 0; j<length ; j++){
            cout<<this->mapelem[i][j].get_symbol();
        }

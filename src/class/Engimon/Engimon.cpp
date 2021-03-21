@@ -172,7 +172,16 @@ void Engimon::showEngimon() const
     cout << " | ";
     cout << level << " | ";
     cout << exp << " | ";
-    cout << cumul_exp << " | " << endl;
+    cout << cumul_exp << " | ";
+    cout << "[";
+    for (int i = 0; i < this->getSkill().size(); i++)
+    {
+        if (i != 0){
+            cout << ", ";
+        }
+        cout << this->getSkill().at(i).getName();
+    }
+    cout << "]" << '\n';
 }
 void Engimon::showEngimonComplete()const{
     cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl; // pembeda
@@ -191,7 +200,7 @@ void Engimon::showEngimonComplete()const{
     cout << "List of Skill         : " << endl;
     for (int i = 0; i < this->getSkill().size(); i++)
     {
-        this->getSkill().at(i).showSimpleSkill();
+        this->getSkill().at(i).showSkill();
     }
 
     cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl; // pembeda

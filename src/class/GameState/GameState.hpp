@@ -3,9 +3,9 @@
 #include "../Map/Map.hpp"
 #include "../Engimon/Engimon.hpp"
 #include "../Elements/Elements.hpp"
-// #include "../ShortInput/ShortInputWindows.hpp"
+#include "../ShortInput/ShortInputWindows.hpp"
 #include "../Breed/Breeding.hpp"
-#include "../ShortInput/ShortInputLinux.hpp"
+// #include "../ShortInput/ShortInputLinux.hpp"
 #include "../Exception/Exception.hpp"
 #include "../Skill/Skill.hpp"
 #include "../Player/Player.hpp"
@@ -40,6 +40,7 @@ public:
     // Kelompok Method UI CLI
     void visualize();
     void print_available_command();
+    void print_logo();
 
     //Kelompok Method Aksi
     void get_user_input();

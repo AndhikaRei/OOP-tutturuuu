@@ -30,10 +30,11 @@ bool playerEngimonWin(Engimon& player, Engimon& enemy){
     float playerPower = player.getLevel()*playerElAdvantage +playerSkillDamage;
     float enemyPower = enemy.getLevel()*enemyElAdvantage +enemySkillDamage;
 
+    std::cout << "(player)"<< player.getSpecies()  << " VS " << enemy.getSpecies() << "(enemy)" << std::endl;
     // GUI ENGIMON BATTLE
     std::cout << '\n' << "Engimon is Battling" << std::endl;
-    std::cout << "Player Engimon Battle Stat"<< std::endl <<"Element Advantage: "<< playerElAdvantage<< " Skill Damage: " << playerSkillDamage << " Total Power: " << playerPower<<std::endl;
-    std::cout << "Enemy Engimon Battle Stat"<< std::endl <<"Element Advantage: "<< enemyElAdvantage<< " Skill Damage: " << enemySkillDamage << " Total Power: " << enemyPower<<std::endl;
+    std::cout << "Player Engimon Battle Stat"<< std::endl <<"LV "<<player.getLevel()<<" Element Advantage: "<< playerElAdvantage<< " Skill Damage: " << playerSkillDamage << " Total Power: " << playerPower<<std::endl;
+    std::cout << "Enemy Engimon Battle Stat"<< std::endl <<"LV "<<enemy.getLevel()<<" Element Advantage: "<< enemyElAdvantage<< " Skill Damage: " << enemySkillDamage << " Total Power: " << enemyPower<<std::endl;
 
     // Menghitung sekaligus membandingkan total power menggunakan rumus yang telah disediakan
     return (playerPower >= enemyPower);

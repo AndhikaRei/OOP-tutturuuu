@@ -18,6 +18,15 @@ GameState::GameState():map(20, 10, "map.txt"),parser(),player(){
 GameState::~GameState()
 {
 }
+void GameState::print_logo(){
+    cout << "====================================================================================" <<endl;
+    cout <<"                       _______    _   _                    _                     "<< endl;
+    cout <<"      ______          |__   __|  | | | |                  | |             ______ "<< endl;
+    cout <<"     |______|_____ ______| |_   _| |_| |_ _   _ _ __ _   _| |______ _____|______|"<< endl;
+    cout <<"      _____|______|______| | | | | __| __| | | | '__| | | | |______|______|_____ "<< endl;
+    cout <<"     |______|            | | |_| | |_| |_| |_| | |  | |_| |_|            |______|"<< endl;
+    cout <<"                         |_|\\__,_|\\__|\\__|\\__,_|_|   \\__,_(_)                    "<< endl;                               
+}
 int GameState::value_user_input(){
     return this->parser.getCommand();
 }
@@ -25,14 +34,14 @@ void GameState::visualize(){
     // Melakukan visualisasi tampilan Utama pada CLI
     // Visualisasi dilakukan berdasarkan state dari game sekarang
     cout << "====================================================================================" <<endl;
-    cout << "Halo "<< this->player.name <<endl;
-    cout << "                            Turn "<< to_string(this->turn) << endl;
+    cout << "                                   Halo "<< this->player.name <<endl;
+    cout << "                                       Turn "<< to_string(this->turn) << endl;
     switch (this->state){
     case UI_FreeRoam:
         this->map.printMap();
         break;
     case UI_EngimonDimiliki:
-        cout << "index | nama | spesies | elemen | parent | level | exp | cumulative exp" << endl;
+        cout << "index | nama | spesies | [elemen] | [parent] | level | exp | cumulative exp | [Skill]" << endl;
         this->player.printEngimon();
         break;
     case UI_DetailEngimon:
@@ -43,7 +52,7 @@ void GameState::visualize(){
         break;
     case UI_EngimonDanItemSkill:
         cout << "Engimon" << endl;
-        cout << "index | nama | spesies | elemen | parent | level | exp | cumulative exp" << endl;
+        cout << "index | nama | spesies | [elemen] | [parent] | level | exp | cumulative exp | [Skill]" << endl;
         this->player.printEngimon();
         cout << "Inventory" << endl;
         this->player.printInventory();
@@ -138,14 +147,6 @@ switch (this->state){
                 player.addEngimon(enemy);
                 Skill_Item* newSkill = new Skill_Item(getRandomSkillItem(databaseSkill,*enemy));
                 player.addItem(newSkill);
-                
-                // Debugnya ronggur
-                // Skill* SpiritSoother;
-                // SpiritSoother = new Skill("SpiritSoother", "Elemental Burst", 9003, Fire);
-                // Skill_Item* BookOfFreedom;
-                // BookOfFreedom = new Skill_Item(*SpiritSoother);
-                // player.addItem(BookOfFreedom);
-                
                 player.getActiveEngimon()->addExp(30);
                 this->map.removeEngimon(xEnemy,yEnemy);
                 cout << "Pertarungan berakhir, tekan apapun!"<<endl; getch();
@@ -262,10 +263,6 @@ void GameState::evaluate_this_turn(){
             map.spawnRandomEngimon();
         }
     }
-
-    map.randomMoveAllEngimon();
-
-
 
     if(this->player.getActiveEngimon()->getLevel()>100){
         cout << "Engimon telah mencapai batas level maksimum" << endl;
