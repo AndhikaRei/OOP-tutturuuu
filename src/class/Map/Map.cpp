@@ -7,6 +7,7 @@
 #include <map>
 using namespace std;
 
+// Map Elements Class Methods
 Map::MapElem::MapElem():MapElem(0,0,'x', false, new Pyro("Pyro sp."),"xxx"){}; //default
 
 Map::MapElem:: MapElem(int x, int y, char symbol, bool exist, Engimon* engi, string type){
@@ -18,6 +19,7 @@ Map::MapElem:: MapElem(int x, int y, char symbol, bool exist, Engimon* engi, str
     this->type = type;
 };        
 
+// Getters and Setters 
 void Map::MapElem::set_x(int x){
     this->x = x;
 };
@@ -55,12 +57,15 @@ bool Map::MapElem::isEngimonExist() const{
     return this->engimonExist;
 };
 
+
+// Map Class Methods 
 Map::Map(){
     this->length = 0;
     this->width = 0;
     this->total_engimon = 0;
 };
 
+// Constructor
 Map::Map(int m, int n, string txt){
     int i, j;
     this->length = m;
@@ -78,6 +83,13 @@ Map::Map(int m, int n, string txt){
             mapelem[i][j].set_x(i);
             mapelem[i][j].set_y(j);
             mapelem[i][j].set_symbol(ch);
+            // // Fixing bug in isEngimonExist Method;
+            // if( i == 0 && j == 0){
+            //     mapelem[i][j].set_engimon_exist(true);
+            // } else { 
+            //     mapelem[i][j].set_engimon_exist(false);
+            // }
+            
             if(i<6 && j>9){
                 mapelem[i][j].set_type("sea");
             } else{
@@ -112,6 +124,7 @@ Map::~Map(){
     delete[] player_pos;
 };
 
+// Checking if a position is valid for a pokemon based on the world boundaries and current symbol on the map
 bool Map::isValidPosition(int x, int y, bool isActive){
     if(isActive){
         return ((x<this->width && x>=0 && y >=0 && y<this->length));
@@ -124,6 +137,7 @@ bool Map::isValidPosition(int x, int y, bool isActive){
 bool Map::isAnyActiveEngimon() const{
     return this->active_engimon_species != "undefined";
 };
+
 
 void Map::printMap(){
     this->updateMap();
@@ -149,35 +163,7 @@ void Map::updateMap(){
     this->mapelem[player_pos[0]][player_pos[1]].set_symbol('P');
 };
 
-void Map::randomMoveAllEngimon(){
-    map<string, vector<int>> EngimonPos = this->getEngimonPosition();
-    srand (time(NULL));
-    for (map<string, vector<int>>::iterator it=EngimonPos.begin(); it!=EngimonPos.end(); ++it){
-        int number =rand() % 5;
-        int i = it->second[0];
-        int j = it->second[1];
-        if(number==1){
-            if(isValidPosition(i-1, j, false)){
-                this->moveEngimon(i, j, i-1, j, this->mapelem[i][j].get_engimon()->getSpecies());
-            }
-        }else if(number==2){
-            if(isValidPosition(i, j-1, false)){
-                this->moveEngimon(i, j, i, j-1, this->mapelem[i][j].get_engimon()->getSpecies());
-            }
-        }else if(number==3){
-            if(isValidPosition(i+1, j, false)){
-                this->moveEngimon(i, j, i+1, j, this->mapelem[i][j].get_engimon()->getSpecies());
-            }
-        } else if(number==4){
-            if(isValidPosition(i, j+1, false)){
-                this->moveEngimon(i, j, i, j+1, this->mapelem[i][j].get_engimon()->getSpecies());
-            }
-        } else{
-                    //do nothing
-        }
-    }      
 
-};
 
 map<string, vector<int>> Map::getEngimonPosition(){
     map<string, vector<int>> result;
@@ -192,22 +178,28 @@ map<string, vector<int>> Map::getEngimonPosition(){
 };
 
 void Map::addEngimon(int x, int y, string species){
-    if(total_engimon < 11){
-        if(!(this->mapelem[x][y].isEngimonExist()) && isValidEngimonPosition(x, y, species, false)){
-            this->mapelem[x][y].set_engimon_exist(true);
-            this->mapelem[x][y].set_engimon(EngimonFinder(species).front()->clone());
-            this->total_engimon++; 
-        } else{
-            if(this->mapelem[x][y].isEngimonExist()){
-                throw(EngimonExist());
-            } else{
-                if(species=="Pyro" || species=="Geo" || species=="Electro" || species=="Overload" || species=="PyroCrystallize" || species=="ElectroCrystallize" ){
-                    throw(InvalidEngimonPositionSea());
-                } else if(species=="Hydro" || species=="Cryo" || species=="Frozen"){
-                    throw(InvalidEngimonPositionGrassland());
-                }
+    if(total_engimon <= max_engimon){
+        // Check if there is an engimon in the cell
+        if(this->mapelem[x][y].isEngimonExist()){
+            throw(EngimonExist());
+        } 
+        // Check if the cell is an valid cell for the species. 
+        else if(!isValidEngimonPosition(x, y, species, false)){
+            if(species=="Pyro" || species=="Geo" || species=="Electro" || species=="Overload" || species=="PyroCrystallize" || species=="ElectroCrystallize" ){
+                throw(InvalidEngimonPositionSea());
+            } else if(species=="Hydro" || species=="Cryo" || species=="Frozen"){
+                throw(InvalidEngimonPositionGrassland());
             }
+        } 
+        // Add it to the cell 
+        else { 
+            Engimon* newEngimon = EngimonFinder(species).front()->clone();
+            this->mapelem[x][y].set_engimon_exist(true);
+            this->mapelem[x][y].set_engimon(newEngimon);
+            this->mapelem[x][y].set_symbol(newEngimon->getEngimonSymbol());
+            this->total_engimon++; 
         }
+        
     } else{
         throw(MaximumEngimonReached());
     }
@@ -242,10 +234,11 @@ bool Map::isValidEngimonPosition(int x, int y, string species, bool isActive){
         } else{
             return true;
         }
-    }else{
-        return false;
     }
+    return false;
 };
+
+// User Related Methods 
 void Map::move(char c){
     if(isAnyActiveEngimon() && isValidEngimonPosition(player_pos[0], player_pos[1], get_active_engimon_species(), true) ){
         if(c == 'w'){
@@ -389,8 +382,43 @@ Engimon* Map::getNearbyEnemyEngimon(int* X, int* Y){
     throw InvalidBattleException();
 }
 
+void Map::randomMoveAllEngimon(){
+    map<string, vector<int>> EngimonPos = this->getEngimonPosition();
+    srand (time(NULL));
+    for (map<string, vector<int>>::iterator it=EngimonPos.begin(); it!=EngimonPos.end(); ++it){
+        int number =rand() % 5;
+        int i = it->second[0];
+        int j = it->second[1];
+        if(number==1){
+            if(isValidPosition(i-1, j, false)){
+                this->moveEngimon(i, j, i-1, j, this->mapelem[i][j].get_engimon()->getSpecies());
+            }
+        }else if(number==2){
+            if(isValidPosition(i, j-1, false)){
+                this->moveEngimon(i, j, i, j-1, this->mapelem[i][j].get_engimon()->getSpecies());
+            }
+        }else if(number==3){
+            if(isValidPosition(i+1, j, false)){
+                this->moveEngimon(i, j, i+1, j, this->mapelem[i][j].get_engimon()->getSpecies());
+            }
+        } else if(number==4){
+            if(isValidPosition(i, j+1, false)){
+                this->moveEngimon(i, j, i, j+1, this->mapelem[i][j].get_engimon()->getSpecies());
+            }
+        } else{
+                    //do nothing
+        }
+    }      
 
-void Map::spawnRandomPokemon(){
+};
+
+// Move this up later 
+int Map::get_total_engimon() const{ return this->total_engimon; };
+int Map::get_max_engimon() const{ return this->max_engimon; };
+
+void Map::spawnRandomEngimon(){
+    // Works Consistently to spawn pokemon up to at least 120 species 
+    // No Level Handling Yet 
     vector<string> Pokemons{
         "Pyro", 
         "Pyro", 
@@ -413,31 +441,54 @@ void Map::spawnRandomPokemon(){
         "Geo",
         "ElectroCrystallize", 
         "Superconductor",
-        "Cyro",
-        "Cyro",
-        "Cyro", 
-        "CyroCrystallize"
+        "Cryo",
+        "Cryo",
+        "Cryo", 
+        "CryoCrystallize"
     };
-    
-    srand(time(NULL));
+
+    // The Random Number Generator need a seed invocation outside this function
     int randomNumber = rand() % Pokemons.size();
-    Engimon* newEngimon = EngimonFinder(Pokemons[randomNumber])[0];
-    cout << newEngimon->getSpecies() << endl;
-    int x = rand() % this->width;
-    int y = rand() % this->length;
-    while (!isValidEngimonPosition(x, y, newEngimon->getSpecies(), false) && this->mapelem[x][y].isEngimonExist()) {
-        int x = rand() % this->width;
-        int y = rand() % this->length;
-        cout << x << " " << y << endl;
+    Engimon* newEngimon = EngimonFinderWithException(Pokemons[randomNumber]);
+    string species = newEngimon->getSpecies();
+
+    // This Logic only Works if the map is the current map
+    // Water area Boundaries 
+    const int waterStartX = 10;
+    const int waterEndX = 19;
+    const int waterStartY = 0;
+    const int waterEndY = 5;
+    int x;
+    int y;
+    if(species=="Hydro" || species=="Cryo" || species=="Frozen"){
+        x = (rand() % (this->length - waterStartX)) + waterStartX;
+        y = rand() % (this->width - waterEndY + 1);
+    } else {
+        y = rand() % (this->width);
+        if(y <= waterEndY){
+            x = rand() % (this->length - waterStartX);
+        } else { 
+            x = rand() % (this->length);
+        } 
+    }   
+    int i = 0;
+    while ((this->mapelem[y][x].get_symbol()!='-') && (this->mapelem[y][x].get_symbol()!='o')) {
+        // Only Generate a random number in the engimon species area. 
+        if(species=="Hydro" || species=="Cryo" || species=="Frozen"){
+            x = (rand() % (this->length - waterStartX - 1)) + waterStartX;
+            y = rand() % (this->width - waterEndY);
+        } else {
+            y = rand() % (this->width - 1);
+            if(y <= waterEndY){
+                x = rand() % (this->length - waterStartX - 1);
+            } else { 
+                x = rand() % (this->length - 1);
+            } 
+        }    
+        // if ( i == 20){
+        //     break;
+        // }
+        // i++;
     }
-    cout << x << " " << y << endl;
-    this->addEngimon(x, y, Pokemons[randomNumber]);
+    this->addEngimon(y, x, Pokemons[randomNumber]);
 }
-
-// int SpawnPoints[4][2] = {
-//     {this->length-int(this->length*3/4), this->width - int(this->width*3/4)},
-//     {this->length-int(this->length*1/4), this->width - int(this->width*3/4)},
-//     {this->length-int(this->length*1/4), this->width - int(this->width*1/4)},
-//     {this->length-int(this->length*3/4), this->width - int(this->width*1/4)}
-// };
-
