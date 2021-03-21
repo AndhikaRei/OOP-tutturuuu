@@ -3,6 +3,6 @@ build/
 .vscode/
 cmake-build-debug/
 src/class/**/*.exe
-src/class/**/test/
+src/class/**/*.o
 CMakeLists.txt
 

@@ -206,6 +206,9 @@ void databaseSkillInitialization() {
 
     // 3 Element Skill (TO DO)
 
+    // 5 Element Skill
+    Skill s69("DOOM","JURUS DAJAL",666,Fire,Water,Electric,Ground,Ice);
+
     Skill listSkill[] = {s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11, s12, s13};
     databaseSkill.insert(databaseSkill.begin(),listSkill,listSkill + sizeof(listSkill)/sizeof(listSkill[0]));
 
