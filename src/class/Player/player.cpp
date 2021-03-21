@@ -190,15 +190,22 @@ void Player::killActiveEngimon(){
 void Player::useItem(string ItemName){
     int i = 0;
     int found = 0;
+    vector<Skill_Item *>::iterator it;
     while(!found && i < getItems().size() ){
         if(this->items[i]->getSkill().getName() == ItemName){
             //use Item disini
             
             this->items[i]->addAmount(-1);
             found = true;
+            if(this->items[i]->getAmount() == 0){
+                Skill_Item* tobedeleted = this->items[i];
+                this->items.erase(it);
+                delete tobedeleted;
+            }
             break;
         }
         
         i++;
+        it++;
     }
 }
