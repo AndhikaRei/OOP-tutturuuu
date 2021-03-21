@@ -50,7 +50,7 @@ Skill Skill_Item::learn(Elements ele) {
             amount--;
             return skill_contained;
         } else {
-            throw InvalidElementNotCompatible();
+            throw InvalidNotEnoughItemAmount();
         }
     } else {    // Kasus elemen tidak sesuai
         throw InvalidElementNotCompatible();
@@ -63,7 +63,7 @@ Skill Skill_Item::learn(Elements ele) {
 //             amount -= n;
 //             return skill_contained;
 //         } else {
-//             throw InvalidElementNotCompatible();
+//             throw InvalidNotEnoughItemAmount();
 //         }
 //     } else {    // Kasus elemen tidak sesuai
 //         throw InvalidElementNotCompatible();
@@ -76,7 +76,7 @@ Skill Skill_Item::learn(int nEle, Elements* listEle) {
             amount--;
             return skill_contained;
         } else {
-            throw InvalidElementNotCompatible();
+            throw InvalidNotEnoughItemAmount();
         }
     } else {    // Kasus elemen tidak sesuai
         throw InvalidElementNotCompatible();
@@ -89,7 +89,7 @@ Skill Skill_Item::learn(vector<Elements> listEle) {
             amount--;
             return skill_contained;
         } else {
-            throw InvalidElementNotCompatible();
+            throw InvalidNotEnoughItemAmount();
         }
     } else {    // Kasus elemen tidak sesuai
         throw InvalidElementNotCompatible();

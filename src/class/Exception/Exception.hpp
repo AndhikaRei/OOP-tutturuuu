@@ -25,6 +25,13 @@ public:
         return("Tombol yang anda pencet tidak valid brow");
     }
 };
+class InvalidEngimonNotExist : public WriteException{
+public:
+    const char* what(){
+        return("Engimon yang anda cari tidak tersedia");
+    }
+};
+
 class InvalidBreeding : public WriteException{
 public:
     const char* what(){
@@ -55,6 +62,7 @@ public:
         return("Item atau engimon yang anda pilih tidak valid ");
     }
 };
+
 class InvalidMoveException : public WriteException{
 public:
     const char* what(){
