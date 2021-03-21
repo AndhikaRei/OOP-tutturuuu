@@ -1,0 +1,3 @@
+g++ *.cpp -c
+
+pause

@@ -5,6 +5,4 @@ cmake-build-debug/
 src/class/**/*.exe
 src/class/**/test/
 CMakeLists.txt
-src/class/**/compile.bat
-src/class/**/*.o
 
