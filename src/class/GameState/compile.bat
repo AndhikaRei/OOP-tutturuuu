@@ -1,3 +1,3 @@
-g++ *.cpp -c
+g++ *.hpp -c
 
 pause

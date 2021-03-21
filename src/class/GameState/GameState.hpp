@@ -1,5 +1,5 @@
-#ifndef _GAMESTATE_H
-#define _GAMESTATE_H
+#ifndef _GAMESTATE_H_
+#define _GAMESTATE_H_
 #include "../Map/Map.hpp"
 #include "../Engimon/Engimon.hpp"
 #include "../Elements/Elements.hpp"
