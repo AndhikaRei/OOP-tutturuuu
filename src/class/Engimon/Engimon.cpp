@@ -95,6 +95,10 @@ void Engimon::setParent(const Parent &_parent) { this->parent = _parent; }
 bool Engimon::isOneElement() const { return this->elements.size() == 1; }
 bool Engimon::isElement(Elements _ele) { return this->elements[0] == _ele ? true : isOneElement() ? false
                                                                                                   : this->elements[1] == _ele; }
+void Engimon::setName(string _name){
+    this->name = _name;
+}
+
 void Engimon::addExp(int _exp)
 {
     this->exp += _exp;
@@ -170,9 +174,52 @@ void Engimon::showEngimon() const
     cout << exp << " | ";
     cout << cumul_exp << " | " << endl;
 }
+void Engimon::showEngimonComplete()const{
+    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl; // pembeda
+    cout << "Name                  : " << name << '\n';
+    cout << "Species               : " << species << '\n';
+    cout << "Element(s)            : [" << elementName(elements[0]) << "]";
+    if (!isOneElement())
+    {
+        cout << "[" << elementName(elements[1]) << "]";
+    }
+    cout << endl;
+    this->getParent().showParent();
+    cout << "Level                 : " << level << '\n';
+    cout << "Experience            : " << exp << '\n';
+    cout << "Cumulative Experience : " << cumul_exp << endl;
+    cout << "List of Skill         : " << endl;
+    for (int i = 0; i < this->getSkill().size(); i++)
+    {
+        this->getSkill().at(i).showSimpleSkill();
+    }
+
+    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl; // pembeda
+}
+void Engimon::showEngimonEngidex() const{
+    cout << "Name                  : " << name << '\n';
+    cout << "Species               : " << species << '\n';
+    cout << "Element(s)            : [" << elementName(elements[0]) << "]";
+    if (!isOneElement())
+    {
+        cout << "[" << elementName(elements[1]) << "]";
+    }
+    cout << '\n';
+    cout << "Starter Skill          :" << '\n';
+    this->getSkill().at(0).showSkill();
+    cout << "Parent 1               :" << generalParentSpecies(elementName(elements[0])) << endl;
+    if (!isOneElement())
+    {
+        cout << "Parent 2               :" << generalParentSpecies(elementName(elements[1]));
+    }
+}
 void Engimon::interact() const
 {
-    cout << this->name << ": " << this->slogan << endl;
+    cout << '\n'<<"Info Singkat Active Engimon"<<'\n';
+    this->showEngimonComplete();
+    cout << "catchphrase" << '\n';
+    cout << this->name << ": " << this->slogan << '\n';
+    
 }
 bool Engimon::skillLevelUp(Skill sk)
 {
@@ -523,7 +570,35 @@ void initEngidex()
     Engidex.insert(pair<string, Engimon *>("Superconductor", e14));
     Engidex.insert(pair<string, Engimon *>("CryoCrystallize", e15));
 }
+void printEngidex(){
+    map<string, Engimon *>::iterator it;
+    int i = 1;
+    for (it = Engidex.begin(); it != Engidex.end(); it++){
+        cout << i << ") " << it->second->getSpecies() << '\n';
+        i++;
+    }
+}
+string generalParentSpecies(string element){
+    if (element == "Fire")
+        return "Pyro";
+    if (element == "Water")
+        return "Hydro";
+    if (element == "Electric")
+        return "Electro";
+    if (element == "Ground")
+        return "Geo";
+    else 
+        return "Cryo";
+}
 
+Engimon* EngimonFinderWithException(string _species)
+{
+    if (Engidex.count(_species)!=0){
+        return Engidex[_species];
+    } else {
+        throw InvalidSpeciesEngidex();
+    }
+}
 vector<Engimon *> EngimonFinder(string _species)
 {
     vector<Engimon *> temp;
