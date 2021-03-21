@@ -1,7 +1,7 @@
 #ifndef _Battle_HPP_
 #define _Battle_HPP_
 
-#include "Engimon.hpp"
+#include "../Engimon/Engimon.hpp"
 #include "../Elements/Elements.hpp"
 #include "../Skill/Skill.hpp"
 #include "../Skill_Item/Skill_Item.hpp"

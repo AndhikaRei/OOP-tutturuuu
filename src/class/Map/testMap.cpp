@@ -4,7 +4,7 @@
 using namespace std;
 
 // compile
-// g++ -o testMap testMap.cpp ../Engimon/Engimon.cpp Map.cpp ../Skill/Skill.cpp ../Elements/Elements.cpp ../Skill_Item/Skill_Item.cpp
+// g++ -o testMap testMap.cpp ../Exception/Exception.cpp ../Engimon/Engimon.cpp Map.cpp ../Skill/Skill.cpp ../Elements/Elements.cpp ../Skill_Item/Skill_Item.cpp
 int main() {
     Map m(20, 10, "map.txt");
     initEngidex();

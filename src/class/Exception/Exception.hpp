@@ -9,167 +9,118 @@ public:
 
 class InvalidStateException : public WriteException{
 public:
-    const char* what(){
-        return("State tidak valid");
-    }
+    const char* what();
 };
 class InvalidBattleException : public WriteException{
 public:
-    const char* what(){
-        return("Tidak ada yang bisa anda battle di sekitar anda");
-    }
+    const char* what();
 };
 class InvalidCommandException : public WriteException{
 public:
-    const char* what(){
-        return("Tombol yang anda pencet tidak valid brow");
-    }
+    const char* what();
 };
+
 class InvalidEngimonNotExist : public WriteException{
 public:
-    const char* what(){
-        return("Engimon yang anda cari tidak tersedia");
-    }
+    const char* what();
 };
 
 class InvalidBreeding : public WriteException{
 public:
-    const char* what(){
-        return("Anda tidak bisa melakukan breeding dengan engimon itu");
-    }
+    const char* what();
 };
 class InvalidBreedingInsufficientLevel  : public WriteException{
 public:
-    const char* what(){
-        return("Level Engimon anda tidak memenuhi syarat untuk breeding");
-    }
+    const char* what();
 };
 class UnexpectedErrorWhileBreeding : public WriteException{
 public:
-    const char* what(){
-        return("Terjadi error saat breeding");
-    }
+    const char* what();
 };
 class InvalidChangeActiveEngimon : public WriteException{
 public:
-    const char* what(){
-        return("Anda tidak mempunyai engimon tersebut");
-    }
+    const char* what();
 };
 class InvalidUsingItemToEngimon : public WriteException{
 public:
-    const char* what(){
-        return("Item atau engimon yang anda pilih tidak valid ");
-    }
+    const char* what();
 };
 
 class InvalidMoveException : public WriteException{
 public:
-    const char* what(){
-        return("Anda tidak bisa bergerak ke sana");
-    }
+    const char* what();
 };
 
 class InvalidElementNotCompatible : public WriteException{
 public:
-    const char* what(){
-        return("Elemen tidak cocok");
-    }
+    const char* what();
 };
 
 class InvalidElementNotExist : public WriteException{
 public:
-    const char* what(){
-        return("Elemen tidak ada");
-    }
+    const char* what();
 };
 
 class InvalidNotEnoughItemAmount : public WriteException{
 public:
-    const char* what(){
-        return("Jumlah skill item tidak cukup");
-    }
+    const char* what();
 };
 
 class InvalidFullSkill : public WriteException{
 public:
-    const char* what(){
-        return("Skill Engimon sudah penuh");
-    }
+    const char* what();
 };
 
 class EngimonExist : public WriteException{
 public:
-    const char* what(){
-        return("Sudah ada engimon di tiles ini");
-    }
+    const char* what();
 };
 
 class InvalidEngimonPositionGrassland : public WriteException{
 public:
-    const char* what(){
-        return("Engimonmu tidak bisa berada di darat");
-    }
+    const char* what();
 };
 
 class InvalidEngimonPositionSea : public WriteException{
 public:
-    const char* what(){
-        return("Engimonmu tidak bisa berada di air");
-    }
+    const char* what();
 };
 
 class InvalidEngimonMove : public WriteException{
 public:
-    const char* what(){
-        return("Engimon tidak bisa berpindah tempat");
-    }
+    const char* what();
 };
 
 class InvalidPlayerMove : public WriteException{
 public:
-    const char* what(){
-        return("Ada engimon liar disana");
-    }
+    const char* what();
 };
 
 class MaximumEngimonReached : public WriteException{
 public:
-    const char* what(){
-        return("Jumlah Engimon pada Peta terlalu banyak");
-    }
+    const char* what();
 };
 
 class NoEngimonFound : public WriteException{
 public:
-    const char* what(){
-        return("Tidak ada engimon disini");
-    }
+    const char* what();
 };
 class noActiveEngimon : public WriteException{
 public:
-    const char* what(){
-        return("Belum ada Active Engimon");
-    }
+    const char* what();
 };
 
 class InventoryFull : public WriteException{
 public:
-    const char* what(){
-        return("Inventory penuh");
-    }
+    const char* what();
 };
 class InvalidSpeciesEngidex : public WriteException{
 public:
-    const char* what(){
-        return("Tidak ada pokemon dengan spesies tersebut");
-    }
+    const char* what();
 };
 class InvalidIndex: public WriteException{
 public:
-    const char* what(){
-        return("Index salah");
-    }
+    const char* what();
 };
 
 #endif
