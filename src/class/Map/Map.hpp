@@ -7,6 +7,7 @@
 #include <fstream>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+#include <random> // A better random number generator
  
 #include "../Exception/Exception.hpp"
 #include "../Engimon/Engimon.hpp"
@@ -52,6 +53,7 @@ class Map{
         int* active_engimon_pos;
         string active_engimon_species;
         int total_engimon;
+        const int max_engimon = 20;
     public :
         Map();
         Map(int, int, string);
@@ -59,6 +61,10 @@ class Map{
         ~Map();
         bool isValidPosition(int, int, bool);
         bool isAnyActiveEngimon() const;
+
+        // getter;
+        int get_total_engimon() const;
+        int get_max_engimon() const;
 
         // Map Manipulation Functions 
         void printMap();
@@ -81,7 +87,7 @@ class Map{
         int* get_active_engimon_pos()const;
         void set_active_engimon_species(string);
         string get_active_engimon_species()const;
-        void spawnRandomPokemon();
+        void spawnRandomEngimon();
 
         Engimon* getNearbyEnemyEngimon(int* X, int* Y);
 
