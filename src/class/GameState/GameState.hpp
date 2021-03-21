@@ -308,6 +308,20 @@ void GameState::evaluate_this_turn(){
     // Tambah turn, kosongkan argumen, bunuh semua engimon yang levelnya maksimum, dan hapus layar
     this->turn++;
     this->arg1 = ""; this->arg2 ="";
+
+    // Spawn random engimon
+    initEngidex();
+    srand((unsigned) time(0));
+    if(this->turn % 3 == 0){
+        if(map.get_total_engimon() != map.get_max_engimon()){
+            map.spawnRandomEngimon();
+        }
+    }
+
+    // Move all engimons
+    map.randomMoveAllEngimon();
+
+
     if(this->player.getActiveEngimon()->getLevel()>100){
         cout << "Engimon telah mencapai batas level maksimum" << endl;
         this->player.killActiveEngimon();
