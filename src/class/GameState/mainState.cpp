@@ -15,7 +15,11 @@ int main(){
         catch(WriteException& e){
             cout << endl << "==================================Exception Detected=============================" <<endl;
             cout << endl << e.what() << endl;
-            cout <<"Press enter to continue"; getch();
+            cout <<"Tekan enter apapun melanjutkan"; getch();
+            gameState.evaluate_this_turn();
+        }
+        catch(...){
+            cout <<"Keanehan terdeteksi, pastikan input anda tidak ngawur banget, tekan apapun untuk melanjutkan"; getch();
             gameState.evaluate_this_turn();
         }
         
