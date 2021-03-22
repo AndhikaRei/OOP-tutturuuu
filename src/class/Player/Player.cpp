@@ -138,6 +138,23 @@ int Player::getCount(){
 
 void Player::printInventory(){
 	cout << "this is all your Inventory : \n";
+    vector<Skill_Item *>::iterator it;
+    int i = 0;
+    for ( it = this->items.begin();it < this->items.end();it++){
+        if(this->items[i]->getAmount() == 0){
+            //Skill_Item* tobedeleted = this->items[it];
+            //this->items.erase(it);
+            //delete tobedeleted;
+        }else{
+            i++;
+        }
+    }    
+    // found = true;
+    // if(this->items[i]->getAmount() == 0){
+    //     Skill_Item* tobedeleted = this->items[i];
+    //     this->items.erase(it);
+    //     delete tobedeleted;
+    // }
     for(int i = 0; i< this->items.size();i++){
         cout << i <<") ";
         this->items[i]->showSimpleItem();
