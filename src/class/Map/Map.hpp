@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <iterator> 
 #include <iomanip>
 #include <fstream>
 #include <stdlib.h>     /* srand, rand */
@@ -20,18 +21,21 @@ class Map{
         /*--- CLASS MapElem ---*/
         class MapElem{
             private :
-                int x; /* Koordinat Absis Tiles */
-                int y; /* Koordinat Ordinat Tiles */
-                char symbol; /* Simbol Tiles Pada Peta yang Merepresentasikan Tipe Tiles / Engimon / Active Engimon/ Player */
-                bool engimonExist; /* Boolean Status Untuk Keberadaan Engimon Liar Pada Tiles */
-                Engimon* engimon; /* Pointer to Engimon yang berada pada Tiles*/
-                string type; /* Tipe Tiles, grassland atau sea*/
+                int x; /* Tiles Abscissa Coordinate */
+                int y; /* Tiles Ordinate Coordinate */
+                char symbol; /* Tiles Symbol on Map that represents Tiles Type / Engimon / Active Engimon/ Player */
+                bool engimonExist; /* Boolean Status For The Existance of a Wild Engimon in this Tiles */
+                Engimon* engimon; /* Pointer to Engimon in this Tiles*/
+                string type; /* Tiles type either grassland or sea*/
             public :
-                MapElem();
-                MapElem(int, int, char, bool, Engimon*, string);
+                // 4 Sekawan
+                MapElem(); // default ctor
+                MapElem(int, int, char, bool, Engimon*, string); //ctor
                 //cctor tidak perlu
                 //assignment operator tidak perlu;
-                //dtor tidak perlu;
+                ~MapElem(); // dtor
+
+                // Getter and Setter
                 void set_x(int);
                 int get_x() const;
                 void set_y(int);
@@ -47,20 +51,25 @@ class Map{
                 void set_engimon_exist(bool);
                 bool isEngimonExist() const;
         };
-        int length;
-        int width;
-        MapElem** mapelem;
-        int* player_pos;
-        int* active_engimon_pos;
-        string active_engimon_species;
-        int total_engimon;
-        const int max_engimon = 20;
+        /* Map Attributes */
+        int length; // Map Length
+        int width; // Map Width
+        MapElem** mapelem; // Array of MapElem
+        int* player_pos; // Array of Integer with size 2 for Player Position
+        int* active_engimon_pos; // Array of Integer with size 2 for Active Engimon Position
+        string active_engimon_species;  // Current Active Engimon Species
+        int total_engimon; // Total Wild Engimon that exist on Map
+        const int max_engimon = 20; // Maximum Engimon Exist on Map
     public :
-        Map();
-        Map(int, int, string);
-        Map(const Map&);
-        ~Map();
+        // 4 Sekawan
+        Map(); // Default ctor
+        Map(int, int, string); // ctor
+        // cctor tdk perlu
+        ~Map(); // dtor
+
+        // boolean method
         bool isValidPosition(int, int, bool);
+        bool isValidEngimonPosition(int, int, string, bool);
         bool isAnyActiveEngimon() const;
         bool isPlayerPosition(int, int) const;
 
@@ -73,14 +82,14 @@ class Map{
         void updateMap();
 
         // Engimon Handlers
-        void randomMoveAllEngimon();
         map<string, vector<int>> getEngimonPosition();
         void addEngimon(int, int, string);
         void removeEngimon(int, int);
         void moveEngimon(int, int, int, int, string);
-        bool isValidEngimonPosition(int, int, string, bool);
-       
-
+        void randomMoveAllEngimon();
+        void spawnRandomEngimon();
+        Engimon* getNearbyEnemyEngimon(int* X, int* Y);
+        
         // Player Handlers 
         void move(char);
         void set_player_pos(int, int);
@@ -88,14 +97,6 @@ class Map{
         void set_active_engimon_pos(int, int);
         int* get_active_engimon_pos()const;
         void set_active_engimon_species(string);
-        string get_active_engimon_species()const;
-        void spawnRandomEngimon();
-
-        Engimon* getNearbyEnemyEngimon(int* X, int* Y);
-
-        
+        string get_active_engimon_species()const;    
 };
-
-
-
 #endif
