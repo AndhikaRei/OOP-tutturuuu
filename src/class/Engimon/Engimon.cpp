@@ -168,12 +168,7 @@ void Engimon::addSkill(Skill_Item &_skit)
         }
         else
         {
-            // for (int i = 0;i < 4 ; i++)
-            // {
-            //     cout << i << ") ";
-            //     this->skill[i].showSimpleSkill();
-            // }
-            
+            throw InvalidFullSkill();
         }
     }
 }
