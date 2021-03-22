@@ -399,8 +399,17 @@ void Map::randomMoveAllEngimon(){
 
 
 void Map::spawnRandomEngimon(){
-    // Works Consistently to spawn pokemon up to at least 120 species 
-    // No Level Handling Yet 
+    // Fungsi ini digunakan untuk menambahkan pokemon liar ke permainan
+    // Bekerja dengan memanfaatkan posisi random yang digenerate menggunakan fungsi rand() dari library standard C 
+    // Fungsi ini bekerja secara pseudo random, sehingga apabila terlalu banyak engimon yang sudah ada di map ( > 100 )
+    // Fungsi akan memaksa keluar dan menghasilkan exception "Engimon Exist"
+    // I.S. Map dengan setiap MapElem terdefinisi
+    // F.S. Memunculkan Engimon liar baru di map. 
+
+
+    // Bekerja untuk menambahkan engimon liar baru dengan maksimal 120 pokemon 
+    // Tidak ada level handling. Seluruh Engimon baru akan di spawn pada level 0. 
+    // Berikut himpunan untuk meningkatkan probabilitas munculnya engimon dengan satu elemen. 
     vector<string> Pokemons{
         "Pyro", 
         "Pyro", 
@@ -429,20 +438,23 @@ void Map::spawnRandomEngimon(){
         "CryoCrystallize"
     };
 
-    // The Random Number Generator need a seed invocation outside this function
+    // Random Number Generator membutuhkan seed dari program global 
     int randomNumber = rand() % Pokemons.size();
     Engimon* newEngimon = EngimonFinderWithException(Pokemons[randomNumber]);
     string species = newEngimon->getSpecies();
 
-    // This Logic only Works if the map is the current map
-    // Water area Boundaries 
+    // Logika program hanya bekerja sesuai map.txt setidaknya sampai tanggal 22/03/2021
+    // Batasan Area Air 
     const int waterStartX = 10;
     const int waterEndX = 19;
     const int waterStartY = 0;
     const int waterEndY = 5;
     int x;
     int y;
+    
+    // Generate posisi engimon liar baru 
     if(species=="Hydro" || species=="Cryo" || species=="Frozen"){
+        // Cek untuk Engimon yang hanya dapat bergerak di area air
         x = (rand() % (this->length - waterStartX)) + waterStartX;
         y = rand() % (this->width - waterEndY + 1);
     } else {
@@ -453,9 +465,12 @@ void Map::spawnRandomEngimon(){
             x = rand() % (this->length);
         } 
     }   
+
+    // Membatasi runtime 
     int i = 0;
+
+    // Mencoba posisi lain apabila terbentur dengan sebuah exeception. 
     while ((this->mapelem[y][x].get_symbol()!='-') && (this->mapelem[y][x].get_symbol()!='o')) {
-        // Only Generate a random number in the engimon species area. 
         if(species=="Hydro" || species=="Cryo" || species=="Frozen"){
             x = (rand() % (this->length - waterStartX - 1)) + waterStartX;
             y = rand() % (this->width - waterEndY);
@@ -467,11 +482,17 @@ void Map::spawnRandomEngimon(){
                 x = rand() % (this->length - 1);
             } 
         }    
-        // if ( i == 20){
-        //     break;
-        // }
-        // i++;
+
+        // This is a safe valve if we would ever use the application to spawn more than 100 Engimons 
+        if ( i == 100){
+            // Try to find a slot for the new Engimon 
+            break;
+        }
+        i++;
     }
+
+    // Menambahkan engimon baru 
+    // Exception handling sudah ditangani oleh fungsi addEngimon
     this->addEngimon(y, x, Pokemons[randomNumber]);
 }
 
