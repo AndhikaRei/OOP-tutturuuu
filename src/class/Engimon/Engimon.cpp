@@ -110,8 +110,16 @@ void Engimon::addExp(int _exp)
 }
 void Engimon::addSkill(Skill sk)
 {
-    if (!skillLevelUp(sk))
+    // Cari apakah skill sudah dipelajari
+    vector<Skill>::iterator it = std::find(skill.begin(), skill.end(), sk);
+    if (it != skill.end())
     {
+        // Sudah dipelajari
+        throw InvalidSkillAlreadyLearned();
+    }
+    else 
+    {
+        // Belum dipelajari
         if (this->skill.size() < 4)
         {
             this->skill.push_back(sk);
@@ -122,11 +130,21 @@ void Engimon::addSkill(Skill sk)
         }
     }
 }
+
 void Engimon::addSkill(Skill_Item &_skit)
 {
+    // Cari apakah skill sudah dipelajari
     Skill temp = _skit.learn(this->elements);
-    if (!skillLevelUp(temp))
+    vector<Skill>::iterator it = std::find(skill.begin(), skill.end(), temp);
+    
+    if (it != skill.end())
     {
+        // Sudah dipelajari
+        throw InvalidSkillAlreadyLearned();
+    }
+    else 
+    {
+        // Belum dipelajari
         if (this->skill.size() < 4)
         {
             this->skill.push_back(temp);
@@ -137,21 +155,22 @@ void Engimon::addSkill(Skill_Item &_skit)
         }
     }
 }
-void Engimon::addSkill(Skill_Item &_skit, int _amount)
-{
-    Skill temp = _skit.learn(this->elements);
-    if (!skillLevelUp(temp, _amount))
-    {
-        if (this->skill.size() < 4)
-        {
-            this->skill.push_back(temp);
-        }
-        else
-        {
-            throw InvalidFullSkill();
-        }
-    }
-}
+
+// void Engimon::addSkill(Skill_Item &_skit, int _amount)
+// {
+//     Skill temp = _skit.learn(this->elements);
+//     if (!skillLevelUp(temp, _amount))
+//     {
+//         if (this->skill.size() < 4)
+//         {
+//             this->skill.push_back(temp);
+//         }
+//         else
+//         {
+//             throw InvalidFullSkill();
+//         }
+//     }
+// }
 void Engimon::levelUp()
 {
     cout << "Selamat, engimon kamu naik level!" << endl;

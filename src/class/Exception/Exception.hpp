@@ -71,6 +71,11 @@ public:
     const char* what();
 };
 
+class InvalidSkillAlreadyLearned : public WriteException{
+public:
+    const char* what();
+};
+
 class EngimonExist : public WriteException{
 public:
     const char* what();

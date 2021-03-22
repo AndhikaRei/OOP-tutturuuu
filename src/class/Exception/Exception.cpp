@@ -56,6 +56,10 @@ const char* InvalidFullSkill::what(){
     return("Skill Engimon sudah penuh");
 }
 
+const char* InvalidSkillAlreadyLearned::what() {
+    return("Skill sudah dipelajari oleh Engimon");
+};
+
 const char* EngimonExist::what(){
     return("Sudah ada engimon di tiles ini");
 }

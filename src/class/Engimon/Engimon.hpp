@@ -85,7 +85,7 @@ public:
 
     void addSkill(Skill);
     void addSkill(Skill_Item &);
-    void addSkill(Skill_Item &, int);
+    // void addSkill(Skill_Item &, int);
     // I.S. any
     // F.S. add skill to Engimon
 
