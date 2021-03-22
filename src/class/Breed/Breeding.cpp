@@ -23,91 +23,100 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
 
     parent_a.level -= 30;
     parent_b.level -= 30;
+    try {
+        // Bikin object parent dulu
+        Parent ortu = Parent(parent_a.getName(), parent_a.getSpecies(), parent_b.getName(), parent_b.getSpecies());
+        Engimon* anak; 
 
-    // Bikin object parent dulu
-    Parent ortu = Parent(parent_a.getName(), parent_a.getSpecies(), parent_b.getName(), parent_b.getSpecies());
-    Engimon* anak; 
+        // Cari skill yang mungkin bisa diambil
+        vector<Skill> calonSkill = sortingSkill(parent_a,parent_b);
 
-    // Cari skill yang mungkin bisa diambil
-    vector<Skill> calonSkill = sortingSkill(parent_a,parent_b);
+        // std::default_random_engine generator;
+        vector<Elements> similiarEle;
+        if (isElementSimilar(parent_a, parent_b, &similiarEle)) {
+            // Definisi similiar : ada element yang sama
+            /* Jika elemen kedua parent sama, anak akan memiliki elemen yang sama dengan kedua parent. 
+            Spesies anak dipilih dari parent A atau parent B secara bebas (boleh random atau aturan 
+            spesifik tertentu). */
+            // std::uniform_int_distribution<int> distribution(0,100);
+            // int choice = distribution(generator);
+            int choice = rand() % similiarEle.size();
+            vector<Engimon *> calonAnak = EngimonFinder(similiarEle.at(choice));
+            choice = rand() % 3;
 
-    // std::default_random_engine generator;
-    vector<Elements> similiarEle;
-    if (isElementSimilar(parent_a, parent_b, &similiarEle)) {
-        // Definisi similiar : ada element yang sama
-        /* Jika elemen kedua parent sama, anak akan memiliki elemen yang sama dengan kedua parent. 
-        Spesies anak dipilih dari parent A atau parent B secara bebas (boleh random atau aturan 
-        spesifik tertentu). */
-        // std::uniform_int_distribution<int> distribution(0,100);
-        // int choice = distribution(generator);
-        int choice = rand() % similiarEle.size();
-        vector<Engimon *> calonAnak = EngimonFinder(similiarEle.at(choice));
-        choice = rand() % 3;
-
-        if (choice == 0) {
-            /* Pake spesies parent a */
-            anak = calonAnak_a.at(0)->clone();
-            anak->setParent(ortu);
-            addSkillAnak(*anak, calonSkill);
-            return *anak;
-        } else if (choice == 1) {
-            /* Pake spesies parent b */
-            anak = calonAnak_b.at(0)->clone();
-            anak->setParent(ortu);
-            addSkillAnak(*anak, calonSkill);
-            return *anak;
-        } else {
-            anak = calonAnak.at(0)->clone();
-            anak->setParent(ortu);
-            addSkillAnak(*anak, calonSkill);
-            return *anak;
-        }
-
-    } else {
-        /* Jika elemen kedua parent berbeda maka anak akan memiliki elemen dan spesies dari elemen 
-        yang memiliki element advantage yang lebih tinggi. */
-        float eleAdv_a = totalElementAdvantage(parent_a.getElements(), parent_b.getElements());
-        float eleAdv_b = totalElementAdvantage(parent_b.getElements(), parent_a.getElements());
-        if (eleAdv_a != eleAdv_b) {
-            if (eleAdv_a > eleAdv_b) {
+            if (choice == 0) {
                 /* Pake spesies parent a */
                 anak = calonAnak_a.at(0)->clone();
                 anak->setParent(ortu);
                 addSkillAnak(*anak, calonSkill);
                 return *anak;
-            } else {
+            } else if (choice == 1) {
                 /* Pake spesies parent b */
                 anak = calonAnak_b.at(0)->clone();
                 anak->setParent(ortu);
                 addSkillAnak(*anak, calonSkill);
                 return *anak;
-            }
-        } else {
-            /* eleAdv_a == eleAdv_b */
-            /* Jika elemen kedua parent berbeda dan kedua elemen memiliki element advantage yang sama, 
-            maka anak akan memiliki spesies berbeda dari kedua parent yang memiliki kedua elemen parent 
-            (boleh dipilih random atau hardcoded). */
-            vector<Elements> listElement = sortElementAdvantage(parent_a,parent_b);
-             // udah pasti dual element, ambil 2 terbesar dari sortElementAdvantage
-            
-            vector<Engimon *> calonAnak = EngimonFinder(listElement.at(0),listElement.at(1));
-            
-            // std::uniform_int_distribution<int> distribution(0,calonAnak.size()-1);
-            int choice = rand() % calonAnak.size();
-            
-            // Spesies baru, tidak boleh sama dengan parentnya (kalau ada spesies lain)
-            while ((calonAnak.at(choice)->getSpecies() == parent_a.getSpecies() || calonAnak.at(choice)->getSpecies() == parent_b.getSpecies()) && (calonAnak.size() > 1))
-            {
-                choice = rand() % calonAnak.size();
+            } else {
+                anak = calonAnak.at(0)->clone();
+                anak->setParent(ortu);
+                addSkillAnak(*anak, calonSkill);
+                return *anak;
             }
 
-            anak = calonAnak.at(choice)->clone();
-            anak->setParent(ortu);
-            addSkillAnak(*anak, calonSkill);
-            return *anak;
-        
-        }    
-    }  
+        } else {
+            /* Jika elemen kedua parent berbeda maka anak akan memiliki elemen dan spesies dari elemen 
+            yang memiliki element advantage yang lebih tinggi. */
+            float eleAdv_a = totalElementAdvantage(parent_a.getElements(), parent_b.getElements());
+            float eleAdv_b = totalElementAdvantage(parent_b.getElements(), parent_a.getElements());
+            if (eleAdv_a != eleAdv_b) {
+                if (eleAdv_a > eleAdv_b) {
+                    /* Pake spesies parent a */
+                    anak = calonAnak_a.at(0)->clone();
+                    anak->setParent(ortu);
+                    addSkillAnak(*anak, calonSkill);
+                    return *anak;
+                } else {
+                    /* Pake spesies parent b */
+                    anak = calonAnak_b.at(0)->clone();
+                    anak->setParent(ortu);
+                    addSkillAnak(*anak, calonSkill);
+                    return *anak;
+                }
+            } else {
+                /* eleAdv_a == eleAdv_b */
+                /* Jika elemen kedua parent berbeda dan kedua elemen memiliki element advantage yang sama, 
+                maka anak akan memiliki spesies berbeda dari kedua parent yang memiliki kedua elemen parent 
+                (boleh dipilih random atau hardcoded). */
+                vector<Elements> listElement = sortElementAdvantage(parent_a,parent_b);
+                // udah pasti dual element, ambil 2 terbesar dari sortElementAdvantage
+                
+                vector<Engimon *> calonAnak = EngimonFinder(listElement.at(0),listElement.at(1));
+                
+                // std::uniform_int_distribution<int> distribution(0,calonAnak.size()-1);
+                int choice = rand() % calonAnak.size();
+                
+                // Spesies baru, tidak boleh sama dengan parentnya (kalau ada spesies lain)
+                while ((calonAnak.at(choice)->getSpecies() == parent_a.getSpecies() || calonAnak.at(choice)->getSpecies() == parent_b.getSpecies()) && (calonAnak.size() > 1))
+                {
+                    choice = rand() % calonAnak.size();
+                }
+
+                anak = calonAnak.at(choice)->clone();
+                anak->setParent(ortu);
+                addSkillAnak(*anak, calonSkill);
+                return *anak;
+            
+            }    
+        }
+    }
+    catch(WriteException& e)
+    {
+        parent_a.level += 30;
+        parent_b.level += 30;
+        throw UnexpectedErrorWhileBreeding();
+    }
+    
+  
 }
 
 void addSkillAnak(Engimon& child, vector<Skill> calonSkill) {
