@@ -294,11 +294,7 @@ void Map::addEngimon(int x, int y, string species){
         } 
         // Cek apakah  species yang ingin ditambahkan cocok dengan type tiles x, y 
         else if(!isValidEngimonPosition(x, y, species, false)){
-            if(species=="Pyro" || species=="Geo" || species=="Electro" || species=="Overload" || species=="PyroCrystallize" || species=="ElectroCrystallize" ){
-                throw(InvalidEngimonPositionSea());
-            } else if(species=="Hydro" || species=="Cryo" || species=="Frozen"){
-                throw(InvalidEngimonPositionGrassland());
-            }
+            // do nothing
         } 
         // Jika melewati kedua cek diatas maka tambahkan engimon ke tiles x, y
         else { 

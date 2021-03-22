@@ -297,8 +297,6 @@ void GameState::evaluate_this_turn(){
         }
     }
 
-    map.randomMoveAllEngimon();
-
     if (this->player.getEngimons().size()!=0){
         if(this->player.getActiveEngimon()->getLevel()>100){
             cout << "Engimon telah mencapai batas level maksimum" << endl;
