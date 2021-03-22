@@ -119,7 +119,14 @@ void addSkillAnak(Engimon& child, vector<Skill> calonSkill) {
         if (it == childSkill.end())
         {
             if (calonSkill.at(i).isElementCompatible(child.getElements())) {
-                child.addSkill(calonSkill.at(i));
+                try
+                {
+                    child.addSkill(calonSkill.at(i));
+                }
+                catch(WriteException& e)
+                {
+                    // Unexpected Behavior
+                }  
             }
         } else {
             if (it->getMasteryLevel() < calonSkill.at(i).getMasteryLevel()) {

@@ -162,7 +162,8 @@ void Engimon::addSkill(Skill_Item &_skit)
             if (temp.isElementCompatible(this->elements))
             {
                 this->skill.push_back(_skit.learn(this->elements));
-            } else {
+            } else 
+            {
                 throw InvalidElementNotCompatible();
             } 
         }
