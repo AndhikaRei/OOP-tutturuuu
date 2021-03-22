@@ -91,7 +91,7 @@ public:
     const char* what();
 };
 
-class InvalidEngimonMove : public WriteException{
+class InvalidEngimonMoveToPlayer : public WriteException{
 public:
     const char* what();
 };

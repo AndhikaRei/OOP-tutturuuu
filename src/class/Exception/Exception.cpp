@@ -72,8 +72,8 @@ const char* InvalidEngimonPositionSea::what(){
     return("Engimonmu tidak bisa berada di air");
 }
 
-const char* InvalidEngimonMove::what(){
-    return("Engimon tidak bisa berpindah tempat");
+const char* InvalidEngimonMoveToPlayer::what(){
+    return("Engimon liar tidak bisa bergerak ke posisi Player. Melakukan reposisi engimon liar.");
 }
 
 const char* InvalidPlayerMove::what(){

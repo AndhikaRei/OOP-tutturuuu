@@ -138,6 +138,10 @@ bool Map::isAnyActiveEngimon() const{
     return this->active_engimon_species != "undefined";
 };
 
+bool Map::isPlayerPosition(int x, int y) const{
+    return (this->player_pos[0]==x) && (this->player_pos[1]==y);
+};
+
 
 void Map::printMap(){
     this->updateMap();
@@ -221,8 +225,6 @@ void Map::moveEngimon(int x1, int y1, int x2, int y2, string species){
     if(this->isValidEngimonPosition(x2, y2, species, false)){
             removeEngimon(x1, y1);
             addEngimon(x2, y2, species);
-    }else{
-        // throw(InvalidEngimonMove());
     }
 };
 
@@ -393,18 +395,26 @@ void Map::randomMoveAllEngimon(){
         if(number==1){
             if(isValidPosition(i-1, j, false)){
                 this->moveEngimon(i, j, i-1, j, this->mapelem[i][j].get_engimon()->getSpecies());
+            } else if(this->isPlayerPosition(i-1, j)){
+                throw(InvalidEngimonMoveToPlayer());
             }
         }else if(number==2){
             if(isValidPosition(i, j-1, false)){
                 this->moveEngimon(i, j, i, j-1, this->mapelem[i][j].get_engimon()->getSpecies());
+            }else if(this->isPlayerPosition(i, j-1)){
+                throw(InvalidEngimonMoveToPlayer());
             }
         }else if(number==3){
             if(isValidPosition(i+1, j, false)){
                 this->moveEngimon(i, j, i+1, j, this->mapelem[i][j].get_engimon()->getSpecies());
+            }else if(this->isPlayerPosition(i+1, j)){
+                throw(InvalidEngimonMoveToPlayer());
             }
         } else if(number==4){
             if(isValidPosition(i, j+1, false)){
                 this->moveEngimon(i, j, i, j+1, this->mapelem[i][j].get_engimon()->getSpecies());
+            }else if(this->isPlayerPosition(i, j+1)){
+                throw(InvalidEngimonMoveToPlayer());
             }
         } else{
                     //do nothing

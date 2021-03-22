@@ -8,23 +8,24 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <random> // A better random number generator
- 
 #include "../Exception/Exception.hpp"
 #include "../Engimon/Engimon.hpp"
 #include "../Elements/Elements.hpp"
 
 using namespace std;
 
+/*--- CLASS MAP ---*/
 class Map{
     private :
+        /*--- CLASS MapElem ---*/
         class MapElem{
             private :
-                int x;
-                int y;
-                char symbol;
-                bool engimonExist;
-                Engimon* engimon;
-                string type; //grassland or sea
+                int x; /* Koordinat Absis Tiles */
+                int y; /* Koordinat Ordinat Tiles */
+                char symbol; /* Simbol Tiles Pada Peta yang Merepresentasikan Tipe Tiles / Engimon / Active Engimon/ Player */
+                bool engimonExist; /* Boolean Status Untuk Keberadaan Engimon Liar Pada Tiles */
+                Engimon* engimon; /* Pointer to Engimon yang berada pada Tiles*/
+                string type; /* Tipe Tiles, grassland atau sea*/
             public :
                 MapElem();
                 MapElem(int, int, char, bool, Engimon*, string);
@@ -61,6 +62,7 @@ class Map{
         ~Map();
         bool isValidPosition(int, int, bool);
         bool isAnyActiveEngimon() const;
+        bool isPlayerPosition(int, int) const;
 
         // getter;
         int get_total_engimon() const;
@@ -82,7 +84,7 @@ class Map{
         // Player Handlers 
         void move(char);
         void set_player_pos(int, int);
-        int* get_player_pos()const;
+        int* get_player_pos() const;
         void set_active_engimon_pos(int, int);
         int* get_active_engimon_pos()const;
         void set_active_engimon_species(string);
