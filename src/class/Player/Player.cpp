@@ -70,9 +70,30 @@ vector<Skill_Item *> Player::getItems(){
     return this->items;
 }
 Skill_Item* Player::getItem(int i){
+    /*
+
+
+    */
+    if(i >= this->items.size() || i < 0){
+        //cout << "Mausk IF"<<endl;
+        throw InvalidIndex();
+    }
+    //cout << "ngga Mausk IF"<<endl;
+    //cout << this->items.size()-1 << endl;
     return this->items[i];
 }
 void Player::printItems(){ // nunggu implementasi yg lain
+    vector<Skill_Item *>::iterator it;
+    int i = 0;
+    for ( it = this->items.begin();it < this->items.end();it++){
+        if(this->items[i]->getAmount() == 0){
+            //Skill_Item* tobedeleted = this->items[i];
+            this->items.erase(it);
+            //delete tobedeleted;
+        }else{
+            i++;
+        }
+    }  
     for(int i = 0;i<this->items.size();i++){
         this->items[i]->showItem();
     }
@@ -142,8 +163,8 @@ void Player::printInventory(){
     int i = 0;
     for ( it = this->items.begin();it < this->items.end();it++){
         if(this->items[i]->getAmount() == 0){
-            //Skill_Item* tobedeleted = this->items[it];
-            //this->items.erase(it);
+            //Skill_Item* tobedeleted = this->items[i];
+            this->items.erase(it);
             //delete tobedeleted;
         }else{
             i++;
