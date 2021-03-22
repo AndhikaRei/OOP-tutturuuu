@@ -116,7 +116,7 @@ void Engimon::addSkill(Skill sk)
     {
         // Sudah dipelajari
         throw InvalidSkillAlreadyLearned();
-    }
+    }   
     else 
     {
         // Belum dipelajari
@@ -134,7 +134,7 @@ void Engimon::addSkill(Skill sk)
 void Engimon::addSkill(Skill_Item &_skit)
 {
     // Cari apakah skill sudah dipelajari
-    Skill temp = _skit.learn(this->elements);
+    Skill temp = _skit.getSkill();
     vector<Skill>::iterator it = std::find(skill.begin(), skill.end(), temp);
     
     if (it != skill.end())
@@ -147,7 +147,12 @@ void Engimon::addSkill(Skill_Item &_skit)
         // Belum dipelajari
         if (this->skill.size() < 4)
         {
-            this->skill.push_back(temp);
+            if (temp.isElementCompatible(this->elements))
+            {
+                this->skill.push_back(_skit.learn(this->elements));
+            } else {
+                throw InvalidElementNotCompatible();
+            } 
         }
         else
         {
