@@ -138,7 +138,36 @@ void Engimon::addSkill(Skill sk)
         }
         else
         {
-            throw InvalidFullSkill();
+            if (sk.isElementCompatible((this->elements)))
+            {
+                int arg1;
+                for (int i = 0;i<4;i++)
+                {
+                    cout << i << ") ";
+                    this->skill[i].showSimpleSkill();
+                }
+                cout << "Ganti yang mana? (Masukkan -1 ke argumen jika tidak ingin mengganti)\n";
+                cout << "Masukkan argumen: "; std::cin >> arg1;
+                if (arg1 == -1)
+                {
+                    cout << "Membatalkan penggantian skill\n";
+                }
+                else
+                {
+                    if (arg1 < 0 || arg1 > 3)
+                    {
+                        throw InvalidIndex();
+                    }
+                    else
+                    {
+                        this->skill[arg1] = sk;
+                    }
+                }
+            }
+            else
+            {
+                throw InvalidElementNotCompatible();
+            }
         }
     }
 }
@@ -169,7 +198,36 @@ void Engimon::addSkill(Skill_Item &_skit)
         }
         else
         {
-            throw InvalidFullSkill();
+            if (temp.isElementCompatible((this->elements)))
+            {
+                int arg1;
+                for (int i = 0;i<4;i++)
+                {
+                    cout << i << ") ";
+                    this->skill[i].showSimpleSkill();
+                }
+                cout << "Ganti yang mana? (Masukkan -1 ke argumen jika tidak ingin mengganti)\n";
+                cout << "Masukkan argumen: "; std::cin >> arg1;
+                if (arg1 == -1)
+                {
+                    cout << "Membatalkan penggantian skill\n";
+                }
+                else
+                {
+                    if (arg1 < 0 || arg1 > 3)
+                    {
+                        throw InvalidIndex();
+                    }
+                    else
+                    {
+                        this->skill[arg1] = _skit.learn((this->elements));
+                    }
+                }
+            }
+            else
+            {
+                throw InvalidElementNotCompatible();
+            }
         }
     }
 }
