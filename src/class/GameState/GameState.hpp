@@ -21,6 +21,7 @@ using namespace std;
 #define UI_DetailEngimon 5
 #define Menu_Breeding 7
 #define Menu_ChangeActiveEngimon 8
+#define Losing 99
 
 class GameState
 {
@@ -34,13 +35,21 @@ private:
     
 
 public:
+    // 4 sekawan
     GameState();
     ~GameState();
+
+    //getter,setter
+    int get_state();
+    ShortInput get_parser();
+    
 
     // Kelompok Method UI CLI
     void visualize();
     void print_available_command();
     void print_logo();
+    void print_lose_Game();
+    void print_start_guidance();
 
     //Kelompok Method Aksi
     void get_user_input();

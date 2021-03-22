@@ -70,7 +70,7 @@ Engimon::Engimon(string _name, string _species, Elements _elmt1, Elements _elmt2
         this->elements.push_back(_elmt2);
     }
 
-    this->level = 60;
+    this->level = 99;
     this->exp = 0;
     this->cumul_exp = 0;
 }
@@ -237,7 +237,7 @@ void Engimon::showEngimonComplete()const{
     cout << "List of Skill         : " << endl;
     for (int i = 0; i < this->getSkill().size(); i++)
     {
-        this->getSkill().at(i).showSkill();
+        cout << this->getSkill().at(i);
     }
 
     cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl; // pembeda

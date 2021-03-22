@@ -10,6 +10,7 @@
 //#include "../Item/Item.hpp"
 #include "../Engimon/Engimon.hpp"
 #include "../Skill_Item/Skill_Item.hpp"
+#define null 0
 
 
 using std::cout;

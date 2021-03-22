@@ -18,6 +18,33 @@ GameState::GameState():map(20, 10, "map.txt"),parser(),player(){
 GameState::~GameState()
 {
 }
+ShortInput GameState::get_parser(){
+    return this->parser;
+}
+void GameState::print_start_guidance(){
+    cout << "====================================================================================" <<'\n';
+    cout << "Selamat datang di dunia engimon, Willy Wangky. Kamu akan berpetualang untuk menangkap dan" <<'\n';
+    cout << "menaikkan level engimonmu. Kamu juga bisa melakukan breeding antar engimon yang kamu punya." << '\n'; 
+    cout << "Kamu akan dibekali tiga engimon starter yaitu" << '\n';
+    cout << "1) Pyro" <<'\n';
+    cout << "2) Hydro" <<'\n';
+    cout << "3) Electro" <<'\n';
+    cout << "Ada dua kondisi dimana kamu bisa mengalami kekalahan, yaitu:" <<'\n';
+    cout << "1) Kamu tidak mempunyai engimon lagi sehingga tidak ada active engimon yang menemani perjalananmu" <<'\n';
+    cout << "2) Engimon mu tersisa satu dan dia tidak bisa bergerak di wilayah yang kamu injaki" <<'\n';
+    cout << "Pastikan kamu menghindari dua kejadian diatas, selamat bermain!!!" <<'\n';
+    cout << "====================================================================================" <<'\n';
+    cout << "Akhir dari penjelasan, Klik apapun untuk bermain!"; getch();
+
+}
+
+void GameState::print_lose_Game(){
+    cout << "====================================================================================" <<endl;
+    cout <<"Anda telah kalah, Willy Wangky, pastikan di game selanjutnya anda bermain lebih baik"<<'\n';
+    cout << "====================================================================================" <<'\n'; 
+    cout <<"Tekan apapun untuk mengakhiri game!!"; getch();
+}
+
 void GameState::print_logo(){
     cout << "====================================================================================" <<endl;
     cout <<"                       _______    _   _                    _                     "<< endl;
@@ -113,6 +140,10 @@ void GameState::print_available_command(){
     cout << "====================================================================================" <<endl;
 }
 
+int GameState::get_state(){
+    return this->state;
+}
+
 void GameState::get_user_input(){
     // Mengambil user input secara cepat, input panjang akan ditangani dengan cin
     if(this->state == UI_FreeRoam ||this->state == UI_ItemSkillDimiliki ){
@@ -147,10 +178,11 @@ switch (this->state){
                 player.addEngimon(enemy);
                 Skill_Item* newSkill = new Skill_Item(getRandomSkillItem(databaseSkill,*enemy));
                 player.addItem(newSkill);
-                player.getActiveEngimon()->addExp(30);
+                player.getActiveEngimon()->addExp(100);
                 this->map.removeEngimon(xEnemy,yEnemy);
                 cout << "Pertarungan berakhir, tekan apapun!"<<endl; getch();
             } else {
+                cout << "Your engimon winslose the battle" << endl;
                 player.killActiveEngimon();
                 this->map.set_active_engimon_species(this->player.getActiveEngimon()->getSpecies());
                 cout << "Pertarungan berakhir, tekan apapun!"<<endl; getch();
@@ -197,6 +229,7 @@ switch (this->state){
             this->player.changeActiveEngimon(stoi(this->arg1));  
             this->map.set_active_engimon_species(this->player.getActiveEngimon()->getSpecies());  
             cout <<'\n'<<"Berhasil merubah active engimon, tekan apapun untuk melanjutkan" << '\n'; getch();
+            this->state = UI_FreeRoam;
         } else if (this->helpstate==Menu_Breeding){
             // Jika niatan pindah kesini adalah untuk breeding engimon, fungsinya cuma blueprint aja
             string name;
@@ -263,11 +296,15 @@ void GameState::evaluate_this_turn(){
             map.spawnRandomEngimon();
         }
     }
-
-    if(this->player.getActiveEngimon()->getLevel()>100){
-        cout << "Engimon telah mencapai batas level maksimum" << endl;
-        this->player.killActiveEngimon();
-        cout <<'\n'<<"Engimon telah dihapus, tekan apapun untuk melanjutkan" << '\n'; getch();
+    if (this->player.getEngimons().size()!=0){
+        if(this->player.getActiveEngimon()->getLevel()>100){
+            cout << "Engimon telah mencapai batas level maksimum" << endl;
+            this->player.killActiveEngimon();
+            this->map.set_active_engimon_species(this->player.getActiveEngimon()->getSpecies());  
+            cout <<'\n'<<"Engimon telah dihapus, tekan apapun untuk melanjutkan" << '\n'; getch();
+        }
+    } else {
+        this->state = Losing;
     }
     this->parser.clear();
 }

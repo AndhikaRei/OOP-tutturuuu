@@ -16,21 +16,17 @@ Player::Player(){
     // Reihan coba coba buat tes battle
     this->name = "Willy Wangky";
     this->engimons = vector<Engimon*>();
-    Engimon *a1 = new Hydro("Hydro1");
-    Engimon *a2 = new Pyro("Pyro1");
+    Engimon *a1 = new Pyro("Pyro1");
+    Engimon *a2 = new Hydro("Hydro1");
     Engimon *a3 = new Electro("Electro1");
+    
     engimons.push_back(a1);
     engimons.push_back(a2);
     engimons.push_back(a3);
-    this->ActiveEngimon = engimons.at(1);
+    
+    this->ActiveEngimon = engimons.at(0);
 
     this->items = vector<Skill_Item*>();
-
-    // Debug Reihan
-    // Skill_Item* a4 = new Skill_Item(Skill("SpiritSoother", "Elemental Burst", 9003, Fire));
-    // Skill_Item* a5 = new Skill_Item(Skill("AquaDive", "Elemental Burst", 9003, Fire));
-    // items.push_back(a4);
-    // items.push_back(a5);
 
     // Debug Ronggur
     //vector<Engimon *> engimons;
@@ -103,11 +99,9 @@ void Player::printEngimon(){// nunggu implementasi yg lain
 }
 
 Engimon* Player::getActiveEngimon(){
-    if(ActiveEngimon == NULL){
-        throw noActiveEngimon();
-    }
     return this->ActiveEngimon; 
 }
+
 void Player::changeActiveEngimon(int i){
      if (i < 0 || i >= this->engimons.size()){
         throw InvalidIndex();
@@ -118,11 +112,18 @@ void Player::changeActiveEngimon(int i){
 }
 void Player::changeActiveEngimon(){
     // Kalau seandainya engimon active mati dibikin wajib milih active engimon juga gpp sih
-    printEngimon();
-    cout << "index engimon yang mana yang ingin jadi active?? *nanti diubah lagi ini buat testing aja\n";
-    int i;
-    std::cin >> i;
-    this->ActiveEngimon = this->engimons[i];
+    if (this->engimons.size() !=0){
+        cout << "Engimon activemu telah mati, anda harus memilih engimon active baru \n";
+        int i= -999;
+        while(i < 0 || i > this->engimons.size() ){
+            printEngimon();
+            cout << "Masukkan index engimon(input akan diulang hingga index valid) : ";
+            std::cin >> i;
+        }
+        changeActiveEngimon(i);
+    } else {
+        cout << "Sayang sekali engimon kamu sudah habis \n";
+    }
 }
 
 void Player::printProfile(){
@@ -143,7 +144,7 @@ void Player::printInventory(){
     }
 }
 void Player::interactWithActiveEngimon(){
-    this->ActiveEngimon->interact();
+    this->getActiveEngimon()->interact();
 }
 //modify data
 //

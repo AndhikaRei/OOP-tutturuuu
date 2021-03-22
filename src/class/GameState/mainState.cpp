@@ -3,8 +3,9 @@ using namespace std;
 #include "GameState.hpp"
 int main(){
     GameState gameState;
-    string pauser;
-    while(true){
+    gameState.print_start_guidance();
+    gameState.get_parser().clear();
+    while(gameState.get_state() != Losing){
         try{
             gameState.print_logo();
             gameState.visualize();
@@ -23,7 +24,8 @@ int main(){
             cout <<"Keanehan terdeteksi, pastikan input anda tidak ngawur banget, tekan apapun untuk melanjutkan"; getch();
             gameState.evaluate_this_turn();
         }
-        
+         
     }
+    gameState.print_lose_Game();
     return 0;
 }
