@@ -43,6 +43,18 @@ void Parent::showParent()
         cout << "-";
     }
 }
+void Parent::showParentComplete()
+{
+    if (this->isParent)
+    {
+        cout << "Parent 1              : "  << this->name[0] << " - " << this->species[0] << "\n";
+        cout << "Parent 2              : "  << this->name[1] << " - " << this->species[1] << "\n";
+    }
+    else
+    {
+        cout << "Parent                : -\n";
+    }
+}
 
 /*--- CLASS ENGIMON ---*/
 Engimon::Engimon(string _name, string _species, Elements _elmt1, Elements _elmt2)
@@ -151,7 +163,12 @@ void Engimon::addSkill(Skill_Item &_skit)
         }
         else
         {
-            throw InvalidFullSkill();
+            // for (int i = 0;i < 4 ; i++)
+            // {
+            //     cout << i << ") ";
+            //     this->skill[i].showSimpleSkill();
+            // }
+            
         }
     }
 }
@@ -212,7 +229,7 @@ void Engimon::showEngimonComplete()const{
         cout << "[" << elementName(elements[1]) << "]";
     }
     cout << endl;
-    this->getParent().showParent();
+    this->getParent().showParentComplete();
     cout << "Level                 : " << level << '\n';
     cout << "Experience            : " << exp << '\n';
     cout << "Cumulative Experience : " << cumul_exp << endl;
