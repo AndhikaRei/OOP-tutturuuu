@@ -36,6 +36,7 @@ public:
 
     /* Methods */
     void showParent();
+    void showParentComplete();
 };
 
 /*--- CLASS ENGIMON ---*/
