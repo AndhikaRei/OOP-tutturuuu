@@ -70,7 +70,7 @@ Engimon::Engimon(string _name, string _species, Elements _elmt1, Elements _elmt2
         this->elements.push_back(_elmt2);
     }
 
-    this->level = 99;
+    this->level = 0;
     this->exp = 0;
     this->cumul_exp = 0;
 }

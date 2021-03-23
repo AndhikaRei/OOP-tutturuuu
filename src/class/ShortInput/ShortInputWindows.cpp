@@ -1,8 +1,6 @@
 #include "ShortInputWindows.hpp"
-ShortInput::ShortInput()
-{
+ShortInput::ShortInput(){
     this->command = 0;
-    
 }
 void ShortInput::getInputFromUser(){
     int c;

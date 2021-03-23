@@ -31,7 +31,7 @@ void GameState::print_start_guidance(){
     cout << "3) Electro" <<'\n';
     cout << "Ada dua kondisi dimana kamu bisa mengalami kekalahan, yaitu:" <<'\n';
     cout << "1) Kamu tidak mempunyai engimon lagi sehingga tidak ada active engimon yang menemani perjalananmu" <<'\n';
-    cout << "2) Engimon mu tersisa satu dan dia tidak bisa bergerak di wilayah yang kamu injaki" <<'\n';
+    cout << "2) Kamu melakukan exception 15 kali berturut-turut" <<'\n';
     cout << "Pastikan kamu menghindari dua kejadian diatas, selamat bermain!!!" <<'\n';
     cout << "====================================================================================" <<'\n';
     cout << "Akhir dari penjelasan, Klik apapun untuk bermain!"; getch();
@@ -178,7 +178,7 @@ switch (this->state){
                 player.addEngimon(enemy);
                 Skill_Item* newSkill = new Skill_Item(getRandomSkillItem(databaseSkill,*enemy));
                 player.addItem(newSkill);
-                player.getActiveEngimon()->addExp(100);
+                player.getActiveEngimon()->addExp(1500);
                 this->map.removeEngimon(xEnemy,yEnemy);
                 cout << "Pertarungan berakhir, tekan apapun!"<<endl; getch();
             } else {

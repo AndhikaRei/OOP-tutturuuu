@@ -26,11 +26,17 @@ using namespace std;
 class GameState
 {
 private:
-    Map map; // Map dari player
-    ShortInput parser; // Parser adalah class yang menangi input sejumlah satu huruf
-    string arg1, arg2; // Input panjang yang ditangani dengan cin
-    int state, helpstate; // State dari game, akan menentukan apa yang harus diinput dan apa yang harus di print
-    int turn; // Giliran sekarang
+    // Map dari player
+    Map map; 
+    // Parser adalah class yang menangi input sejumlah satu huruf
+    ShortInput parser; 
+    // Input panjang yang ditangani dengan cin
+    string arg1, arg2; 
+    // State dari game, akan menentukan apa yang harus diinput dan apa yang harus di print
+    int state, helpstate; 
+    // Giliran sekarang
+    int turn; 
+    // Player yang bermaind
     Player player;
     
 

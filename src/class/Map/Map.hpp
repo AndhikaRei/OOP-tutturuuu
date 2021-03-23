@@ -60,6 +60,7 @@ class Map{
         string active_engimon_species;  // Current Active Engimon Species
         int total_engimon; // Total Wild Engimon that exist on Map
         const int max_engimon = 20; // Maximum Engimon Exist on Map
+        
     public :
         // 4 Sekawan
         Map(); // Default ctor
