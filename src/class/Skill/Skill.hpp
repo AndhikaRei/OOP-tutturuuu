@@ -49,7 +49,8 @@ public:
     void levelUp(int up);
     /* Menghitung total damage yang dihasilkan skill */
     int totalDamage();
-    /* Mengcek apakah suatu element sesuai dengan skill */
+    
+    /* Mengecek apakah suatu element sesuai dengan skill */
     bool isElementCompatible(Elements ele);
     bool isElementCompatible(int nElements, Elements* listElements);
     bool isElementCompatible(vector<Elements> listEle);

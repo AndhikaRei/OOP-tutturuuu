@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 
+// Melakukan breeding antar 2 Engimon
 Engimon& breeding(Engimon& parent_a, Engimon& parent_b) 
 {
     // Random generator
@@ -38,30 +39,34 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
             /* Jika elemen kedua parent sama, anak akan memiliki elemen yang sama dengan kedua parent. 
             Spesies anak dipilih dari parent A atau parent B secara bebas (boleh random atau aturan 
             spesifik tertentu). */
-            // std::uniform_int_distribution<int> distribution(0,100);
-            // int choice = distribution(generator);
-            int choice = rand() % similiarEle.size();
-            vector<Engimon *> calonAnak = EngimonFinder(similiarEle.at(choice));
-            choice = rand() % 3;
 
-            if (choice == 0) {
+            // int choice = rand() % similiarEle.size();
+            // vector<Engimon *> calonAnak = EngimonFinder(similiarEle.at(choice));
+            int choice = rand() % 2;
+
+            if (choice == 0) 
+            {
                 /* Pake spesies parent a */
                 anak = calonAnak_a.at(0)->clone();
                 anak->setParent(ortu);
                 addSkillAnak(*anak, calonSkill);
                 return *anak;
-            } else if (choice == 1) {
+            } 
+            else  // (choice == 1) 
+            {
                 /* Pake spesies parent b */
                 anak = calonAnak_b.at(0)->clone();
                 anak->setParent(ortu);
                 addSkillAnak(*anak, calonSkill);
                 return *anak;
-            } else {
-                anak = calonAnak.at(0)->clone();
-                anak->setParent(ortu);
-                addSkillAnak(*anak, calonSkill);
-                return *anak;
             }
+            // else 
+            // {
+            //     anak = calonAnak.at(0)->clone();
+            //     anak->setParent(ortu);
+            //     addSkillAnak(*anak, calonSkill);
+            //     return *anak;
+            // }
 
         } else {
             /* Jika elemen kedua parent berbeda maka anak akan memiliki elemen dan spesies dari elemen 
@@ -120,6 +125,7 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
 }
 
 void addSkillAnak(Engimon& child, vector<Skill> calonSkill) {
+    // Menambah skill pilihan ke anak
     int i = 0;
     vector<Skill> childSkill = child.getSkill();
     vector<Skill>::iterator it;
@@ -147,11 +153,13 @@ void addSkillAnak(Engimon& child, vector<Skill> calonSkill) {
 }
 
 bool masteryLevelGreater(Skill a,Skill b) { 
+    // Cek apakah mastery level skill a lebih besar dari b
     return (a.getMasteryLevel() > b.getMasteryLevel()); 
 }
 
 /* Inherit Skill Child */
 vector<Skill> sortingSkill(Engimon& parent_a, Engimon& parent_b) {
+    // Mengurutkan skill yang akan diturunkan ke anak berdasarkan mastery level
     vector<Skill> skillParent_a = parent_a.getSkill();
     vector<Skill> skillParent_b = parent_b.getSkill();
 

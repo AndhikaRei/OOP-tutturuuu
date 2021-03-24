@@ -42,9 +42,11 @@ Skill_Item& Skill_Item::operator=(const Skill_Item& other)
 /** SERVICE **/
 /* learn sebuah skill kepada engimon */
 Skill Skill_Item::getSkill(){
+    // Mengembalikan skill yang tersedia dalam skill item
     return this->skill_contained;
 }
 Skill Skill_Item::learn(Elements ele) {
+    // Mempelajari skill item
     if (skill_contained.isElementCompatible(ele)) {
         if (amount > 0) {
             amount--;
@@ -71,6 +73,7 @@ Skill Skill_Item::learn(Elements ele) {
 // }
 
 Skill Skill_Item::learn(int nEle, Elements* listEle) {
+    // Mempelajari skill item
     if (skill_contained.isElementCompatible(nEle,listEle)) {
         if (amount > 0) {
             amount--;
@@ -84,6 +87,7 @@ Skill Skill_Item::learn(int nEle, Elements* listEle) {
 }
 
 Skill Skill_Item::learn(vector<Elements> listEle) {
+    // Mempelajari skill item
     if (skill_contained.isElementCompatible(listEle)) {
         if (amount > 0) {
             amount--;
@@ -111,15 +115,18 @@ Skill Skill_Item::learn(vector<Elements> listEle) {
 
 /* menambah jumlah amount skill_item */
 void Skill_Item::addAmount() {
+    // Menambah jumlah skill item
     amount++;
 }
 
 void Skill_Item::addAmount(int n) {
+    // Menambah jumlah skill item
     amount += n;
 }
 
 /* Mengembalikan amount item */
 int Skill_Item::getAmount() const {
+    // Menambah jumlah skill item
     return amount;
 }
 

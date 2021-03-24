@@ -68,22 +68,27 @@ bool Skill::operator==(const Skill& other) {
 
 // Service
 void Skill::levelUp() {
+    // Menaikan level Skill
     masteryLevel += 1;
     // cout << "Skill Level Up " << masteryLevel << endl;
 }
 void Skill::levelUp(int up) {
+    // Menaikan level Skill sebanyak up
     masteryLevel += up;
 }
 
 int Skill::totalDamage() {
+    // Menghitung total damage dari suatu skill
     return masteryLevel*basePower;
 }
 
 bool Skill::isElementCompatible(Elements ele) {
+    // Mengcek apakah suatu elemen compatible dengan skill
     return (std::find(listElements.begin(), listElements.end(), ele) != listElements.end());
 }
 
 bool Skill::isElementCompatible(int nElements, Elements* listEle) {
+    // Mengcek apakah suatu elemen compatible dengan skill
     bool found = false;
     int i;
 
@@ -99,6 +104,7 @@ bool Skill::isElementCompatible(int nElements, Elements* listEle) {
 }
 
 bool Skill::isElementCompatible(vector<Elements> listEle) {
+    // Mengcek apakah suatu elemen compatible dengan skill
     bool found = false;
     int i;
 
