@@ -1,27 +1,24 @@
 #include "GameState.hpp"
-// compile
-// g++ -o main mainState.cpp GameState.cpp ../ShortInput/ShortInputWindows.cpp ../Engimon/Engimon.cpp ../Battle/Battle.cpp ../Map/Map.cpp ../Skill/Skill.cpp ../Elements/Elements.cpp ../Skill_Item/Skill_Item.cpp ../Player/player.cpp ../Breed/Breeding.cpp ../Exception/Exception.cpp
 GameState::GameState():map(20, 10, "map.txt"),parser(),player(){
+    // Default constructor
     this->state = UI_FreeRoam;
     this->helpstate = 0;
     this->turn = 0;
     this->arg1 = ""; this->arg2 = "";
     initEngidex();
     databaseSkillInitialization();
-
-    // Coba coba tambahin engimon
-    this->map.addEngimon(9, 16, "Pyro");
-    this->map.addEngimon(4, 10, "Hydro");
-    this->map.addEngimon(2, 2, "Pyro");
-    this->map.addEngimon(3, 3, "CryoCrystallize");
 }
+
 GameState::~GameState()
 {
+    // Dtor
 }
 ShortInput GameState::get_parser(){
+    // Mengambil objek parser dari game state
     return this->parser;
 }
 void GameState::print_start_guidance(){
+    // Menuliskan penjelasan awal pada saat bermain game
     cout << "====================================================================================" <<'\n';
     cout << "Selamat datang di dunia engimon, Willy Wangky. Kamu akan berpetualang untuk menangkap dan" <<'\n';
     cout << "menaikkan level engimonmu. Kamu juga bisa melakukan breeding antar engimon yang kamu punya." << '\n'; 
@@ -39,6 +36,7 @@ void GameState::print_start_guidance(){
 }
 
 void GameState::print_lose_Game(){
+    // Menuliskan kalimat kekalahan
     cout << "====================================================================================" <<endl;
     cout <<"Anda telah kalah, Willy Wangky, pastikan di game selanjutnya anda bermain lebih baik"<<'\n';
     cout << "====================================================================================" <<'\n'; 
@@ -46,6 +44,7 @@ void GameState::print_lose_Game(){
 }
 
 void GameState::print_logo(){
+    // Menuliskan logo game
     cout << "====================================================================================" <<endl;
     cout <<"                       _______    _   _                    _                     "<< endl;
     cout <<"      ______          |__   __|  | | | |                  | |             ______ "<< endl;
@@ -55,6 +54,7 @@ void GameState::print_logo(){
     cout <<"                         |_|\\__,_|\\__|\\__|\\__,_|_|   \\__,_(_)                    "<< endl;                               
 }
 int GameState::value_user_input(){
+    // Mendapatkan nilai ascii dari command player
     return this->parser.getCommand();
 }
 void GameState::visualize(){
@@ -96,6 +96,7 @@ void GameState::print_available_command(){
     // Visualisasi dilakukan berdasarkan state dari game sekarang
     switch (this->state){
     case UI_FreeRoam:
+    // Menampilkan tombol yang bisa ditekan apabila ada di tampilan map + Menampilkan legenda engimon
         cout << "                            Tampilan Free Roam "<< endl;
         cout << "w: maju      a: kiri      s: mundur      d: kanan      k: battle" << endl;
         cout << "l: tampilkan skill item yang dipunya       i: tampilkan engimon yang dipunya " << endl;
@@ -108,6 +109,7 @@ void GameState::print_available_command(){
         cout << "n/N: hydroCrystallize      s/S: frozen      h/H: electrocrystallize      j/J: superconductor     k/K: cryoCrystallize" << endl;
         break;
     case UI_EngimonDimiliki:
+    // Menampilkan input/command yang harus dimasukkan apabila ada di layar engimon yang dimiliki
         if (this->helpstate==Menu_ChangeActiveEngimon){
             cout << "                            Change Active Engimon "<< endl;
             cout <<"Masukkan nomor index engimon di argumen satu, argumen dua bebas diisi apapun"<< endl;
@@ -120,15 +122,18 @@ void GameState::print_available_command(){
         cout <<"Masukkan x di argumen satu dan dua untuk keluar dari menu ini" << endl;
         break;
     case UI_DetailEngimon:
+    // Menampilkan input/command yang harus dimasukkan apabila ada di layar tampilan engidex
         cout << "                            Detail Engimon "<< endl;
         cout <<"Masukkan spesies engimon di argumen satu untuk mencari tahu" << endl;
         cout <<"Masukkan x di argumen satu untuk keluar dari menu ini" << endl;
         break;
     case UI_ItemSkillDimiliki:
+    // Menampilkan input/command yang harus dimasukkan apabila ada di layar skill item yang dipunya
         cout << "                            Tampilan Item Skill "<< endl;
         cout <<"Tekan x untuk keluar dari menu ini"<< endl;
         break;
     case UI_EngimonDanItemSkill:
+    // Menampilkan input/command yang harus dimasukkan apabila ada di layar pakai skill item
         cout <<"                            Tampilan Memilih Item Skill "<< endl;
         cout <<"Masukkan index engimon di argumen satu dan index item di argumen dua"<< endl;
         cout <<"Masukkan x di argumen satu dan dua untuk keluar dari menu ini"<< endl;
@@ -141,16 +146,20 @@ void GameState::print_available_command(){
 }
 
 int GameState::get_state(){
+    // Mendapatkan state dari game sekarang
     return this->state;
 }
 
 void GameState::get_user_input(){
-    // Mengambil user input secara cepat, input panjang akan ditangani dengan cin
+    // Mengambil user input secara cepat(bergantung pada state dari game)
     if(this->state == UI_FreeRoam ||this->state == UI_ItemSkillDimiliki ){
+        // Input satu huruf
         cout << "Masukkan Input: "; this->parser.getInputFromUser();
     } else if(this->state == UI_DetailEngimon){
+        // Input satu baris
         cout << "Masukkan argumen pertama: "; cin >> this->arg1;
     } else{
+        // Input dua baris
         cout << "Masukkan argumen pertama: "; cin >> this->arg1;
         cout << "Masukkan argumen kedua: "; cin >> this->arg2;
     }
@@ -166,9 +175,11 @@ switch (this->state){
         if (command==KEY_w || command==KEY_a|| command==KEY_s|| command==KEY_d){
             this->map.move((char)command);
         } else if (command==KEY_k){
-            // Prototype dan Prediksi Fungsi detailnya diserahkan ke player
+            // Melakukan algoritma battle
             int xEnemy, yEnemy;
-            Engimon* enemy = map.getNearbyEnemyEngimon(&xEnemy,&yEnemy); // Throw aja kalo ga ketemu
+            // Mencari musuh di sekitar, apabila tidak ketemu, throw exception
+            Engimon* enemy = map.getNearbyEnemyEngimon(&xEnemy,&yEnemy); 
+            // Jika engimon kita menang maka, tambahkan engimon musuh ke inventory dan dapatkan skill item
             if (playerEngimonWin(*(player.getActiveEngimon()) , *enemy)){
                 string name;
                 cout << "Your engimon wins the battle" << endl;
@@ -182,7 +193,8 @@ switch (this->state){
                 this->map.removeEngimon(xEnemy,yEnemy);
                 cout << "Pertarungan berakhir, tekan apapun!"<<endl; getch();
             } else {
-                cout << "Your engimon winslose the battle" << endl;
+            // Jika engimon kita kalah maka bunuh engimon aktiv sekarang dan cari engimon aktiv lain
+                cout << "Your engimon lose the battle" << endl;
                 player.killActiveEngimon();
                 this->map.set_active_engimon_species(this->player.getActiveEngimon()->getSpecies());
                 cout << "Pertarungan berakhir, tekan apapun!"<<endl; getch();
@@ -225,13 +237,13 @@ switch (this->state){
             this->state = UI_FreeRoam;
             this->helpstate = 0;
         } else if(this->helpstate == Menu_ChangeActiveEngimon){
-            // Jika niatan pindah kesini adalah untuk change active engimon, fungsinya cuma blueprint aja, detil implementasi terserah kamu
+            // Change active engimon, mengganti active engimon dan mengganti spesies engimon active di peta
             this->player.changeActiveEngimon(stoi(this->arg1));  
             this->map.set_active_engimon_species(this->player.getActiveEngimon()->getSpecies());  
             cout <<'\n'<<"Berhasil merubah active engimon, tekan apapun untuk melanjutkan" << '\n'; getch();
             this->state = UI_FreeRoam;
         } else if (this->helpstate==Menu_Breeding){
-            // Jika niatan pindah kesini adalah untuk breeding engimon, fungsinya cuma blueprint aja
+            // Melakukan breeding antara dua engimon lalu menambahkan anaknya ke dalam inventory
             string name;
             Engimon& a = *(player.getEngimon(stoi(this->arg1)));
             Engimon& b = *(player.getEngimon(stoi(this->arg2)));
@@ -257,7 +269,7 @@ switch (this->state){
         
     }break;
     case UI_ItemSkillDimiliki:{
-        // Ke layar ini cuma buat nampilin item skill yang dimiliki
+        // Ke layar ini cuma buat nampilin item skill yang dimiliki, commandnya hanya kembali ke tampilan map
         int command = this->parser.getCommand();
         if (command==KEY_x ){
             this->state =UI_FreeRoam;
@@ -266,7 +278,7 @@ switch (this->state){
         }
     }break;
     case UI_EngimonDanItemSkill:
-        // Layar ini muncul apabila ingin memakaikan item skill ke engimon
+        // Layar ini muncul apabila ingin memakaikan item skill ke engimon, commandnya hanya kembali ke tampilan map
          if (this->arg1 == "x" && this->arg2=="x"){
             this->state = UI_FreeRoam;
         } else {
@@ -275,7 +287,6 @@ switch (this->state){
             Skill_Item& b = *(player.getItem(stoi(this->arg2)));
             a.addSkill(b);
             cout <<'\n'<<"Berhasil menambahkan skill, tekan apapun untuk melanjutkan" << '\n'; getch();
-            
         }
         break;
     default:
@@ -290,6 +301,7 @@ void GameState::evaluate_this_turn(){
     this->turn++;
     this->arg1 = ""; this->arg2 ="";
 
+    // Lakukan Randomisasi spawn engimon tiap 3 turn
     srand(time(0));
     if(this->turn % 3 == 0){
         if(map.get_total_engimon() != map.get_max_engimon()){
@@ -297,6 +309,7 @@ void GameState::evaluate_this_turn(){
         }
     }
 
+    // Cek apakah player masih mempunyai engimon tersisa atau tidak
     if (this->player.getEngimons().size()!=0){
         if(this->player.getActiveEngimon()->getLevel()>100){
             cout << "Engimon telah mencapai batas level maksimum" << endl;

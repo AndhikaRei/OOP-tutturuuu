@@ -232,21 +232,6 @@ void Engimon::addSkill(Skill_Item &_skit)
     }
 }
 
-// void Engimon::addSkill(Skill_Item &_skit, int _amount)
-// {
-//     Skill temp = _skit.learn(this->elements);
-//     if (!skillLevelUp(temp, _amount))
-//     {
-//         if (this->skill.size() < 4)
-//         {
-//             this->skill.push_back(temp);
-//         }
-//         else
-//         {
-//             throw InvalidFullSkill();
-//         }
-//     }
-// }
 void Engimon::levelUp()
 {
     cout << "Selamat, engimon kamu naik level!" << endl;
@@ -700,7 +685,7 @@ Engimon* EngimonFinderWithException(string _species)
     if (Engidex.count(_species)!=0){
         return Engidex[_species];
     } else {
-        throw InvalidSpeciesEngidex();
+        throw InvalidEngimonNotExist();;
     }
 }
 vector<Engimon *> EngimonFinder(string _species)

@@ -28,14 +28,6 @@ const char* UnexpectedErrorWhileBreeding::what(){
     return("Terjadi error saat breeding");
 }
 
-const char* InvalidChangeActiveEngimon::what(){
-     return("Anda tidak mempunyai engimon tersebut");
-}
-
-const char* InvalidUsingItemToEngimon::what(){
-    return("Item atau engimon yang anda pilih tidak valid ");
-}
-
 const char* InvalidMoveException::what(){
     return("Anda tidak bisa bergerak ke sana");
 }
@@ -52,9 +44,6 @@ const char* InvalidNotEnoughItemAmount::what(){
      return("Jumlah skill item tidak cukup");
 }
 
-const char* InvalidFullSkill::what(){
-    return("Skill Engimon sudah penuh");
-}
 
 const char* InvalidSkillAlreadyLearned::what() {
     return("Skill sudah dipelajari oleh Engimon");
@@ -80,25 +69,10 @@ const char* InvalidPlayerMove::what(){
     return("Ada engimon liar disana");
 }
 
-const char* MaximumEngimonReached::what(){
-    return("Jumlah Engimon pada Peta terlalu banyak");
-}
-
-const char* NoEngimonFound::what(){
-    return("Tidak ada engimon disini");
-}
-
-const char* noActiveEngimon::what(){
-    return("Belum ada Active Engimon");
-}
-
 const char* InventoryFull::what(){
     return("Inventory penuh");
 }
 
-const char* InvalidSpeciesEngidex::what(){
-    return("Tidak ada pokemon dengan spesies tersebut");
-}
 
 const char* InvalidIndex::what(){
     return("Index salah");

@@ -37,14 +37,6 @@ class UnexpectedErrorWhileBreeding : public WriteException{
 public:
     const char* what();
 };
-class InvalidChangeActiveEngimon : public WriteException{
-public:
-    const char* what();
-};
-class InvalidUsingItemToEngimon : public WriteException{
-public:
-    const char* what();
-};
 
 class InvalidMoveException : public WriteException{
 public:
@@ -66,10 +58,6 @@ public:
     const char* what();
 };
 
-class InvalidFullSkill : public WriteException{
-public:
-    const char* what();
-};
 
 class InvalidSkillAlreadyLearned : public WriteException{
 public:
@@ -101,28 +89,12 @@ public:
     const char* what();
 };
 
-class MaximumEngimonReached : public WriteException{
-public:
-    const char* what();
-};
-
-class NoEngimonFound : public WriteException{
-public:
-    const char* what();
-};
-class noActiveEngimon : public WriteException{
-public:
-    const char* what();
-};
 
 class InventoryFull : public WriteException{
 public:
     const char* what();
 };
-class InvalidSpeciesEngidex : public WriteException{
-public:
-    const char* what();
-};
+
 class InvalidIndex: public WriteException{
 public:
     const char* what();

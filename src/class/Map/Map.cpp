@@ -304,9 +304,7 @@ void Map::addEngimon(int x, int y, string species){
             this->mapelem[x][y].set_symbol(newEngimon->getEngimonSymbol());
             this->total_engimon++; 
         }
-    } else{
-        throw(MaximumEngimonReached());
-    }
+    } 
 
 };
 
@@ -314,15 +312,13 @@ void Map::removeEngimon(int x, int y){
     // I.S. x, y terdefinisi
     // F.S. Jika pada tiles x, y terdapat engimon, maka hilangkan engimon dari tiles itu 
     // dan ubah symbol dari tiles itu sesuai dengan tipe tiles serta kurangi jumlah engimon liar pada map
-    // Jika tidak ada engimon pada tiles x, y maka throw exception NoEngimonFound
+    
 
     // Cek apakah ada engimon liar pada tiles x, y
     if(this->mapelem[x][y].isEngimonExist()){
         this->mapelem[x][y].set_engimon_exist(false);
         this->mapelem[x][y].set_symbol(this->mapelem[x][y].get_type()=="grassland"?'-': 'o');
         this->total_engimon--; 
-    }else{
-        throw(NoEngimonFound());
     }
 };
 
