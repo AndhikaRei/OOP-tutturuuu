@@ -16,10 +16,6 @@ const char* InvalidEngimonNotExist::what(){
     return("Engimon yang anda cari tidak tersedia");
 }
 
-const char* InvalidBreeding::what(){
-    return("Anda tidak bisa melakukan breeding dengan engimon itu");
-}
-
 const char* InvalidBreedingInsufficientLevel:: what(){
     return("Level Engimon anda tidak memenuhi syarat untuk breeding");
 }

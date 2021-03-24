@@ -25,10 +25,6 @@ public:
     const char* what();
 };
 
-class InvalidBreeding : public WriteException{
-public:
-    const char* what();
-};
 class InvalidBreedingInsufficientLevel  : public WriteException{
 public:
     const char* what();
