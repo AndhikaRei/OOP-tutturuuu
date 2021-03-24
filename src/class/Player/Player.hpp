@@ -20,11 +20,13 @@ using std::string;
 using std::vector;
 
 class Player {
-    public:
+    private:
         string name;
         vector<Engimon *> engimons;
         vector<Skill_Item *> items;
         Engimon * ActiveEngimon;
+    public:
+
 
         //ctor, dtor dkk
         Player();
