@@ -70,16 +70,9 @@ vector<Skill_Item *> Player::getItems(){
     return this->items;
 }
 Skill_Item* Player::getItem(int i){
-    /*
-
-
-    */
     if(i >= this->items.size() || i < 0){
-        //cout << "Mausk IF"<<endl;
         throw InvalidIndex();
     }
-    //cout << "ngga Mausk IF"<<endl;
-    //cout << this->items.size()-1 << endl;
     return this->items[i];
 }
 void Player::printItems(){ // nunggu implementasi yg lain
@@ -204,7 +197,7 @@ void Player::interactWithActiveEngimon(){
 }
 //modify data
 //
-void Player::addEngimon(Engimon* engimon){//belum diimplementasiin
+void Player::addEngimon(Engimon* engimon){
    if(this->getCount() >= 100){
        throw InventoryFull();
    }
@@ -212,7 +205,7 @@ void Player::addEngimon(Engimon* engimon){//belum diimplementasiin
    this->engimons.push_back(engimon);
 }
 
-void Player::addItem(Skill_Item *item){ //belum diimplementasiin
+void Player::addItem(Skill_Item *item){ 
     if(this->getCount() >= 100){
         throw InventoryFull();
     }
