@@ -185,7 +185,6 @@ int Skill::getMasteryLevel() const {
 
 
 vector<Skill> databaseSkill;
-
 void databaseSkillInitialization() {
     // General skill
     databaseSkill.clear();
@@ -207,15 +206,22 @@ void databaseSkillInitialization() {
     Skill s12("Ice Path", "Beku broh", 20, Ice);
     Skill s13("Ice Ice Baby", "Seriously?", 30, Ice);
 
-    
-    // 2 Element Skill (TO DO)
-
-    // 3 Element Skill (TO DO)
+    // 2 Element Skill
+    Skill s14("Rupture", "Bocor Bocor", 30, Fire, Water);
+    Skill s15("Flamming Lasso", "Kena lo", 30, Fire, Electric);
+    Skill s16("Life Break", "Loncat Indah", 30, Fire, Ground);
+    Skill s17("Hand of God", "Tangan Madonna", 30, Fire, Ice);
+    Skill s18("Chronosphere", "Zawarudo", 30, Water, Electric);
+    Skill s19("Feast", "Laperrr",30,Water,Ground);
+    Skill s20("Flux", "Ababil", 30, Water, Ice);
+    Skill s21("Mana Void", "Duarr", 30, Electric, Ground);
+    Skill s22("Heartstopper Aura", "Nyicil Darah", 30, Electric, Ice);
+    Skill s23("Dark Ascension", "Stalker in The Night", 30, Ground, Ice);
 
     // 5 Element Skill
     Skill s69("DOOM","JURUS DAJAL",666,Fire,Water,Electric,Ground,Ice);
 
-    Skill listSkill[] = {s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11, s12, s13};
+    Skill listSkill[] = {s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23};
     databaseSkill.insert(databaseSkill.begin(),listSkill,listSkill + sizeof(listSkill)/sizeof(listSkill[0]));
 
 
