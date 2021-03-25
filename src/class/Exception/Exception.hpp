@@ -19,12 +19,10 @@ class InvalidCommandException : public WriteException{
 public:
     const char* what();
 };
-
 class InvalidEngimonNotExist : public WriteException{
 public:
     const char* what();
 };
-
 class InvalidBreedingInsufficientLevel  : public WriteException{
 public:
     const char* what();
@@ -65,15 +63,6 @@ public:
     const char* what();
 };
 
-class InvalidEngimonPositionGrassland : public WriteException{
-public:
-    const char* what();
-};
-
-class InvalidEngimonPositionSea : public WriteException{
-public:
-    const char* what();
-};
 
 class InvalidEngimonMoveToPlayer : public WriteException{
 public:

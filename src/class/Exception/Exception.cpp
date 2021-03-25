@@ -49,14 +49,6 @@ const char* EngimonExist::what(){
     return("Sudah ada engimon di tiles ini");
 }
 
-const char* InvalidEngimonPositionGrassland::what(){
-    return("Engimonmu tidak bisa berada di darat");
-}
-
-const char* InvalidEngimonPositionSea::what(){
-    return("Engimonmu tidak bisa berada di air");
-}
-
 const char* InvalidEngimonMoveToPlayer::what(){
     return("Engimon liar tidak bisa bergerak ke posisi Player. Melakukan reposisi engimon liar.");
 }
@@ -68,7 +60,6 @@ const char* InvalidPlayerMove::what(){
 const char* InventoryFull::what(){
     return("Inventory penuh");
 }
-
 
 const char* InvalidIndex::what(){
     return("Index salah");
