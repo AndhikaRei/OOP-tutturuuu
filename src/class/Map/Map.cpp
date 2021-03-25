@@ -539,7 +539,7 @@ void Map::move(char c){
     // Jika tidak throw exception sesuai kondisi
 
     // Cek apakah player memiliki active engimon dan apakah posisi player yang sekarang adalah posisi yang valid untuk ditempati active engimon jika player bergerak
-    if(isAnyActiveEngimon() && isValidEngimonPosition(player_pos[0], player_pos[1], get_active_engimon_species(), true) ){
+    if(isAnyActiveEngimon()){
         if(c == 'w'){
             // Player ingin bergerak ke atas
             if(isValidPosition(player_pos[0]-1, player_pos[1], true) && mapelem[player_pos[0]-1][player_pos[1]].isEngimonExist()){
@@ -593,15 +593,6 @@ void Map::move(char c){
                 set_active_engimon_pos(this->player_pos[0], this->player_pos[1]-1);
             }
         }
-    } else if(isAnyActiveEngimon()){
-        // Cek species active engimon yang menyebabkan player tidak bisa bergerak
-        // Throw exception sesuai species active engimon
-        string species = this->get_active_engimon_species();
-        if(species=="Pyro" || species=="Geo" || species=="Electro" || species=="Overload" || species=="PyroCrystallize" || species=="ElectroCrystallize" ){
-            throw(InvalidEngimonPositionSea());
-        } else if(species=="Hydro" || species=="Cryo" || species=="Frozen"){
-            throw(InvalidEngimonPositionGrassland());
-        }
     }else{
         // Player tidak memiliki active engimon
         if(c == 'w'){
@@ -653,12 +644,12 @@ int* Map::get_player_pos() const{
 
 void Map::set_active_engimon_pos(int x, int y){
     // I.S. x dan y adalah posisi baru dari active engimon
-    // F.S. pindahkan active engimon jika x, y adalah tiles yang valid sesuai species active engimon 
+    // F.S. pindahkan active engimon jika x, y adalah tiles yang valid
     // dan ubah symbol tiles posisi active engimon sebelumnya sesuai type tiles
 
     string species = this->active_engimon_species;
     // Cek apakah tiles x, y valid untuk active engimon
-    if(isValidEngimonPosition(x, y, species, true)){
+    if(isValidPosition(x, y, true)){
         if(this->mapelem[active_engimon_pos[0]][active_engimon_pos[1]].get_type() == "grassland"){
             this->mapelem[active_engimon_pos[0]][active_engimon_pos[1]].set_symbol('-');
         } else{
@@ -667,13 +658,6 @@ void Map::set_active_engimon_pos(int x, int y){
         this->active_engimon_pos[0] = x;
         this->active_engimon_pos[1] = y;
         this->mapelem[x][y].set_symbol('X');
-    }else{
-        // Jika tiles tidak valid untuk current active engimon, throw exception sesuai typenya
-        if(species=="Pyro" || species=="Geo" || species=="Electro" || species=="Overload" || species=="PyroCrystallize" || species=="ElectroCrystallize" ){
-            throw(InvalidEngimonPositionSea());
-        } else if(species=="Hydro" || species=="Cryo" || species=="Frozen"){
-            throw(InvalidEngimonPositionGrassland());
-        }
     }
 };
 

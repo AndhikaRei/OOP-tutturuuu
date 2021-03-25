@@ -43,6 +43,8 @@ class Player {
         vector<Engimon *> getEngimons();
         Engimon* getEngimon(int i);
         void printEngimon();
+        string getName()const;
+
         // Engimon& getEngimonFromIndex(int i);
 
         //Engimon* getActiveEngimon();

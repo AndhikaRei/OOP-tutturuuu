@@ -61,7 +61,7 @@ void GameState::visualize(){
     // Melakukan visualisasi tampilan Utama pada CLI
     // Visualisasi dilakukan berdasarkan state dari game sekarang
     cout << "====================================================================================" <<endl;
-    cout << "                                   Halo "<< this->player.name <<endl;
+    cout << "                                   Halo "<< this->player.getName() <<endl;
     cout << "                                       Turn "<< to_string(this->turn) << endl;
     switch (this->state){
     case UI_FreeRoam:

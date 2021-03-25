@@ -119,6 +119,11 @@ void Player::printEngimon(){// nunggu implementasi yg lain
     }
 }
 
+string Player::getName()const{
+    return this->name;
+};
+
+
 Engimon* Player::getActiveEngimon(){
     return this->ActiveEngimon; 
 }
