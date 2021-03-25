@@ -13,7 +13,8 @@
 - [gcc version 9.2.0]
 
 ## Executing
-
+- pergi ke folder bin
+- eksekusi program main.exe
 
 ## Author
 - 13519008 / Ronggur Mahendra Widya Putra
