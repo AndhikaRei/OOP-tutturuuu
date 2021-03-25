@@ -19,10 +19,14 @@ Player::Player(){
     Engimon *a1 = new Pyro("Pyro1");
     Engimon *a2 = new Hydro("Hydro1");
     Engimon *a3 = new Electro("Electro1");
+    Engimon *a4 = new Geo("Geo1");
+    Engimon *a5 = new Cryo("Cryo1");
     
     engimons.push_back(a1);
     engimons.push_back(a2);
     engimons.push_back(a3);
+    engimons.push_back(a4);
+    engimons.push_back(a5);
     
     this->ActiveEngimon = engimons.at(0);
 

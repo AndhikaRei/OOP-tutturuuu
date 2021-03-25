@@ -26,6 +26,8 @@ void GameState::print_start_guidance(){
     cout << "1) Pyro" <<'\n';
     cout << "2) Hydro" <<'\n';
     cout << "3) Electro" <<'\n';
+    cout << "4) Geo" <<'\n';
+    cout << "5) Cryo" <<'\n';
     cout << "Ada dua kondisi dimana kamu bisa mengalami kekalahan, yaitu:" <<'\n';
     cout << "1) Kamu tidak mempunyai engimon lagi sehingga tidak ada active engimon yang menemani perjalananmu" <<'\n';
     cout << "2) Kamu melakukan exception 15 kali berturut-turut" <<'\n';
