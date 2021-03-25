@@ -40,8 +40,6 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
             Spesies anak dipilih dari parent A atau parent B secara bebas (boleh random atau aturan 
             spesifik tertentu). */
 
-            // int choice = rand() % similiarEle.size();
-            // vector<Engimon *> calonAnak = EngimonFinder(similiarEle.at(choice));
             int choice = rand() % 2;
 
             if (choice == 0) 
@@ -60,6 +58,9 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
                 addSkillAnak(*anak, calonSkill);
                 return *anak;
             }
+
+            // int choice = rand() % similiarEle.size();
+            // vector<Engimon *> calonAnak = EngimonFinder(similiarEle.at(choice));
             // else 
             // {
             //     anak = calonAnak.at(0)->clone();
@@ -92,12 +93,10 @@ Engimon& breeding(Engimon& parent_a, Engimon& parent_b)
                 /* Jika elemen kedua parent berbeda dan kedua elemen memiliki element advantage yang sama, 
                 maka anak akan memiliki spesies berbeda dari kedua parent yang memiliki kedua elemen parent 
                 (boleh dipilih random atau hardcoded). */
-                vector<Elements> listElement = sortElementAdvantage(parent_a,parent_b);
-                // udah pasti dual element, ambil 2 terbesar dari sortElementAdvantage
-                
+
+                vector<Elements> listElement = sortElementAdvantage(parent_a,parent_b); 
                 vector<Engimon *> calonAnak = EngimonFinder(listElement.at(0),listElement.at(1));
                 
-                // std::uniform_int_distribution<int> distribution(0,calonAnak.size()-1);
                 int choice = rand() % calonAnak.size();
                 
                 // Spesies baru, tidak boleh sama dengan parentnya (kalau ada spesies lain)
@@ -129,6 +128,8 @@ void addSkillAnak(Engimon& child, vector<Skill> calonSkill) {
     int i = 0;
     vector<Skill> childSkill = child.getSkill();
     vector<Skill>::iterator it;
+
+    // Selama skill anak belum 4 dan masih ada skill yang tersedia
     while (child.getSkill().size() <= 4 && i < calonSkill.size()) {
         it = std::find(childSkill.begin(), childSkill.end(), calonSkill.at(i));
         if (it == childSkill.end())
@@ -167,11 +168,13 @@ vector<Skill> sortingSkill(Engimon& parent_a, Engimon& parent_b) {
     vector<Skill>::iterator it;
 
     int i;
+    // Tambah skill dari parent A
     for (i = 0; i < skillParent_a.size(); i++)
     {
         sortedSkill.push_back(skillParent_a.at(i));
     }
 
+    // Tambah skill dari parent B
     for (i = 0; i < skillParent_b.size(); i++)
     {
         // Find duplicate
@@ -232,6 +235,7 @@ vector<Elements> sortElementAdvantage(Engimon& parent_a, Engimon& parent_b) {
 
     float elAdv;
 
+    // Hitung Element Advantage parent A
     for (it1 = eleParent_a.begin(); it1 < eleParent_a.end(); it1++) {
         elAdv = 0;
         
@@ -244,6 +248,7 @@ vector<Elements> sortElementAdvantage(Engimon& parent_a, Engimon& parent_b) {
         el.insert(pair<float,Elements>(elAdv,*it1)); 
     }
 
+    // Hitung Element Advantage parent B
     for (it2 = eleParent_b.begin(); it2 < eleParent_b.end(); it2++) {
         elAdv = 0;
         for (it1 = eleParent_a.begin(); it1 < eleParent_a.end(); it1++) {
@@ -254,6 +259,7 @@ vector<Elements> sortElementAdvantage(Engimon& parent_a, Engimon& parent_b) {
         el.insert(pair<float,Elements>(elAdv,*it2));
     }
 
+    // Remove duplikasi elemen
     for (it = el.begin(); it != el.end(); it++) {
         if (std::find(elementVector.begin(),elementVector.end(),it->second) == elementVector.end()) {
             elementVector.push_back(it->second);
