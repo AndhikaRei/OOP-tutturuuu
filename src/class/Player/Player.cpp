@@ -97,6 +97,7 @@ void Player::printItems(){ // nunggu implementasi yg lain
     for(int i = 0;i<this->items.size();i++){
         this->items[i]->showItem();
     }
+    this->printItemCount();
 }
 
 vector<Engimon *> Player::getEngimons(){
@@ -158,7 +159,17 @@ void Player::printProfile(){
     printInventory();
 }
 int Player::getCount(){
-    return this->engimons.size() + this->items.size();
+    int Itemcount = 0;
+    vector<Skill_Item *>::iterator it;
+    int i = 0;
+    for (it = this->items.begin();it < this->items.end();it++){
+        Itemcount += this->items[i]->getAmount();
+        i++;
+    }  
+    return this->engimons.size() + Itemcount;
+}
+void Player::printItemCount(){
+    cout << "jumlah Item : " << this->getCount() << endl;
 }
 
 
@@ -174,6 +185,7 @@ void Player::printInventory(){
         }else{
             i++;
         }
+        
     }    
     // found = true;
     // if(this->items[i]->getAmount() == 0){
@@ -185,6 +197,7 @@ void Player::printInventory(){
         cout << i <<") ";
         this->items[i]->showSimpleItem();
     }
+    this->printItemCount();
 }
 void Player::interactWithActiveEngimon(){
     this->getActiveEngimon()->interact();

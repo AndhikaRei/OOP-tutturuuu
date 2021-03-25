@@ -55,6 +55,7 @@ class Player {
         int getCount();
         void printInventory();
         void interactWithActiveEngimon();
+        void printItemCount();
         //modify data
         void addEngimon(Engimon* engimon);
         void addItem(Skill_Item* item);
