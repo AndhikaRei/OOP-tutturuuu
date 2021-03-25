@@ -1,3 +1,0 @@
-g++ *.hpp -c
-
-pause
