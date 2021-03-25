@@ -12,6 +12,9 @@
 ## Requirement
 - [gcc version 9.2.0]
 
+## Compiling
+- untuk meng-compile program, jalankan batch file compileProject.bat lalu hasil compile terdapat pada folder bin
+
 ## Executing
 - pergi ke folder bin
 - eksekusi program main.exe
