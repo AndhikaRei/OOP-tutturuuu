@@ -1,1 +1,0 @@
-g++ -o main main.cpp ../Map/Map.cpp ../Skill/Skill.cpp  player.cpp ../Engimon/Engimon.cpp ../Skill_Item/Skill_Item.cpp ../Elements/Elements.cpp ../Exception/Exception.hpp
